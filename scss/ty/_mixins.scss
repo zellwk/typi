@@ -1,4 +1,34 @@
 
+// _ty-breakpoint 
+// ==============
+// Allows use of breakpoint-sass and mappy-bp.
+// Falls back to default method otherwise.
+@mixin _ty-breakpoint(
+  $target-map,
+  $breakpoint,
+  $typi,
+  $base
+) {
+  @if $typi-breakpoint == breakpoint {
+    @include breakpoint(map-get($breakpoints, $breakpoint)) {
+      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+    }
+  } 
+
+  @else if $typi-breakpoint == mappy-bp {
+    @include mappy-bp($breakpoint) {
+      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+    }
+
+  } 
+
+  @else {
+    @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+    }
+  }
+}
+
 // _ty-write-props
 // ===============
 // Writes font-size (and line height) properties

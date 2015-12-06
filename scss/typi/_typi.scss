@@ -13,11 +13,7 @@
 
     // Write media query
     @else if map-has-key($breakpoints, $breakpoint) {
-      $min-width: map-get($breakpoints, $breakpoint);
-    
-      @media screen and (min-width: #{$min-width}) {
-        @include _ty-write-props($target-map, $breakpoint, $typi, $base);
-      }
+      @include _ty-breakpoint($target-map, $breakpoint, $typi, $base);
     }
 
     @else {

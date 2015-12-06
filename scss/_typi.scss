@@ -1,6 +1,7 @@
 
 $breakpoints: () !default;
 $typi: (null: (16px, 1.5)) !default;
+$typi-breakpoint: null !default;
 
 @import 'ty/mixins';
 @import 'ty/functions';
