@@ -1,0 +1,21 @@
+html {
+  font-size: 100%;
+  line-height: 1.5; }
+  @media screen and (min-width: 400px) {
+    html {
+      font-size: 112.5%; } }
+  @media screen and (min-width: 1200px) {
+    html {
+      font-size: 125%;
+      line-height: 1.6; } }
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2; }
+  @media screen and (min-width: 400px) {
+    h1 {
+      font-size: 3rem;
+      line-height: 1.3; } }
+  @media screen and (min-width: 1200px) {
+    h1 {
+      font-size: 2.2rem; } }

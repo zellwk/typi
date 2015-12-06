@@ -1,0 +1,26 @@
+{
+  "name": "sanetype",
+  "authors": [
+    "Zell Liew <zellwk@gmail.com>"
+  ],
+  "description": "",
+  "main": "_sanetype.scss",
+  "moduleType": [],
+  "keywords": [
+    "responsive",
+    "typography"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "true": "~2.0.3"
+  }
+}

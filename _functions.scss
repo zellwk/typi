@@ -1,0 +1,61 @@
+// _ty-font-size
+// =============
+// Calls _ty-rem or _ty-base-size
+@function _ty-font-size(
+  $font-size, 
+  $breakpoint, 
+  $typi,
+  $base
+) {
+  @if $base == true {
+    @return _ty-base-size($font-size, $breakpoint,$typi);
+  } @else {
+    @return _ty-rem($font-size, $breakpoint, $typi);
+  }
+}
+
+// _ty-rem
+// =======
+// returns correct rem value depending on
+// breakpoint
+@function _ty-rem(
+  $font-size, 
+  $breakpoint, 
+  $typi
+) {
+  @if unit($font-size) == 'em' {
+    @return _ty-strip-unit($font-size) * 1rem;
+  }
+
+  @if unit($font-size) == 'px' {
+    $basemap: map-get($typi, $breakpoint);
+    $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
+
+    @return $font-size / $basefont * 1rem;
+  }
+}
+
+// _ty-base-size
+// =============
+// Converts Typi sizes into percentages
+@function _ty-base-size(
+  $font-size,
+  $breakpoint,
+  $typi
+) {
+  @if unit($font-size) == 'px' {
+    @return $font-size / 16px * 100%;
+  }
+
+  @else {
+    @error 'Typi font sizes must be written in pixels';
+  }
+}
+
+
+// _ty-strip-unit
+// ==============
+@function _ty-strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
