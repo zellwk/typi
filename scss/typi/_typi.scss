@@ -1,7 +1,3 @@
-@import 'functions';
-
-$breakpoints: () !default;
-$typi: (null: (16px, 1.5)) !default;
 
 @mixin typi (
   $target-map,
@@ -36,29 +32,4 @@ $typi: (null: (16px, 1.5)) !default;
   $breakpoints: $breakpoints
 ) {
   @include typi($typi, $breakpoints, $typi, true);
-}
-
-// _ty-write-props
-// ===============
-// Writes font-size (and line height) properties
-@mixin _ty-write-props (
-  $target-map,
-  $breakpoint, 
-  $typi,
-  $base
-) {
-  $bp-val: map-get($target-map, $breakpoint);
-  $font-size: null;
-  $line-height: null;
-
-  @if type-of($bp-val) == "list" and length($bp-val) > 1 {
-    $font-size: nth($bp-val, 1);
-    $line-height: nth($bp-val, 2);
-    font-size: _ty-font-size($font-size, $breakpoint, $typi, $base);
-    line-height: $line-height;
-  }
-  @else {
-    $font-size: $bp-val;
-    font-size: _ty-font-size($font-size, $breakpoint, $typi, $base);
-  }
 }
