@@ -1,14 +1,16 @@
 {
-  "name": "sanetype",
+  "name": "Typi",
+  "version": "0.1.0",
   "authors": [
     "Zell Liew <zellwk@gmail.com>"
   ],
-  "description": "",
-  "main": "_sanetype.scss",
+  "description": "Making responsive typography easy",
+  "main": "scss/_typi.scss",
   "moduleType": [],
   "keywords": [
     "responsive",
-    "typography"
+    "typography",
+    "type"
   ],
   "license": "MIT",
   "homepage": "",
