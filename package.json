@@ -1,8 +1,8 @@
 {
-  "name": "sanetype",
+  "name": "typi",
   "version": "1.0.0",
   "description": "",
-  "main": "Gulpfile.js",
+  "main": "scss/_typi.scss",
   "directories": {
     "test": "test"
   },
@@ -13,8 +13,8 @@
     "sass-true": "^2.0.3"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "gulp"
   },
-  "author": "",
+  "author": "Zell Liew <zellwk@gmail.com>",
   "license": "ISC"
 }
