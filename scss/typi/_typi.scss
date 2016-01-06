@@ -3,17 +3,26 @@
   $target-map,
   $breakpoints: $breakpoints,
   $typi: $typi, 
-  $base: false
+  $base: false,
+  $rem: false
 ) {
-  @each $breakpoint, $bp-val in $target-map {
+  $typi-map: (
+    target: $target-map,
+    breakpoints: $breakpoints,
+    typi: $typi,
+    base: $base,
+    rem: $rem
+  );
 
+  @each $breakpoint, $bp-val in $target-map {
+    $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
     @if $breakpoint == null {
-      @include _ty-write-props($target-map, $breakpoint, $typi, $base)
+      @include _ty-write-props($typi-map)
     }
 
     // Write media query
     @else if map-has-key($breakpoints, $breakpoint) {
-      @include _ty-breakpoint($target-map, $breakpoint, $typi, $base);
+      @include _ty-breakpoint($typi-map);
     }
 
     @else {

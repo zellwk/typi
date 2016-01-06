@@ -4,27 +4,27 @@
 // Allows use of breakpoint-sass and mappy-bp.
 // Falls back to default method otherwise.
 @mixin _ty-breakpoint(
-  $target-map,
-  $breakpoint,
-  $typi,
-  $base
+  $typi-map
 ) {
+  $breakpoint: map-get($typi-map, breakpoint);
+  $breakpoints: map-get($typi-map, breakpoints);
+
   @if $typi-breakpoint == breakpoint {
     @include breakpoint(map-get($breakpoints, $breakpoint)) {
-      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+      @include _ty-write-props($typi-map);
     }
   } 
 
   @else if $typi-breakpoint == mappy-bp {
     @include mappy-bp($breakpoint) {
-      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+      @include _ty-write-props($typi-map);
     }
 
   } 
 
   @else {
     @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
-      @include _ty-write-props($target-map, $breakpoint, $typi, $base);
+      @include _ty-write-props($typi-map);
     }
   }
 }
@@ -33,23 +33,26 @@
 // ===============
 // Writes font-size (and line height) properties
 @mixin _ty-write-props (
-  $target-map,
-  $breakpoint, 
-  $typi,
-  $base
+  $typi-map
 ) {
-  $bp-val: map-get($target-map, $breakpoint);
+  $target: map-get($typi-map, target);
+  $breakpoint: map-get($typi-map, breakpoint);
+  $typi: map-get($typi-map, typi);
+  $base: map-get($typi-map, base);
+  $rem: map-get($typi-map, rem);
+
+  $bp-val: map-get($target, $breakpoint);
   $font-size: null;
   $line-height: null;
 
   @if type-of($bp-val) == "list" and length($bp-val) > 1 {
     $font-size: nth($bp-val, 1);
     $line-height: nth($bp-val, 2);
-    font-size: _ty-font-size($font-size, $breakpoint, $typi, $base);
+    font-size: _ty-font-size($font-size, $breakpoint, $typi, $rem, $base);
     line-height: $line-height;
   }
   @else {
     $font-size: $bp-val;
-    font-size: _ty-font-size($font-size, $breakpoint, $typi, $base);
+    font-size: _ty-font-size($font-size, $breakpoint, $typi, $rem, $base);
   }
 }

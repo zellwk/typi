@@ -1,37 +1,65 @@
 // _ty-font-size
 // =============
-// Calls _ty-rem or _ty-base-size
+// Calls _ty-calc-font-size or _ty-base-size
 @function _ty-font-size(
   $font-size, 
   $breakpoint, 
   $typi,
+  $rem,
   $base
 ) {
   @if $base == true {
-    @return _ty-base-size($font-size, $breakpoint,$typi);
+    @return _ty-base-size($font-size);
   } @else {
-    @return _ty-rem($font-size, $breakpoint, $typi);
+    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem);
   }
 }
 
-// _ty-rem
+// _ty-calc-font-size
 // =======
 // returns correct rem value depending on
 // breakpoint
-@function _ty-rem(
+@function _ty-calc-font-size(
   $font-size, 
   $breakpoint, 
-  $typi
+  $typi, 
+  $rem
 ) {
-  @if unit($font-size) == 'em' {
-    @return _ty-strip-unit($font-size) * 1rem;
-  }
+  // Convert px and em into rem
+  @if $rem {
+    @if unit($font-size) == 'em' {
+      @return _ty-strip-unit($font-size) * 1rem;
+    } 
 
-  @if unit($font-size) == 'px' {
-    $basemap: map-get($typi, $breakpoint);
-    $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
+    @else if unit($font-size) == 'px' {
+      $basemap: map-get($typi, $breakpoint);
+      $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
 
-    @return $font-size / $basefont * 1rem;
+      @return $font-size / $basefont * 1rem;
+    }
+
+    @else {
+      @return $font-size;
+    }
+  } 
+
+  // Converts rem and px into em
+  @else {
+    @debug 'in else';
+    @if unit($font-size) == 'rem' {
+      @return _ty-strip-unit($font-size) * 1em;
+    }
+
+    @else if unit($font-size) == 'px' {
+      $basemap: map-get($typi, $breakpoint);
+      $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
+
+      @return $font-size / $basefont * 1em;
+    }
+
+    @else {
+      @return $font-size;
+    }
   }
 }
 
@@ -39,9 +67,7 @@
 // =============
 // Converts Typi sizes into percentages
 @function _ty-base-size(
-  $font-size,
-  $breakpoint,
-  $typi
+  $font-size
 ) {
   @if unit($font-size) == 'px' {
     @return $font-size / 16px * 100%;
