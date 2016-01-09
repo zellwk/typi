@@ -45,7 +45,6 @@
 
   // Converts rem and px into em
   @else {
-    @debug 'in else';
     @if unit($font-size) == 'rem' {
       @return _ty-strip-unit($font-size) * 1em;
     }
