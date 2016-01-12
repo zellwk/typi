@@ -1,5 +1,7 @@
 # Typi 
 
+[ ![Codeship Status for zellwk/typi](https://codeship.com/projects/4d0e1e40-9b6c-0133-8b7e-7a41677d4861/status?branch=master)](https://codeship.com/projects/126777)
+
 Typi makes responsive typography easier by helping you write `font-size` and `line-height` properties at different breakpoints. 
 
 Here's an example: 
