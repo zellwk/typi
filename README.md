@@ -47,7 +47,7 @@ bower install typi --save
 
 **npm**
 ```
-npm install typi--save
+npm install typi --save
 ```
 
 ## Usage 
@@ -68,7 +68,7 @@ Typi automatically looks for a `$breakpoints` map to create your media queries (
 
 ```scss
 $breakpoints: (
-  small: 400px,
+  small: 800px,
   large: 1200px
 );
 ```
@@ -88,7 +88,7 @@ html {
   font-size: 100%; /* This means 16px */
 }
 
-@media all and (min-width: 400px) {
+@media all and (min-width: 800px) {
   html {
     font-size: 112.5%; /* This means 18px */
   }
@@ -119,7 +119,7 @@ html {
   line-height: 1.3;
 }
 
-@media all and (min-width: 400px) {
+@media all and (min-width: 800px) {
   html {
     font-size: 112.5%; /* This means 18px */
   }
