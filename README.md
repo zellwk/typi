@@ -2,9 +2,12 @@
 
 [ ![Codeship Status for zellwk/typi](https://codeship.com/projects/4d0e1e40-9b6c-0133-8b7e-7a41677d4861/status?branch=master)](https://codeship.com/projects/126777)
 
-Typi makes responsive typography easier by helping you write `font-size` and `line-height` properties at different breakpoints. 
+Typi makes responsive typography easier by helping you do two things. 
 
-Here's an example: 
+1. It helps you write `font-size` and `line-height` properties at multiple.
+2. It helps you create vertical rhythms in EM or REM units.
+
+Here's an example for (1): 
 
 ```scss
 $h1-map: (
@@ -35,6 +38,32 @@ h1 {
 
 Read [this blog post](http://www.zell-weekeat.com/responsive-typography) to find out why I highly recommend using Typi.
 
+Here's an example for (2): 
+
+Let's say website has it's body-font-size set at 16px, and line-height at 1.5. This means your vertical rhythms is set to 48px.
+
+```
+$typi: (
+  null: (16px, 1.5)
+);
+```
+
+Typi helps you calculate vertical rhythms easily with the `vr()` function: 
+
+```
+// Output in 48px in EM
+h2 {
+  font-size: 3em;
+  margin-bottom: vr(2, 3em);
+}
+
+// Output 48px in REM
+h3 {
+  font-size: 2rem;
+  margin-bottom: vr(2);
+}
+```
+
 ## Installation 
 
 Install Typi via one of the methods below:
@@ -51,6 +80,8 @@ npm install typi --save
 ```
 
 ## Usage 
+
+### Font-size and Line Heights
 
 First, you need to setup a `$typi` map. It looks like this:
 
@@ -224,6 +255,39 @@ $h3-map: (
 
 So, in a nutshell, **[Typi](https://github.com/zellwk/typi)** makes responsive typography easier by helping you **write `font-size` and `line-height` properties at different breakpoints`**.
 
+### Vertical Rhythms 
+
+Typi provides you with a `vr()` function that helps you calculate line heights in `em` and `rem` units. It has the following syntax: 
+
+```
+$rhythm: vr($multiple, <$current-font>)
+```
+
+- `$multiple`: Multiplier for rhythm.
+- `$current-font` (optional): Context for calculating rhythms in `em`. `vr()` will create EM once `$current-font` is provided.
+
+Example: 
+
+Let's say website has it's body-font-size set at 16px, and line-height at 1.5. This means your vertical rhythms is set to 48px.
+
+```
+$typi: (
+  null: (16px, 1.5)
+);
+
+// Output in 48px in EM
+h2 {
+  font-size: 3em;
+  margin-bottom: vr(2, 3em);
+}
+
+// Output 48px in REM
+h3 {
+  font-size: 2rem;
+  margin-bottom: vr(2);
+}
+```
+
 ## Contributing Guidelines
 
 Just one for now: Make sure the tests before you submit a pull request. 
@@ -233,5 +297,11 @@ Just one for now: Make sure the tests before you submit a pull request.
 1. Clone the repo
 2. Install dependencies with `bower install && npm install`
 3. Run `gulp` to start tests
+
+## Changelog
+
+#### v1.1.0
+
+- Added ability to calculate vertical rhythms in `em` and `rem`.
 
 :)
