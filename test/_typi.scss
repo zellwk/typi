@@ -1,0 +1,129 @@
+// Rem function should always get REM unit from the current font size.
+
+@include test-module('Rem Conversion') {
+  @include test('em to rem') {
+    $test: _ty-calc-font-size(2em, small, $typi, true);
+    @include assert-equal($test, 2rem, 'em should be converted into rem');
+  }
+
+  @include test('px to rem') {
+    $test: _ty-calc-font-size(20px, null, $typi, true);
+    $result: 20px / 16px * 1rem;
+    @include assert-equal($test, $result, 'px should be converted into rem');
+  }
+
+  @include test('px to rem (with Breakpoint)') {
+    $test: _ty-calc-font-size(20px, small, $typi, true);
+    $result: 20px / 18px * 1rem;
+    @include assert-equal($test, $result, 'px should be converted into rem (when given a breakpoint)');
+  }
+
+  @include test('other units') {
+    $test: _ty-calc-font-size(4vw, null, $typi, true);
+    @include assert-equal($test, 4vw, 'other units should remain as their original unit')
+  }
+}
+
+
+@include test-module('EM Conversion') {
+  @include test('rem to em') {
+    $test: _ty-calc-font-size(2rem, small, $typi, false);
+    @include assert-equal($test, 2em, 'rem should be converted into em');
+  }
+
+  @include test('px to em') {
+    $test: _ty-calc-font-size(20px, null, $typi, false);
+    $result: 20px / 16px * 1em;
+    @include assert-equal($test, $result, 'px should be converted into em');
+  }
+
+  @include test('px to em (with Breakpoint)') {
+    $test: _ty-calc-font-size(20px, small, $typi, false);
+    $result: 20px / 18px * 1em;
+    @include assert-equal($test, $result, 'px should be converted into em (when given a breakpoint)');
+  }
+
+  @include test('other units') {
+    $test: _ty-calc-font-size(4vw, null, $typi, false);
+    @include assert-equal($test, 4vw, 'other units should remain as their original unit')
+  }
+}
+
+@include test-module('Write Properites for one breakpoint:') {
+  @include test('Writes font-size only') {
+    @include assert('') {
+      $target-size: map-get($h1, large);
+      $test-font-size: _ty-calc-font-size($target-size, large, $typi, false);
+
+      @include input {
+        @include _ty-write-props((
+          target: $h1,
+          breakpoint: large,
+          typi: $typi,
+          base: false,
+          rem: false
+        ));
+      }
+
+      @include expect {
+        font-size: $test-font-size;
+      }
+    }
+  }
+
+  @include test('Writes font-size and line-height') {
+    @include assert('') {
+      @include input {
+        @include _ty-write-props((
+          target: $h1,
+          breakpoint: null,
+          typi: $typi,
+          base: false,
+          rem: true
+        ));
+      }
+
+      @include expect {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+@include test-module('Typi Base Font Conversion') {
+  @include test('px to %') {
+    $test: _ty-base-size(20px);
+    $result: 125%;
+    @include assert-equal($test, $result, 'Pixels are converted into percentages with 16px as base');
+  }
+}
+
+// Note: Unable to test output with media query, rely on eyeballing in scss/test.scss
+@include test-module('Test Typi Mixin') {
+  @include test('Should create output with rem unit') {
+    @include assert('') {
+      @include input {
+        @include typi($h1, $rem: true) ;
+      }
+
+      @include expect {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  @include test('Should create output with em unit') {
+    @include assert('') {
+      @include input {
+        @include typi($h1);
+      }
+
+      @include expect {
+        font-size: 2em;
+        line-height: 1.2;
+      }
+    }
+  }
+}

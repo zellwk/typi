@@ -1,0 +1,65 @@
+
+// Vertical Rhythms
+@include test-module('Vertical Rhythms') {
+  @include test('should convert PX to EM correctly') {
+
+    // Case:
+    // Base font size = 18px
+    // Base line height = 1.5 * 18 = 27px
+
+    // Current font size = 36px
+    // 1vr = 24/36 = .666666667em
+
+    $base: (
+      null: (18px, 1.5)
+    );
+
+    $test: vr(3, 36px, $typi: $base);
+    $result: 3 * 27px/36px * 1em;
+    @include assert-equal($test, $result, 'when nesting is simple');
+
+    // Case:
+    // User has decided to bump font-size of parent element from 18 to 22px
+    // base-font-size: 18px,
+    // Base line height = 1.5 * 18 = 27px
+    // Ref font = 22px
+    // Current font size = 30px
+
+    // Calculations:
+    // 1vr = 27px
+    //
+    // 1em  = 30px right now.
+    // 27px = 27/30 = 0.9em
+    $result: vr(5, 30px, $typi: $base);
+    $test: 5 * 27px/ 30px * 1em;
+
+    @include assert-equal($result, $test, 'when fonts are nested several levels in');
+  }
+
+  @include test('should calculate EM correctly') {
+
+    // Case:
+    // base-font size = 16px
+    // base-line-height = 1.5.
+    // Baseline = 24px
+
+    // Current size = 3em
+    // 1 vr = 24px / (3 * 16) = 0.5em
+
+    $base: (
+      null: (16, 1.5)
+    );
+    $test: vr(3, 3em, $typi: $base);
+    $result: 3 * 24px / 48px * 1em;
+    @include assert-equal($test, $result, 'when current font is written in EM')
+  }
+
+  @include test('should convert from PX to REM correctly') {
+    $base: (
+      null: (16, 1.5)
+    );
+    $test: vr(2);
+    $result: 2 * 1.5 * 1rem;
+    @include assert-equal($test, $result)
+  }
+}

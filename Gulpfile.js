@@ -34,7 +34,7 @@ gulp.task('mocha', function() {
 
 gulp.task('watch', ['mocha'], function() {
   gulp.watch('test/**/*.scss', ['mocha']);
-  gulp.watch('scss/**/*.scss', ['sass']);
+  gulp.watch('scss/**/*.scss', ['sass', 'mocha']);
 });
 
 gulp.task('default', ['watch']);

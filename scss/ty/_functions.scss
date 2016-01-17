@@ -2,8 +2,8 @@
 // =============
 // Calls _ty-calc-font-size or _ty-base-size
 @function _ty-font-size(
-  $font-size, 
-  $breakpoint, 
+  $font-size,
+  $breakpoint,
   $typi,
   $rem,
   $base
@@ -20,16 +20,16 @@
 // returns correct rem value depending on
 // breakpoint
 @function _ty-calc-font-size(
-  $font-size, 
-  $breakpoint, 
-  $typi, 
+  $font-size,
+  $breakpoint,
+  $typi,
   $rem
 ) {
   // Convert px and em into rem
   @if $rem {
     @if unit($font-size) == 'em' {
       @return _ty-strip-unit($font-size) * 1rem;
-    } 
+    }
 
     @else if unit($font-size) == 'px' {
       $basemap: map-get($typi, $breakpoint);
@@ -41,7 +41,7 @@
     @else {
       @return $font-size;
     }
-  } 
+  }
 
   // Converts rem and px into em
   @else {
@@ -53,7 +53,7 @@
       $basemap: map-get($typi, $breakpoint);
       $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
 
-      @return $font-size / $basefont * 1em;
+      @return _ty-em($font-size, $basefont);
     }
 
     @else {
@@ -84,3 +84,21 @@
   @return $num / ($num * 0 + 1);
 }
 
+// _typi-em
+// ========
+@function _ty-em($font-size, $ref-size: false) {
+  @if ($ref-size) {
+    @return $font-size / $ref-size * 1em;
+  }
+}
+
+// _typi-rem
+// =========
+@function _ty-rem($font-size) {
+  @if unit($font-size) == 'px' {
+    @return strip-unit($font-size) / 16 * 1rem;
+  }
+  @else if unit($font-size) == 'em' {
+    @return strip-unit($font-size) * 1rem;
+  }
+}

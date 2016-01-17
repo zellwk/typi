@@ -1,26 +1,13 @@
-
-@mixin typi (
-  $target-map,
-  $breakpoints: $breakpoints,
-  $typi: $typi, 
-  $base: false,
-  $rem: false
-) {
-  $typi-map: (
-    target: $target-map,
-    breakpoints: $breakpoints,
-    typi: $typi,
-    base: $base,
-    rem: $rem
-  );
+@mixin typi($target-map, $breakpoints: $breakpoints, $typi: $typi, $base: false, $rem: false) {
+  $typi-map: (target: $target-map, breakpoints: $breakpoints, typi: $typi, base: $base, rem: $rem);
 
   @each $breakpoint, $bp-val in $target-map {
     $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
+
     @if $breakpoint == null {
-      @include _ty-write-props($typi-map)
+      @include _ty-write-props($typi-map);
     }
 
-    // Write media query
     @else if map-has-key($breakpoints, $breakpoint) {
       @include _ty-breakpoint($typi-map);
     }
@@ -32,9 +19,45 @@
   }
 }
 
-@mixin typi-base(
-  $typi: $typi,
-  $breakpoints: $breakpoints
-) {
+@mixin typi-base($typi: $typi, $breakpoints: $breakpoints) {
   @include typi($typi, $breakpoints, $typi, true);
+}
+
+// Vertical rhythm function. Possible to output both EM and REM.
+// Requires line height to be set on $typi map for 'null' breakpoint
+@function vr($vr, $current-font: null, $typi: $typi) {
+  $base-map: map-get($typi, null);
+  $base-font: nth($base-map, 1);
+  $base-line-height: null;
+  $rhythm-context: null;
+
+  @if length($base-map) <= 1 {
+    @error "$typi map should contain a second argument (line-height) in the `null` key";
+  }
+
+  $base-line-height: nth($base-map, 2);
+  @if not unit($base-line-height) == "" {
+    @error "line-height multiple on the `null` key should be unitless";
+  }
+
+  $rhythm-context: $vr * $base-line-height;
+  // Converts into EM if $current-font is provided
+  @if $current-font {
+    @if unit($current-font) == "px" {
+      $rhythm-context: $rhythm-context * $base-font;
+      @return $rhythm-context / $current-font * 1em;
+    }
+
+    @if unit($current-font) == "em" {
+      @return $rhythm-context / _ty-strip-unit($current-font) * 1em;
+    }
+
+    @else {
+      @error "Font sizes should either be px or em if $current-font is provided";
+    }
+  }
+
+  @else {
+    @return $vr * $base-line-height * 1rem;
+  }
 }
