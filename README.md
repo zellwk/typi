@@ -40,7 +40,7 @@ Read [this blog post](http://www.zell-weekeat.com/responsive-typography) to find
 
 Here's an example for (2): 
 
-Let's say website has it's body-font-size set at 16px, and line-height at 1.5. This means your vertical rhythms is set to 48px.
+Let's say website has it's body-font-size set at 16px, and line-height at 1.5. This means your vertical rhythms is set to 24px.
 
 ```
 $typi: (
