@@ -1,4 +1,4 @@
-@mixin typi($target-map, $breakpoints: $breakpoints, $typi: $typi, $base: false, $rem: false) {
+@mixin typi($target-map, $breakpoints: $breakpoints, $typi: $typi, $base: false, $rem: true) {
   $typi-map: (target: $target-map, breakpoints: $breakpoints, typi: $typi, base: $base, rem: $rem);
 
   @each $breakpoint, $bp-val in $target-map {

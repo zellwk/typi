@@ -101,10 +101,10 @@
 
 // Note: Unable to test output with media query, rely on eyeballing in scss/test.scss
 @include test-module('Test Typi Mixin') {
-  @include test('Should create output with rem unit') {
+  @include test('Should create output with rem unit by default') {
     @include assert('') {
       @include input {
-        @include typi($h1, $rem: true) ;
+        @include typi($h1) ;
       }
 
       @include expect {
@@ -117,7 +117,7 @@
   @include test('Should create output with em unit') {
     @include assert('') {
       @include input {
-        @include typi($h1);
+        @include typi($h1, $rem:false);
       }
 
       @include expect {
