@@ -1,6 +1,6 @@
 {
   "name": "typi",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "authors": [
     "Zell Liew <zellwk@gmail.com>"
   ],
@@ -24,6 +24,7 @@
   ],
   "devDependencies": {
     "mappy-breakpoints": "~0.2.1",
-    "compass-breakpoint": "breakpoint-sass#~2.6.1"
+    "compass-breakpoint": "breakpoint-sass#~2.6.1",
+    "modular-scale": "~2.1.1"
   }
 }
