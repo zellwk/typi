@@ -36,15 +36,18 @@
   }
 
   $base-line-height: nth($base-map, 2);
+
   @if not unit($base-line-height) == "" {
     @error "line-height multiple on the `null` key should be unitless";
   }
 
   $rhythm-context: $vr * $base-line-height;
+
   // Converts into EM if $current-font is provided
   @if $current-font {
     @if unit($current-font) == "px" {
       $rhythm-context: $rhythm-context * $base-font;
+
       @return $rhythm-context / $current-font * 1em;
     }
 
@@ -61,3 +64,53 @@
     @return $vr * $base-line-height * 1rem;
   }
 }
+
+@function typi-ms($multiplier, $breakpoint: null, $breakpoints: $typi-ms) {
+  $ms-setting: map-get($breakpoints, $breakpoint);
+
+  $ty-ms-base: null;
+  $ty-ms-ratio: null;
+
+  @for $i from 1 to length($ms-setting) + 1 {
+    $val: nth($ms-setting, $i);
+
+    // MS Ratio
+    @if unitless($val) {
+      @if $ty-ms-ratio == null {
+        $ty-ms-ratio: $val;
+      } @else if type-of($ty-ms-ratio) == "number" {
+        $ty-ms-ratio: $ty-ms-ratio $val;
+      } @else if type-of($ty-ms-ratio) == "list" {
+        $ty-ms-ratio: append($ty-ms-ratio, $val);
+      }
+    }
+
+    @else {
+      @debug $val;
+
+      @if $ty-ms-base == null {
+        $ty-ms-base: $val;
+      } @else if type-of($ty-ms-base) == 'number' {
+        $ty-ms-base: ($ty-ms-base $val)
+      } @else if type-of($ty-ms-base) == 'list' {
+        $ty-ms-base: append($ty-ms-base, $val);
+      }
+    }
+  }
+
+  @if $ty-ms-base == null {
+    $ty-ms-base: 1em;
+  }
+
+  @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
+}
+
+// Use case
+// $typi-ms(
+//   small: 1, 1.2
+//   large: 1 1.2, 1.618
+// )
+
+// h1: (
+//   null: (typi-ms(3))
+// )

@@ -10,15 +10,15 @@ html {
       line-height: 1.6; } }
 
 h1 {
-  font-size: 2em;
+  font-size: 2rem;
   line-height: 1.2; }
   @media all and (min-width: 400px) {
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       line-height: 1.3; } }
   @media all and (min-width: 1200px) {
     h1 {
-      font-size: 2.2em; } }
+      font-size: 2.2rem; } }
 
 html {
   font-size: 100%;
@@ -32,15 +32,15 @@ html {
       line-height: 1.6; } }
 
 h1 {
-  font-size: 2em;
+  font-size: 2rem;
   line-height: 1.2; }
   @media all and (min-width: 25em) {
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       line-height: 1.3; } }
   @media all and (min-width: 75em) {
     h1 {
-      font-size: 2.2em; } }
+      font-size: 2.2rem; } }
 
 html {
   font-size: 100%;
@@ -54,12 +54,12 @@ html {
       line-height: 1.6; } }
 
 h1 {
-  font-size: 2em;
+  font-size: 2rem;
   line-height: 1.2; }
   @media (min-width: 400px) {
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       line-height: 1.3; } }
   @media (min-width: 1200px) {
     h1 {
-      font-size: 2.2em; } }
+      font-size: 2.2rem; } }
