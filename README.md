@@ -1,15 +1,15 @@
-# Typi 
+# Typi
 
 [ ![Codeship Status for zellwk/typi](https://codeship.com/projects/4d0e1e40-9b6c-0133-8b7e-7a41677d4861/status?branch=master)](https://codeship.com/projects/126777)
 
-Typi makes Responsive Typography easier by helping you do two thins: 
+Typi makes Responsive Typography easier by helping you do two thins:
 
 1. **Write `font-size` and `line-height` properties at different breakpoints`** with font maps.
 2. **Calculate Vertical Rhythm** easily with the `vr()` function.
 
 Read [this blog post](http://www.zell-weekeat.com/responsive-typography) to find out why I highly recommend using Typi.
 
-## Installation 
+## Installation
 
 Install Typi via one of the methods below:
 
@@ -25,7 +25,7 @@ $ bower install typi --save
 $ npm install typi --save
 ```
 
-Then, import Typi into your Sass project 
+Then, import Typi into your Sass project
 
 ```scss
 @import "path-to-bower-components-or-node_modules/typi/scss/typi";
@@ -35,9 +35,9 @@ Then, import Typi into your Sass project
 
 ### Creating Font-size and Line-height Properties for HTML
 
-To use Typi, you first need to set up two Sass maps – `$breakpoints` and `$typi`. 
+To use Typi, you first need to set up two Sass maps – `$breakpoints` and `$typi`.
 
-`$breakpoints` is a map that holds key value pairs for creating media queries. It looks something like this: 
+`$breakpoints` is a map that holds key value pairs for creating media queries. It looks something like this:
 
 ~~~scss
 $breakpoints: (
@@ -46,7 +46,7 @@ $breakpoints: (
 );
 ~~~
 
-Next, you have to set up a `$typi` map that looks like this: 
+Next, you have to set up a `$typi` map that looks like this:
 
 ~~~scss
 $typi: (
@@ -56,7 +56,7 @@ $typi: (
 );
 ~~~
 
-Next, you'll have to call the `typi-base()` mixin to help create the `html` `font-size`s: 
+Next, you'll have to call the `typi-base()` mixin to help create the `html` `font-size`s:
 
 ```scss
 html {
@@ -64,7 +64,7 @@ html {
 }
 ```
 
-The resultant CSS you get is: 
+The resultant CSS you get is:
 
 ```css
 html {
@@ -84,9 +84,9 @@ html {
 }
 ```
 
-Let me explain what happened here. 
+Let me explain what happened here.
 
-First, Typi looks for **the `null` key** within your `$typi` map. In this case, `null` is 16px. It **tells Typi to create a font-size of 16px without any media queries.** This 16px will automatically be converted into a percentage `font-size`: 
+First, Typi looks for **the `null` key** within your `$typi` map. In this case, `null` is 16px. It **tells Typi to create a font-size of 16px without any media queries.** This 16px will automatically be converted into a percentage `font-size`:
 
 ```scss
 html {
@@ -94,9 +94,9 @@ html {
 }
 ```
 
-Then, Typi looks for the next key, `small` in this case. Once it find's `small`, it'll look into the `$breakpoints` map to find out what media query to create. In this case, we see that `small` is 800px. 
+Then, Typi looks for the next key, `small` in this case. Once it find's `small`, it'll look into the `$breakpoints` map to find out what media query to create. In this case, we see that `small` is 800px.
 
-Typi then creates a `min-width` query at 800px: 
+Typi then creates a `min-width` query at 800px:
 
 ```scss
 @media all and (min-width: 800px) {
@@ -106,11 +106,11 @@ Typi then creates a `min-width` query at 800px:
 }
 ```
 
-Following which, Typi repeats the processes and creates media queries for all breakpoints you've listed in the `$typi` map. 
+Following which, Typi repeats the processes and creates media queries for all breakpoints you've listed in the `$typi` map.
 
 #### Changing Line Height Properties
 
-Sometimes you might need to change the `line-height` property of your body copy. You can do so by adding a second parameter for each `$typi` key. 
+Sometimes you might need to change the `line-height` property of your body copy. You can do so by adding a second parameter for each `$typi` key.
 
 ```scss
 $typi: (
@@ -164,7 +164,7 @@ $h3-map: (
 // ...
 ```
 
-Each font-map can be called with the `$typi` mixin: 
+Each font-map can be called with the `$typi` mixin:
 
 ~~~scss
 h1 { @include typi($h1-map) }
@@ -192,7 +192,7 @@ h1 {
 
 That's it! Pretty neat huh? :)
 
-Pretty neat huh? 
+Pretty neat huh?
 
 Here's a **protip**: You can use the modular scale Sass mixin if you don't want to write exact em values (like `1.777em`) across different font maps.
 
@@ -208,9 +208,9 @@ $h1-map: (
 
 ## Vertical Rhythm with Typi
 
-Typi provides you with a `vr()` function that helps you calculate line heights in `em` and `rem` units. 
+Typi provides you with a `vr()` function that helps you calculate line heights in `em` and `rem` units.
 
-To use the `vr()` function, you need to modify your `$typi` map slightly such that the `null` key contains a `line-height` value. 
+To use the `vr()` function, you need to modify your `$typi` map slightly such that the `null` key contains a `line-height` value.
 
 ```scss
 $typi: (
@@ -218,7 +218,7 @@ $typi: (
 );
 ```
 
-The `vr()` function then uses your `line-height` property to help you calculate Vertical Rhythm: 
+The `vr()` function then uses your `line-height` property to help you calculate Vertical Rhythm:
 
 ```
 margin: vr(1) 0; // margin: 1.5rem 0
@@ -226,17 +226,17 @@ margin: vr(2) 0; // margin: 3rem 0
 margin: vr(2.5) 0; // margin: 3.75rem 0
 ```
 
-**Typi also supports you with calculating Vertical Rhythm in `em` if you need it to**. You just have to add a second argument to the `vr()` function: 
+**Typi also supports you with calculating Vertical Rhythm in `em` if you need it to**. You just have to add a second argument to the `vr()` function:
 
 ```scss
 margin: vr(2, 3em); // margin-top: 1em;
 ```
 
-Ideally, Typi generate a Vertical Rhythm with CSS Variables so you have the freedom to change the base `line-height` property. Unfortunately this would have to wait till CSS Variables are widely supported. 
+Ideally, Typi generate a Vertical Rhythm with CSS Variables so you have the freedom to change the base `line-height` property. Unfortunately this would have to wait till CSS Variables are widely supported.
 
 ## Contributing Guidelines
 
-Just one for now: Make sure the tests before you submit a pull request. 
+Just one for now: Make sure the tests before you submit a pull request.
 
 **Steps:**
 
@@ -245,6 +245,10 @@ Just one for now: Make sure the tests before you submit a pull request.
 3. Run `gulp` to start tests
 
 ## Changelog
+
+#### v2.1.0
+
+- Added `typi-ms()` function
 
 #### v2.0.0
 
