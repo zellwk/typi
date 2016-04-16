@@ -2,7 +2,7 @@
 
 [ ![Codeship Status for zellwk/typi](https://codeship.com/projects/4d0e1e40-9b6c-0133-8b7e-7a41677d4861/status?branch=master)](https://codeship.com/projects/126777)
 
-Typi makes Responsive Typography easier by helping you do two thins:
+Typi makes Responsive Typography easier by helping you do two things:
 
 1. **Write `font-size` and `line-height` properties at different breakpoints`** with font maps.
 2. **Calculate Vertical Rhythm** easily with the `vr()` function.
