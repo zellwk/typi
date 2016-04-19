@@ -246,9 +246,10 @@ Just one for now: Make sure the tests before you submit a pull request.
 
 ## Changelog
 
-#### v2.1.0
+#### v2.1.1
 
 - Added `typi-ms()` function
+- Bugfix for integration with `mappy-bp`
 
 #### v2.0.0
 
