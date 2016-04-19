@@ -3,7 +3,7 @@
 @import '../bower_components/compass-breakpoint/stylesheets/breakpoint';
 
 $breakpoints: (
-  small: 400px,
+  small: 400px 800px,
   medium: 800px,
   large: 1200px
   );
@@ -21,31 +21,11 @@ $h1: (
   large: 44px
   );
 
-html {
-  @include typi-base();
-}
+$typi-breakpoint: mappy-breakpoints !global;
 
-h1 {
-  @include typi($h1);
-}
-
-$typi-breakpoint: mappy-bp;
-
-
-html {
-  @include typi-base();
-}
-
-h1 {
-  @include typi($h1);
-}
+html {@include typi-base(); }
 
 $typi-breakpoint: breakpoint;
+$breakpoint-to-ems: true;
 
-html {
-  @include typi-base();
-}
-
-h1 {
-  @include typi($h1);
-}
+html {@include typi-base(); }

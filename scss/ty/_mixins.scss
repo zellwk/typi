@@ -1,5 +1,5 @@
 
-// _ty-breakpoint 
+// _ty-breakpoint
 // ==============
 // Allows use of breakpoint-sass and mappy-bp.
 // Falls back to default method otherwise.
@@ -8,19 +8,19 @@
 ) {
   $breakpoint: map-get($typi-map, breakpoint);
   $breakpoints: map-get($typi-map, breakpoints);
+  $bp-val: map-get($breakpoints, $breakpoint);
 
   @if $typi-breakpoint == breakpoint {
     @include breakpoint(map-get($breakpoints, $breakpoint)) {
       @include _ty-write-props($typi-map);
     }
-  } 
+  }
 
-  @else if $typi-breakpoint == mappy-bp {
-    @include mappy-bp($breakpoint) {
+  @else if $typi-breakpoint == mappy-breakpoint or $typi-breakpoint == mappy-breakpoints {
+    @include mappy-bp(map-get($breakpoints, $breakpoint)) {
       @include _ty-write-props($typi-map);
     }
-
-  } 
+  }
 
   @else {
     @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {

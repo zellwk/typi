@@ -1,29 +1,7 @@
 html {
   font-size: 100%;
   line-height: 1.5; }
-  @media all and (min-width: 400px) {
-    html {
-      font-size: 112.5%; } }
-  @media all and (min-width: 1200px) {
-    html {
-      font-size: 125%;
-      line-height: 1.6; } }
-
-h1 {
-  font-size: 2rem;
-  line-height: 1.2; }
-  @media all and (min-width: 400px) {
-    h1 {
-      font-size: 3rem;
-      line-height: 1.3; } }
-  @media all and (min-width: 1200px) {
-    h1 {
-      font-size: 2.2rem; } }
-
-html {
-  font-size: 100%;
-  line-height: 1.5; }
-  @media all and (min-width: 25em) {
+  @media all and (min-width: 25em) and (max-width: 49.9375em) {
     html {
       font-size: 112.5%; } }
   @media all and (min-width: 75em) {
@@ -31,35 +9,13 @@ html {
       font-size: 125%;
       line-height: 1.6; } }
 
-h1 {
-  font-size: 2rem;
-  line-height: 1.2; }
-  @media all and (min-width: 25em) {
-    h1 {
-      font-size: 3rem;
-      line-height: 1.3; } }
-  @media all and (min-width: 75em) {
-    h1 {
-      font-size: 2.2rem; } }
-
 html {
   font-size: 100%;
   line-height: 1.5; }
-  @media (min-width: 400px) {
+  @media (min-width: 25em) and (max-width: 50em) {
     html {
       font-size: 112.5%; } }
-  @media (min-width: 1200px) {
+  @media (min-width: 75em) {
     html {
       font-size: 125%;
       line-height: 1.6; } }
-
-h1 {
-  font-size: 2rem;
-  line-height: 1.2; }
-  @media (min-width: 400px) {
-    h1 {
-      font-size: 3rem;
-      line-height: 1.3; } }
-  @media (min-width: 1200px) {
-    h1 {
-      font-size: 2.2rem; } }
