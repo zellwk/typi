@@ -4,7 +4,7 @@
 
 Typi makes Responsive Typography easier by helping you do two things:
 
-1. **Write `font-size` and `line-height` properties at different breakpoints`** with font maps.
+1. **Write `font-size` and `line-height` properties at different `breakpoints`** with font maps.
 2. **Calculate Vertical Rhythm** easily with the `vr()` function.
 
 Read [this blog post](http://www.zell-weekeat.com/responsive-typography) to find out why I highly recommend using Typi.
@@ -94,7 +94,7 @@ html {
 }
 ```
 
-Then, Typi looks for the next key, `small` in this case. Once it find's `small`, it'll look into the `$breakpoints` map to find out what media query to create. In this case, we see that `small` is 800px.
+Then, Typi looks for the next key, `small` in this case. Once it finds `small`, it'll look into the `$breakpoints` map to find out what media query to create. In this case, we see that `small` is 800px.
 
 Typi then creates a `min-width` query at 800px:
 
@@ -192,8 +192,6 @@ h1 {
 
 That's it! Pretty neat huh? :)
 
-Pretty neat huh?
-
 Here's a **protip**: You can use the modular scale Sass mixin if you don't want to write exact em values (like `1.777em`) across different font maps.
 
 To do so, you have to [download the library](https://github.com/modularscale/modularscale-sass) and import it into your Sass file. Then, change the font maps such that it uses the `ms()` function.
@@ -232,7 +230,7 @@ margin: vr(2.5) 0; // margin: 3.75rem 0
 margin: vr(2, 3em); // margin-top: 1em;
 ```
 
-Ideally, Typi generate a Vertical Rhythm with CSS Variables so you have the freedom to change the base `line-height` property. Unfortunately this would have to wait till CSS Variables are widely supported.
+Ideally, Typi would generate a Vertical Rhythm with CSS Variables so you have the freedom to change the base `line-height` property. Unfortunately this will have to wait till CSS Variables are widely supported.
 
 ## Contributing Guidelines
 
