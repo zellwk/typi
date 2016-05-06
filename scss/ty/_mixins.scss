@@ -11,6 +11,7 @@
   $bp-val: map-get($breakpoints, $breakpoint);
 
   @if $typi-breakpoint == breakpoint {
+    @include breakpoint-set('to ems', true);
     @include breakpoint(map-get($breakpoints, $breakpoint)) {
       @include _ty-write-props($typi-map);
     }
