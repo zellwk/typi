@@ -23,7 +23,7 @@
     "tests"
   ],
   "devDependencies": {
-    "mappy-breakpoints": "~0.2.1",
+    "mappy-breakpoints": "^0.2.3",
     "compass-breakpoint": "breakpoint-sass#~2.6.1",
     "modular-scale": "~2.1.1"
   }
