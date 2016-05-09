@@ -1,6 +1,6 @@
-@import 'typi';
-@import '../bower_components/mappy-breakpoints/mappy-breakpoints';
-@import '../bower_components/compass-breakpoint/stylesheets/breakpoint';
+@import '../../scss/typi';
+@import 'mappy-breakpoints/mappy-breakpoints';
+@import 'compass-breakpoint/stylesheets/breakpoint';
 
 $breakpoints: (
   small: 400px 800px,
@@ -21,11 +21,9 @@ $h1: (
   large: 44px
   );
 
-$typi-breakpoint: mappy-breakpoints !global;
-
+$typi-breakpoint: mappy-breakpoints;
 html {@include typi-base(); }
 
 $typi-breakpoint: breakpoint;
-$breakpoint-to-ems: true;
-
 html {@include typi-base(); }
+

@@ -1,0 +1,21 @@
+html {
+  font-size: 100%;
+  line-height: 1.5; }
+  @media all and (min-width: 25em) and (max-width: 49.9375em) {
+    html {
+      font-size: 112.5%; } }
+  @media all and (min-width: 75em) {
+    html {
+      font-size: 125%;
+      line-height: 1.6; } }
+
+html {
+  font-size: 100%;
+  line-height: 1.5; }
+  @media (min-width: 25em) and (max-width: 50em) {
+    html {
+      font-size: 112.5%; } }
+  @media (min-width: 75em) {
+    html {
+      font-size: 125%;
+      line-height: 1.6; } }

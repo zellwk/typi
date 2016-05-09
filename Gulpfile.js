@@ -15,7 +15,10 @@ function customPlumber(errTitle) {
 };
 
 gulp.task('sass', function() {
-  gulp.src('scss/**/*.scss')
+  gulp.src([
+    'scss/**/*.scss',
+    'test/manual/**/*.scss',
+    ])
     .pipe(customPlumber())
     .pipe(sass({
       includePaths: [
@@ -33,8 +36,9 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('watch', ['mocha'], function() {
-  gulp.watch('test/**/*.scss', ['mocha']);
+  gulp.watch('test/*.scss', ['mocha']);
   gulp.watch('scss/**/*.scss', ['sass', 'mocha']);
+  gulp.watch('test/manual/**/*.scss', ['sass', 'mocha']);
 });
 
 gulp.task('default', ['watch']);
