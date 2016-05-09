@@ -244,7 +244,7 @@ Just one for now: Make sure the tests before you submit a pull request.
 
 ## Changelog
 
-#### v2.2.2
+#### v2.2.0
 
 - Added the ability to change Modular Scale within media queries easily
 
