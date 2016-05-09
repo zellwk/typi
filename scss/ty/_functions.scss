@@ -6,12 +6,13 @@
   $breakpoint,
   $typi,
   $rem,
-  $base
+  $base,
+  $typi-ms: false
 ) {
   @if $base == true {
     @return _ty-base-size($font-size);
   } @else {
-    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem);
+    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem, $typi-ms: $typi-ms);
   }
 }
 
@@ -23,10 +24,22 @@
   $font-size,
   $breakpoint,
   $typi,
-  $rem
+  $rem,
+  $typi-ms: false
 ) {
+
+  // Uses Typi-ms
+  @if unitless($font-size) {
+    @if function-exists(ms) {
+      @return _ty-ms($font-size, $breakpoint, $typi-ms);
+
+    } @else {
+      @error "Modular Scale Library required";
+    }
+  }
+
   // Convert px and em into rem
-  @if $rem {
+  @else if $rem {
     @if unit($font-size) == 'em' {
       @return _ty-strip-unit($font-size) * 1rem;
     }
@@ -109,4 +122,43 @@
   @else if unit($font-size) == 'em' {
     @return strip-unit($font-size) * 1rem;
   }
+}
+
+
+@function _ty-ms($multiplier, $breakpoint: null, $breakpoints: $typi-ms) {
+  $ms-setting: map-get($breakpoints, $breakpoint);
+
+  $ty-ms-base: null;
+  $ty-ms-ratio: null;
+
+  @for $i from 1 to length($ms-setting) + 1 {
+    $val: nth($ms-setting, $i);
+
+    // MS Ratio
+    @if unitless($val) {
+      @if $ty-ms-ratio == null {
+        $ty-ms-ratio: $val;
+      } @else if type-of($ty-ms-ratio) == "number" {
+        $ty-ms-ratio: $ty-ms-ratio $val;
+      } @else if type-of($ty-ms-ratio) == "list" {
+        $ty-ms-ratio: append($ty-ms-ratio, $val);
+      }
+    }
+
+    @else {
+      @if $ty-ms-base == null {
+        $ty-ms-base: $val;
+      } @else if type-of($ty-ms-base) == 'number' {
+        $ty-ms-base: ($ty-ms-base $val)
+      } @else if type-of($ty-ms-base) == 'list' {
+        $ty-ms-base: append($ty-ms-base, $val);
+      }
+    }
+  }
+
+  @if $ty-ms-base == null {
+    $ty-ms-base: 1em;
+  }
+
+  @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
 }

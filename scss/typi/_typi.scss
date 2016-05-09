@@ -1,26 +1,74 @@
-@mixin typi($target-map, $breakpoints: $breakpoints, $typi: $typi, $base: false, $rem: true) {
-  $typi-map: (target: $target-map, breakpoints: $breakpoints, typi: $typi, base: $base, rem: $rem);
+@mixin typi(
+  $target-map,
+  $breakpoints: $breakpoints,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $base: false,
+  $rem: true
+) {
+  $typi-map: (
+    target: $target-map,
+    breakpoints: $breakpoints,
+    typi: $typi,
+    base: $base,
+    rem: $rem,
+    ms: $typi-ms
+  );
 
-  @each $breakpoint, $bp-val in $target-map {
+  // If typi-ms is used
+  @if type-of($typi-ms) == map {
+    @each $breakpoint, $ms in $typi-ms {
+      $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
+
+      @if $breakpoint == null {
+        @include _ty-write-props($typi-map);
+      }
+
+      @else if map-has-key($target-map, $breakpoint) {
+        @if map-has-key($breakpoints, $breakpoint) {
+          @include _ty-breakpoint($typi-map);
+        } @else {
+          @warn "Missing #{$breakpoint} in $breakpoints map";
+        }
+      }
+    }
+  }
+
+  // Without typi-ms
+  @else {
+    @each $breakpoint, $bp-val in $target-map {
     $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
 
-    @if $breakpoint == null {
-      @include _ty-write-props($typi-map);
-    }
+      @if $breakpoint == null {
+        @include _ty-write-props($typi-map);
+      }
 
-    @else if map-has-key($breakpoints, $breakpoint) {
-      @include _ty-breakpoint($typi-map);
-    }
+      @else if map-has-key($breakpoints, $breakpoint) {
+        @include _ty-breakpoint($typi-map);
+      }
 
-    @else {
-      // Throws sass error
-      @error $breakpoint not found in $breakpoints;
+      @else {
+        @warn "#{$breakpoint} not found in $breakpoints map";
+      }
     }
   }
 }
 
-@mixin typi-base($typi: $typi, $breakpoints: $breakpoints) {
-  @include typi($typi, $breakpoints, $typi, true);
+@mixin typi-base(
+  $typi: $typi,
+  $breakpoints: $breakpoints,
+  $typi-ms: $typi-ms,
+  $base: true,
+  $rem: true
+) {
+  @include typi(
+    $typi,
+    $breakpoints,
+    $typi: $typi,
+    $typi-ms: $typi-ms,
+    $base: $base,
+    $rem: $rem
+  );
 }
 
 // Vertical rhythm function. Possible to output both EM and REM.
@@ -70,52 +118,12 @@
   }
 }
 
-@function typi-ms($multiplier, $breakpoint: null, $breakpoints: $typi-ms) {
-  $ms-setting: map-get($breakpoints, $breakpoint);
-
-  $ty-ms-base: null;
-  $ty-ms-ratio: null;
-
-  @for $i from 1 to length($ms-setting) + 1 {
-    $val: nth($ms-setting, $i);
-
-    // MS Ratio
-    @if unitless($val) {
-      @if $ty-ms-ratio == null {
-        $ty-ms-ratio: $val;
-      } @else if type-of($ty-ms-ratio) == "number" {
-        $ty-ms-ratio: $ty-ms-ratio $val;
-      } @else if type-of($ty-ms-ratio) == "list" {
-        $ty-ms-ratio: append($ty-ms-ratio, $val);
-      }
-    }
-
-    @else {
-      @debug $val;
-
-      @if $ty-ms-base == null {
-        $ty-ms-base: $val;
-      } @else if type-of($ty-ms-base) == 'number' {
-        $ty-ms-base: ($ty-ms-base $val)
-      } @else if type-of($ty-ms-base) == 'list' {
-        $ty-ms-base: append($ty-ms-base, $val);
-      }
-    }
-  }
-
-  @if $ty-ms-base == null {
-    $ty-ms-base: 1em;
-  }
-
-  @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
-}
-
 // Use case
-// $typi-ms(
+// $_ty-ms(
 //   small: 1, 1.2
 //   large: 1 1.2, 1.618
 // )
 
 // h1: (
-//   null: (typi-ms(3))
+//   null: (_ty-ms(3))
 // )

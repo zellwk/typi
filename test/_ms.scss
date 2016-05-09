@@ -1,6 +1,14 @@
-@include test-module("Modular Scale") {
+$typi-ms: (
+  null: 1.2,
+  small: 1.2 1.5,
+  weird: 1.2 1.5 1.8,
+  med: 2em 1.2,
+  large: (1em 2em, 1.2 1.5)
+);
+
+@include test-module("Modular Scale Function") {
   @include test("should ms query for 1 ratio") {
-    $test: typi-ms(2, $breakpoint: null);
+    $test: _ty-ms(2, $breakpoint: null);
     $result: ms(2, 1em, 1.2);
 
     @include assert-equal($test, $result);
@@ -8,7 +16,7 @@
 
 
   @include test("should ms query for 2 ratio") {
-    $test: typi-ms(2, $breakpoint: small);
+    $test: _ty-ms(2, $breakpoint: small);
     $result: ms(2, 1em, 1.2 1.5);
 
     @include assert-equal($test, $result);
@@ -16,7 +24,7 @@
 
 
   @include test("should ms query for 3 ratio") {
-    $test: typi-ms(2, $breakpoint: weird);
+    $test: _ty-ms(2, $breakpoint: weird);
     $result: ms(2, 1em, 1.2 1.5 1.8);
 
     @include assert-equal($test, $result);
@@ -24,7 +32,7 @@
 
 
   @include test("should ms query for 1 base & 1 ratio") {
-    $test: typi-ms(2, $breakpoint: med);
+    $test: _ty-ms(2, $breakpoint: med);
     $result: ms(2, 2em, 1.2);
 
     @include assert-equal($test, $result);
@@ -32,10 +40,9 @@
 
 
   @include test("should ms query for 2 bases & 2 ratio") {
-    $test: typi-ms(2, $breakpoint: med);
+    $test: _ty-ms(2, $breakpoint: med);
     $result: ms(2, 2em, 1.2);
 
     @include assert-equal($test, $result);
   }
 }
-
