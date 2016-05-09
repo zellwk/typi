@@ -31,8 +31,11 @@
   // Uses Typi-ms
   @if unitless($font-size) {
     @if function-exists(ms) {
-      @return _ty-ms($font-size, $breakpoint, $typi-ms);
-
+      @if $rem {
+        @return _ty-strip-unit(_ty-ms($font-size, $breakpoint, $typi-ms)) * 1rem;
+      } @else {
+        @return _ty-ms($font-size, $breakpoint, $typi-ms);
+      }
     } @else {
       @error "Modular Scale Library required";
     }
