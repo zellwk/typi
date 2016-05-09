@@ -244,6 +244,10 @@ Just one for now: Make sure the tests before you submit a pull request.
 
 ## Changelog
 
+#### v2.2.2
+
+- Added the ability to change Modular Scale within media queries easily
+
 #### v2.1.1
 
 - Added `typi-ms()` function
