@@ -1,0 +1,16 @@
+@import '../../bower_components/modular-scale/stylesheets/_modular-scale';
+@import '../../scss/typi';
+
+// Without Typi ms
+$ms-base: 1em;
+$ms-ratio: 1.2;
+$typi-ms: false;
+
+$h2: (
+  null: (ms(2), 1.2),
+  small: (ms(3), 1.3),
+);
+
+h2 {
+  @include typi($h2);
+}

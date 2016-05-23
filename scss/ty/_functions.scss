@@ -6,13 +6,13 @@
   $breakpoint,
   $typi,
   $rem,
-  $base,
-  $typi-ms: false
+  $base: false,
+  $typi-map: false
 ) {
   @if $base == true {
     @return _ty-base-size($font-size);
   } @else {
-    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem, $typi-ms: $typi-ms);
+    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem, $typi-map);
   }
 }
 
@@ -25,14 +25,15 @@
   $breakpoint,
   $typi,
   $rem,
-  $typi-ms: false
+  $typi-map: false
 ) {
   @if unitless($font-size) {
     @if function-exists(ms) {
+      $typi-ms: map-get($typi-map, ms);
       @if $rem {
-        @return _ty-strip-unit(_ty-ms($font-size, $breakpoint, $typi-ms)) * 1rem;
+        @return _ty-strip-unit(_ty-ms($font-size, $breakpoint, $typi-ms, $typi-map)) * 1rem;
       } @else {
-        @return _ty-ms($font-size, $breakpoint, $typi-ms);
+        @return _ty-ms($font-size, $breakpoint, $typi-ms, $typi-map);
       }
     } @else {
       @error "Modular Scale Library required";
@@ -125,14 +126,26 @@
   }
 }
 
-@function _ty-ms($multiplier, $breakpoint: null, $breakpoints: $typi-ms) {
-  $ms-setting: map-get($breakpoints, $breakpoint);
+@function _ty-ms(
+  $multiplier,
+  $breakpoint: null,
+  $typi-ms: $typi-ms,
+  $typi-map: false
+) {
+  $ms-setting: null;
+  @if map-has-key($typi-ms, $breakpoint) {
+    $ms-setting: map-get($typi-ms, $breakpoint);
+  } @else {
+    $last-valid-ms: map-get($typi-map, last-valid-ms);
+    $ms-setting: map-get($typi-ms, $last-valid-ms);
+  }
 
   $ty-ms-base: null;
   $ty-ms-ratio: null;
 
   @for $i from 1 to length($ms-setting) + 1 {
     $val: nth($ms-setting, $i);
+
 
     // For combinations of multiple bases + multiple ratios
     @if type-of($val) == 'list' {
@@ -171,4 +184,23 @@
   }
 
   @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
+}
+
+@function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
+  $_return: null;
+
+  @each $breakpoint, $val in $breakpoints {
+    @if type-of($typi-ms) == 'map' and map-has-key($typi-ms, $breakpoint) {
+      @if not index($_return, $breakpoint) {
+        $_return: append($_return, $breakpoint);
+      }
+    }
+
+    @if map-has-key($target, $breakpoint) {
+      @if not index($_return, $breakpoint) {
+        $_return: append($_return, $breakpoint);
+      }
+    }
+  }
+  @return $_return;
 }

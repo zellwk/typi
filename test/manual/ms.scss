@@ -14,36 +14,27 @@ $typi-ms: (
   large: (1em 2em, 1.2 1.5)
 );
 
-$typi: (
-  null: (16px, 1.5),
-  small: 18px,
-  large: (20px, 1.6)
-);
-
-$h1: (
+$output-all-ms-ratios: (
   null: (2, 1.2),
   small: (3, 1.3),
 );
 
-
-html {
-  @include typi-base;
-}
-
+/* Iterates through both $typi-ms */
 h1 {
-  @include typi($h1);
+  @include typi($output-all-ms-ratios);
 }
 
-// Without Typi ms
-$ms-base: 1em;
-$ms-ratio: 1.2;
-$typi-ms: false;
-
-$h2: (
-  null: (ms(2), 1.2),
-  small: (ms(3), 1.3),
+$typi-ms: (
+  null: 1.2,
+  small: 1.618,
 );
 
-h2 {
-  @include typi($h2);
+$output-both-ms-and-font-map-values: (
+  null: 2,
+  med: 3,
+);
+
+/* Iterates through both $typi-ms and $font-map */
+h3 {
+  @include typi($output-both-ms-and-font-map-values);
 }
