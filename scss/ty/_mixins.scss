@@ -55,13 +55,18 @@
   $font-size: null;
   $line-height: null;
 
+  @if type-of($bp-val) == 'null' {
+    $last-valid-breakpoint: map-get($typi-map, last-valid-breakpoint);
+    $bp-val: map-get($target, $last-valid-breakpoint);
+  }
+
   @if type-of($bp-val) == "list" and length($bp-val) > 1 {
     $font-size: nth($bp-val, 1);
     $line-height: nth($bp-val, 2);
     font-size: _ty-font-size($font-size, $breakpoint, $typi, $rem, $base, $typi-ms: $typi-ms);
     line-height: $line-height;
   }
-  @else {
+  @else if type-of($bp-val) == "number" {
     $font-size: $bp-val;
     font-size: _ty-font-size($font-size, $breakpoint, $typi, $rem, $base, $typi-ms: $typi-ms);
   }

@@ -18,18 +18,24 @@
   // If typi-ms is used
   @if type-of($typi-ms) == map {
     @each $breakpoint, $ms in $typi-ms {
+      $target: map-get($typi-map, target);
       $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
 
       @if $breakpoint == null {
         @include _ty-write-props($typi-map);
       }
 
-      @else if map-has-key($target-map, $breakpoint) {
+      @else {
         @if map-has-key($breakpoints, $breakpoint) {
           @include _ty-breakpoint($typi-map);
         } @else {
           @warn "Missing #{$breakpoint} in $breakpoints map";
         }
+      }
+
+      // Add previous valid breakpoint
+      @if map-has-key($target, $breakpoint) {
+        $typi-map: map-merge($typi-map, (last-valid-breakpoint: $breakpoint))
       }
     }
   }
@@ -37,7 +43,7 @@
   // Without typi-ms
   @else {
     @each $breakpoint, $bp-val in $target-map {
-    $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
+      $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));
 
       @if $breakpoint == null {
         @include _ty-write-props($typi-map);

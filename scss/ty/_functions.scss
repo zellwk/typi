@@ -27,8 +27,6 @@
   $rem,
   $typi-ms: false
 ) {
-
-  // Uses Typi-ms
   @if unitless($font-size) {
     @if function-exists(ms) {
       @if $rem {
@@ -127,7 +125,6 @@
   }
 }
 
-
 @function _ty-ms($multiplier, $breakpoint: null, $breakpoints: $typi-ms) {
   $ms-setting: map-get($breakpoints, $breakpoint);
 
@@ -137,24 +134,34 @@
   @for $i from 1 to length($ms-setting) + 1 {
     $val: nth($ms-setting, $i);
 
-    // MS Ratio
-    @if unitless($val) {
-      @if $ty-ms-ratio == null {
+    // For combinations of multiple bases + multiple ratios
+    @if type-of($val) == 'list' {
+      @if not unitless(nth($val, 1)) {
+        $ty-ms-base: $val;
+      } @else {
         $ty-ms-ratio: $val;
-      } @else if type-of($ty-ms-ratio) == "number" {
-        $ty-ms-ratio: $ty-ms-ratio $val;
-      } @else if type-of($ty-ms-ratio) == "list" {
-        $ty-ms-ratio: append($ty-ms-ratio, $val);
       }
     }
-
+    // For combinations of 1 base + multiple ratios
     @else {
-      @if $ty-ms-base == null {
-        $ty-ms-base: $val;
-      } @else if type-of($ty-ms-base) == 'number' {
-        $ty-ms-base: ($ty-ms-base $val)
-      } @else if type-of($ty-ms-base) == 'list' {
-        $ty-ms-base: append($ty-ms-base, $val);
+      @if unitless($val) {
+        @if $ty-ms-ratio == null {
+          $ty-ms-ratio: $val;
+        } @else if type-of($ty-ms-ratio) == "number" {
+          $ty-ms-ratio: $ty-ms-ratio $val;
+        } @else if type-of($ty-ms-ratio) == "list" {
+          $ty-ms-ratio: append($ty-ms-ratio, $val);
+        }
+      }
+
+      @else {
+        @if $ty-ms-base == null {
+          $ty-ms-base: $val;
+        } @else if type-of($ty-ms-base) == 'number' {
+          $ty-ms-base: ($ty-ms-base $val)
+        } @else if type-of($ty-ms-base) == 'list' {
+          $ty-ms-base: append($ty-ms-base, $val);
+        }
       }
     }
   }

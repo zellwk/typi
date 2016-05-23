@@ -3,13 +3,14 @@
 
 $breakpoints: (
   small: 600px,
+  med: 800px,
   large: 1000px
 );
 
 $typi-ms: (
   null: 1.2,
   small: 1.618,
-  med: 1.2 1.5,
+  med: (1.2 1.5),
   large: (1em 2em, 1.2 1.5)
 );
 
@@ -22,8 +23,8 @@ $typi: (
 $h1: (
   null: (2, 1.2),
   small: (3, 1.3),
-  large: 44px
 );
+
 
 html {
   @include typi-base;
@@ -31,4 +32,18 @@ html {
 
 h1 {
   @include typi($h1);
+}
+
+// Without Typi ms
+$ms-base: 1em;
+$ms-ratio: 1.2;
+$typi-ms: false;
+
+$h2: (
+  null: (ms(2), 1.2),
+  small: (ms(3), 1.3),
+);
+
+h2 {
+  @include typi($h2);
 }
