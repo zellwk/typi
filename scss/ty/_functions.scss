@@ -107,7 +107,7 @@
   @return $num / ($num * 0 + 1);
 }
 
-// _typi-em
+// _ty-em
 // ========
 @function _ty-em($font-size, $ref-size: false) {
   @if ($ref-size) {
@@ -115,7 +115,7 @@
   }
 }
 
-// _typi-rem
+// _ty-rem
 // =========
 @function _ty-rem($font-size) {
   @if unit($font-size) == 'px' {
@@ -126,6 +126,8 @@
   }
 }
 
+// _ty-ms
+// ======
 @function _ty-ms(
   $multiplier,
   $breakpoint: null,
@@ -186,6 +188,8 @@
   @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
 }
 
+// _ty-get-breakpoints
+// ===================
 @function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
   $_return: null;
 
@@ -203,4 +207,28 @@
     }
   }
   @return $_return;
+}
+
+// _ty-get-base-font
+@function _ty-get-base-font($typi) {
+  $base-map: map-get($typi, null);
+  @return nth($base-map, 1);
+}
+
+// _ty-get-base-line-height
+@function _ty-get-base-line-height($typi) {
+  $base-map: map-get($typi, null);
+  $base-line-height: null;
+
+  @if length($base-map) > 1 {
+    $base-line-height: nth($base-map, 2);
+  } @else {
+    @error "$typi map should contain a second argument (line-height) in the `null` key";
+  }
+
+  @if not unit($base-line-height) == "" {
+    @error "line-height multiple on the `null` key should be unitless";
+  }
+
+  @return $base-line-height;
 }
