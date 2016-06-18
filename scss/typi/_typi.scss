@@ -93,3 +93,19 @@
     }
   }
 }
+
+// Responsive Vertical Rhythm
+@mixin rvr($props, $vr, $typi: $typi) {
+  $base-font: _ty-get-base-font($typi);
+  $base-line-height: _ty-get-base-line-height($typi);
+  $unit: unit($base-line-height);
+
+  @each $prop in $props {
+    @if $unit == 'px' {
+      #{$prop}: $base-line-height / $base-font * 1rem * $vr;
+    } @else {
+      #{$prop}: $base-line-height * 1rem * $vr;
+    }
+    #{$prop}: calc(var(--baseline) * #{1rem * $vr});
+  }
+}
