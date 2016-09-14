@@ -22,12 +22,14 @@
 // ----------
 // - writes props for every valid breakpoint
 // ==========
-@mixin _ty-write-breakpoints-2(
-  $target: $target,
-  $breakpoints: $breakpoints,
-  $typi: $typi,
-  $rem: $rem
-  ) {
+@mixin _ty-write-breakpoints-2 (
+  $_map
+) {
+  $target: map-get($_map, target);
+  $breakpoints: map-get($_map, breakpoints);
+  $typi: map-get($_map, typi);
+  $rem: map-get($_map, rem);
+
   $basemap: null;
   $target-map: null;
 
@@ -45,14 +47,18 @@
 
   $basemap: map-get($typi, base);
 
+  $_map: map-merge($_map, (
+    basemap: $basemap,
+    target-map: $target-map
+  ));
+
+  @debug $_map;
+
   @each $breakpoint, $target-value in $target-map {
     @if $breakpoint == null {
       @include _ty-write-props-2(
-        $target: $target,
-        $target-map: $target-map,
-        $breakpoint: $breakpoint,
-        $basemap: $basemap,
-        $rem: $rem
+        $_map: $_map,
+        $breakpoint: $breakpoint
       );
     }
 
@@ -70,11 +76,8 @@
         @include breakpoint(map-get($breakpoints, $breakpoint)) {
 
           @include _ty-write-props-2(
-            $target: $target,
-            $target-map: $target-map,
-            $breakpoint: $breakpoint,
-            $basemap: $basemap,
-            $rem: $rem
+            $_map: $_map,
+            $breakpoint: $breakpoint
           );
         }
       }
@@ -82,11 +85,8 @@
       @else if _has-breakpoint-library('mappy-bp') {
         @include mappy-bp(map-get($breakpoints, $breakpoint)) {
           @include _ty-write-props-2(
-            $target: $target,
-            $target-map: $target-map,
-            $breakpoint: $breakpoint,
-            $basemap: $basemap,
-            $rem: $rem
+            $_map: $_map,
+            $breakpoint: $breakpoint
           );
         }
       }
@@ -94,11 +94,8 @@
       @else {
         @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
           @include _ty-write-props-2(
-            $target: $target,
-            $target-map: $target-map,
-            $breakpoint: $breakpoint,
-            $basemap: $basemap,
-            $rem: $rem
+            $_map: $_map,
+            $breakpoint: $breakpoint
           );
         }
       }

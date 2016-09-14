@@ -18,13 +18,13 @@ $typi: (
   @include test('font-size only') {
     @include assert('h1 null breakpoint') {
       @include input {
-        @include _ty-write-props-2 (
-          $target: 'h1',
-          $target-map: map-get($typi, 'h1'),
-          $breakpoint: null,
-          $basemap: $basemap,
-          $rem: true
-        )
+        @include _ty-write-props-2((
+            target: 'h1',
+            target-map: map-get($typi, 'h1'),
+            basemap: $basemap,
+            rem: true
+          ), $breakpoint: null
+        );
       }
 
       @include expect {
@@ -42,13 +42,13 @@ $typi: (
   @include test('font-size and line-height') {
     @include assert('h1 med breakpoint') {
       @include input {
-        @include _ty-write-props-2 (
-          $target: 'h1',
-          $target-map: map-get($typi, 'h1'),
-          $breakpoint: med,
-          $basemap: $basemap,
-          $rem: true
-        )
+        @include _ty-write-props-2((
+            target: 'h1',
+            target-map: map-get($typi, 'h1'),
+            basemap: $basemap,
+            rem: true
+          ), $breakpoint: med
+        );
       }
 
       @include expect {
@@ -58,16 +58,15 @@ $typi: (
     }
   }
 
-
   @include test('list type for font-size in map') {
     @include assert('h1 large breakpoint') {
       @include input {
-        @include _ty-write-props-2(
-          $target: 'h1',
-          $target-map: map-get($typi, 'h1'),
-          $breakpoint: large,
-          $basemap: $basemap,
-          $rem: true
+        @include _ty-write-props-2((
+            target: 'h1',
+            target-map: map-get($typi, 'h1'),
+            basemap: $basemap,
+            rem: true
+          ), $breakpoint: large
         )
       }
 
@@ -81,12 +80,12 @@ $typi: (
   @include test('write base font-size') {
     @include assert('base') {
       @include input() {
-        @include _ty-write-props-2(
-          $target: 'base',
-          $target-map: map-get($typi, 'base'),
-          $breakpoint: null,
-          $basemap: $basemap,
-          $rem: false
+        @include _ty-write-props-2((
+            target: 'base',
+            target-map: map-get($typi, 'base'),
+            basemap: $basemap,
+            rem: false
+          ), $breakpoint: null
         )
       }
 

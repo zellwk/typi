@@ -24,32 +24,32 @@ $typi: (
 
 /* Test with normal breakpoints */
 .h1 {
-  @include _ty-write-breakpoints-2(
-    $target: 'h1',
-    $breakpoints: $breakpoints,
-    $typi: $typi,
-    $rem: true
-  );
+  @include _ty-write-breakpoints-2((
+    target: 'h1',
+    breakpoints: $breakpoints,
+    typi: $typi,
+    rem: true
+  ));
 }
 
 /* Test with mappy bp */
 $typi-breakpoint: mappy-bp;
 .h1 {
-  @include _ty-write-breakpoints-2(
-    $target: 'h1',
-    $breakpoints: $breakpoints,
-    $typi: $typi,
-    $rem: true
-  );
+  @include _ty-write-breakpoints-2((
+    target: 'h1',
+    breakpoints: $breakpoints,
+    typi: $typi,
+    rem: true
+  ));
 }
 
 /* Test with breakpoint-sass */
 $typi-breakpoint: breakpoint;
 .h1 {
-  @include _ty-write-breakpoints-2(
-    $target: 'h1',
-    $breakpoints: $breakpoints,
-    $typi: $typi,
-    $rem: true
-  );
+  @include _ty-write-breakpoints-2((
+    target: 'h1',
+    breakpoints: $breakpoints,
+    typi: $typi,
+    rem: true
+  ));
 }

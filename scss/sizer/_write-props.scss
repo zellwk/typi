@@ -3,12 +3,14 @@
 // - writes font-size and line-height
 // ==========
 @mixin _ty-write-props-2 (
-  $target: $target,
-  $target-map: $target-map,
-  $breakpoint: $breakpoint,
-  $basemap: $basemap,
-  $rem: $rem
+  $_map: $_map,
+  $breakpoint: $breakpoint
 ) {
+  $target: map-get($_map, target);
+  $target-map: map-get($_map, target-map);
+  $basemap: map-get($_map, basemap);
+  $rem: map-get($_map, rem);
+
   $font-size: null;
   $line-height: null;
   $target-value: null;
@@ -22,7 +24,6 @@
 
   // Only one value in the target => only font-size
   @if type-of($target-value) == 'number' {
-
     @if $target == 'base' {
       font-size: _ty-to-percentage($target-value);
     } @else {
