@@ -1,65 +1,39 @@
-
 // Vertical Rhythms
-@include test-module('Vertical Rhythms') {
-  @include test('should convert PX to EM correctly') {
+// ----------------
+// -
+// ================
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+    med: 2em,
+    large: (3em)
+  )
+);
 
-    // Case:
-    // Base font size = 18px
-    // Base line height = 1.5 * 18 = 27px
+$basemap: map-get($typi, base);
+$base-font-size: nth(map-fetch($typi, base null), 1);
+$base-line-height: nth(map-fetch($typi, base null), 2);
 
-    // Current font size = 36px
-    // 1vr = 24/36 = .666666667em
-
-    $base: (
-      null: (18px, 1.5)
-    );
-
-    $test: vr(3, 36px, $typi: $base);
-    $result: 3 * 27px/36px * 1em;
-    @include assert-equal($test, $result, 'when nesting is simple');
-
-    // Case:
-    // User has decided to bump font-size of parent element from 18 to 22px
-    // base-font-size: 18px,
-    // Base line height = 1.5 * 18 = 27px
-    // Ref font = 22px
-    // Current font size = 30px
-
-    // Calculations:
-    // 1vr = 27px
-    //
-    // 1em  = 30px right now.
-    // 27px = 27/30 = 0.9em
-    $result: vr(5, 30px, $typi: $base);
-    $test: 5 * 27px/ 30px * 1em;
-
-    @include assert-equal($result, $test, 'when fonts are nested several levels in');
+@include test-module('Normal VR') {
+  @include test('-> rem') {
+    $test: vr-2(3);
+    $result: $base-line-height * 3 * 1rem;
+    @include assert-equal($test, $result);
   }
 
-  @include test('should calculate EM correctly') {
+  @include test('-> em') {
+    $test: vr-2(3, 18px);
+    $result: 3 * $base-font-size * $base-line-height / 18px * 1em;
+    @include assert-equal($test, $result);
 
-    // Case:
-    // base-font size = 16px
-    // base-line-height = 1.5.
-    // Baseline = 24px
-
-    // Current size = 3em
-    // 1 vr = 24px / (3 * 16) = 0.5em
-
-    $base: (
-      null: (16, 1.5)
-    );
-    $test: vr(3, 3em, $typi: $base);
-    $result: 3 * 24px / 48px * 1em;
-    @include assert-equal($test, $result, 'when current font is written in EM')
-  }
-
-  @include test('should convert from PX to REM correctly') {
-    $base: (
-      null: (16, 1.5)
-    );
-    $test: vr(2);
-    $result: 2 * 1.5 * 1rem;
-    @include assert-equal($test, $result)
+    $test2: vr-2(2, 30px);
+    $result2: 2 * $base-font-size * $base-line-height / 30px * 1em;
+    @include assert-equal($test2, $result2)
   }
 }

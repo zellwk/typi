@@ -21,3 +21,30 @@
 
   @return $base-line-height;
 }
+
+// _ty-get-base-font-2
+// ==========
+@function _ty-get-base-font-size-2($basemap) {
+  $base-null: map-get($basemap, null);
+  @return nth($base-null, 1);
+}
+
+
+// _ty-get-base-line-height-2
+// ==========
+@function _ty-get-base-line-height-2($basemap) {
+  $base-null: map-get($basemap, null);
+  $base-line-height: null;
+
+  @if type-of($base-null) == 'number' {
+    @error "Typi base map requires line-height multiple in null key"
+  }
+
+  $base-line-height: nth($base-null, 2);
+
+  @if not unit($base-line-height) == '' {
+    @error "Line-height should be unitless"
+  }
+
+  @return $base-line-height;
+}

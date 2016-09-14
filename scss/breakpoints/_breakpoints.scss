@@ -34,8 +34,6 @@
     target-map: $target-map
   ));
 
-  @debug $_map;
-
   @each $breakpoint, $target-value in $target-map {
     @if $breakpoint == null {
       @include _ty-write-props-2(
