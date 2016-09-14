@@ -1,3 +1,7 @@
+@import '../../scss/typi';
+@import 'mappy-breakpoints/mappy-breakpoints';
+@import 'compass-breakpoint/stylesheets/breakpoint';
+
 $breakpoints: (
   small: 400px,
   med: 600px,
@@ -13,7 +17,7 @@ $typi: (
   ),
   h1: (
     null: (24px, 1.3),
-    med: 2em,
+    med: 30px,
     large: (3em)
   )
 );

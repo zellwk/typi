@@ -3,7 +3,6 @@
 // - Ensure to loop through each map in target
 // - Ensure each breakpoint in target is present in $brekapoints
 // - Ensure each breakpoint in target is present in $typi
-// - Ensure mixin writes at least 1 breakpoint
 // =========
 $breakpoints: (
   small: 400px,
@@ -38,17 +37,3 @@ $basemap: map-get($typi, base);
     @include assert-equal($test, true);
   }
 }
-
-// TODO: Test under Breakpoints
-// @include test('px to rem (with Breakpoint)') {
-//   $test: _ty-calc-font-size(20px, small, $typi, true);
-//   $result: 20px / 18px * 1rem;
-//   @include assert-equal($test, $result, 'px should be converted into rem (when given a breakpoint)');
-// }
-
-// TODO: Test breakpoints
-// @include test('px to em (with Breakpoint)') {
-//   $test: _ty-calc-font-size(20px, small, $typi, false);
-//   $result: 20px / 18px * 1em;
-//   @include assert-equal($test, $result, 'px should be converted into em (when given a breakpoint)');
-// }
