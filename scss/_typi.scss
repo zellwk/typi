@@ -1,8 +1,22 @@
 $breakpoints: () !default;
+$typefaces: (
+  primary: (
+    stack: Helvetica, Arial, sans-serif,
+    weights: 300 400 700,
+    cap-height: 0.7,
+  ),
+  secondary: (
+    stack: Georgia, Times, serif,
+    weights: 300 400 700,
+    x-height-ratio: 0.8,
+    cap-height: 0.7,
+  )
+) !default;
 $typi: (null: (16px, 1.5)) !default;
 $typi-ms: false !default;
 $typi-breakpoint: null !default;
 
-@import 'ty/mixins';
-@import 'ty/functions';
-@import 'typi/typi';
+@import 'utils/utils';
+@import 'breakpoints/breakpoints';
+@import 'sizer/sizer';
+@import 'rhythm/rhythm';

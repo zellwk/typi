@@ -1,0 +1,23 @@
+// _ty-get-base-font
+@function _ty-get-base-font($typi) {
+  $base-map: map-get($typi, null);
+  @return nth($base-map, 1);
+}
+
+// _ty-get-base-line-height
+@function _ty-get-base-line-height($typi) {
+  $base-map: map-get($typi, null);
+  $base-line-height: null;
+
+  @if length($base-map) > 1 {
+    $base-line-height: nth($base-map, 2);
+  } @else {
+    @error "$typi map should contain a second argument (line-height) in the `null` key";
+  }
+
+  @if not unit($base-line-height) == "" {
+    @error "line-height multiple on the `null` key should be unitless";
+  }
+
+  @return $base-line-height;
+}

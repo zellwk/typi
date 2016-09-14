@@ -1,0 +1,25 @@
+// _ty-strip-unit
+// ==============
+@function _ty-strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+// _ty-to-em
+// ========
+@function _ty-to-em($font-size, $ref-size: false) {
+  @if $ref-size {
+    @return $font-size / $ref-size * 1em;
+  }
+}
+
+// _ty-to-rem
+// =========
+// @function _ty-to-rem($font-size) {
+//   @if unit($font-size) == "px" {
+//     @return strip-unit($font-size) / 16 * 1rem;
+//   }
+
+//   @else if unit($font-size) == "em" {
+//     @return strip-unit($font-size) * 1rem;
+//   }
+// }

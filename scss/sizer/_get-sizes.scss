@@ -76,7 +76,7 @@
         $basefont: nth(map-get($typi, null), 1);
       }
 
-      @return _ty-em($font-size, $basefont);
+      @return _ty-to-em($font-size, $basefont);
     }
 
     @else {
@@ -97,32 +97,6 @@
 
   @else {
     @error 'Typi font sizes must be written in pixels';
-  }
-}
-
-
-// _ty-strip-unit
-// ==============
-@function _ty-strip-unit($num) {
-  @return $num / ($num * 0 + 1);
-}
-
-// _ty-em
-// ========
-@function _ty-em($font-size, $ref-size: false) {
-  @if ($ref-size) {
-    @return $font-size / $ref-size * 1em;
-  }
-}
-
-// _ty-rem
-// =========
-@function _ty-rem($font-size) {
-  @if unit($font-size) == 'px' {
-    @return strip-unit($font-size) / 16 * 1rem;
-  }
-  @else if unit($font-size) == 'em' {
-    @return strip-unit($font-size) * 1rem;
   }
 }
 
@@ -147,8 +121,6 @@
 
   @for $i from 1 to length($ms-setting) + 1 {
     $val: nth($ms-setting, $i);
-
-
     // For combinations of multiple bases + multiple ratios
     @if type-of($val) == 'list' {
       @if not unitless(nth($val, 1)) {
@@ -186,49 +158,4 @@
   }
 
   @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
-}
-
-// _ty-get-breakpoints
-// ===================
-@function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
-  $_return: null;
-
-  @each $breakpoint, $val in $breakpoints {
-    @if type-of($typi-ms) == 'map' and map-has-key($typi-ms, $breakpoint) {
-      @if not index($_return, $breakpoint) {
-        $_return: append($_return, $breakpoint);
-      }
-    }
-
-    @if map-has-key($target, $breakpoint) {
-      @if not index($_return, $breakpoint) {
-        $_return: append($_return, $breakpoint);
-      }
-    }
-  }
-  @return $_return;
-}
-
-// _ty-get-base-font
-@function _ty-get-base-font($typi) {
-  $base-map: map-get($typi, null);
-  @return nth($base-map, 1);
-}
-
-// _ty-get-base-line-height
-@function _ty-get-base-line-height($typi) {
-  $base-map: map-get($typi, null);
-  $base-line-height: null;
-
-  @if length($base-map) > 1 {
-    $base-line-height: nth($base-map, 2);
-  } @else {
-    @error "$typi map should contain a second argument (line-height) in the `null` key";
-  }
-
-  @if not unit($base-line-height) == "" {
-    @error "line-height multiple on the `null` key should be unitless";
-  }
-
-  @return $base-line-height;
 }
