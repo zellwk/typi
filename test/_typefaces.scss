@@ -1,0 +1,149 @@
+// Typeface functionality tests summary
+// ==========
+// 1. Should return nothing if no typeface is set. Then, proceed as normal
+// 2. If typeface is set
+//    - font-size-ratio should return 1 if primary typeface (or if not set)
+//    - font-size-ratio should return n if anything but primary typeface
+//    - font-size should be as a multiple of normal font-size * typeface ratio
+
+// Setting defaults
+// ==========
+$typefaces: (
+  primary: (
+    stack: (Helvetica, Arial, sans-serif),
+    weights: (
+      light: 300,
+      normal: 400,
+      bold: 700
+    ),
+    cap-height-ratio: 0.85
+  ),
+
+  secondary: (
+    stack: (Georgia, Times, serif),
+    weights: (
+      light: 300,
+      normal: 400,
+      bold: 700
+    ),
+    font-size-ratio: 1.3,
+    cap-height-ratio: 0.85
+  ),
+);
+
+$typi: (
+  null: (16px, 1.5),
+  small: 20px,
+);
+
+// Test for typeface module
+// ==========
+@include test-module('No typeface') {
+  @include test('- no typeface map, no typeface') {
+
+    $test: _ty-get-typeface-multiplier(false, false);
+    $test: _ty-get-typeface-multiplier('', '');
+    $test: _ty-get-typeface-multiplier(null, null);
+    $result: 1;
+
+    @include assert-equal($test, $result, 'font-size-ratio should return 1');
+    @include assert-equal($test, $result, 'font-size-ratio should return 1');
+  }
+
+  // These should throw errors
+  @include test('- no typeface map, has typeface') {
+    // $test: _ty-get-typeface-multiplier(false, primary);
+    // $test: _ty-get-typeface-multiplier(null, primary);
+    // $test: _ty-get-typeface-multiplier('', primary);
+  }
+}
+
+
+// Test for typeface multiplier calculations
+// ==========
+@include test-module('Has-typeface') {
+  @include test('- typeface == primary') {
+    // If you switch font-size-ratio of primary to != 1, it will fail
+    $test: _ty-get-typeface-multiplier($typefaces, primary);
+    @include assert-equal($test, 1);
+  }
+
+  @include test('- typeface == secondary') {
+    // If font-size ratio is 1.3, font-size of secondary font should be 1.3x smaller
+    $test: _ty-get-typeface-multiplier($typefaces, secondary);
+    $result: 1 / map-get(map-get($typefaces, secondary), font-size-ratio);
+    @include assert-equal($test, $result, 'should be equal to font-size ratio of secondary typeface');
+  }
+}
+
+// Test for typi output
+// ==========
+@include test-module('Typi output with typeface module') {
+  $target-list: map-get($typi, null);
+  $target-font-size: nth($target-list, 1);
+  $target-font-size-in-rem: _ty-to-rem($target-font-size);
+  $primary-multiplier: _ty-get-typeface-multiplier($typefaces, primary);
+  $secondary-multiplier: _ty-get-typeface-multiplier($typefaces, secondary);
+  @include test('- should output correct values for primary typeface') {
+    @include assert('') {
+      @include input {
+        @include typi($typi, primary);
+      }
+
+      @include expect {
+        font-size: $target-font-size-in-rem * $primary-multiplier;
+        line-height: 1.5;
+      }
+    }
+  }
+
+   @include test('- should output correct values for primary typeface') {
+    @include assert('') {
+
+      @include input {
+        @include typi($typi, secondary);
+      }
+
+      @include expect {
+        font-size: $target-font-size-in-rem * $secondary-multiplier;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// Tests if typeface module works with vr function
+// ----------
+// - Make sure VR is reflected with correct font-size multiple for both rem and em cases
+// ==========
+@include test-module('Typefaces with VR') {
+  @include test('returns rem with typeface multipler') {
+
+  // Test with usage
+  // Test with typi-ms usage
+
+  // Typeface B = 14px vs 16 vs 18
+  // Line height = 22px vs 22px
+  // Rhythm context = 3 vs 3
+  // px value = 66px vs 66px vs 66px
+  // em value = 66 / 14 vs 66 / 16 vs 66 / 18
+  // em value = 4.71 em vs 4.125em vs 3.666666667
+  // rem value = 1.57rem vs 1.375rem  vs 1.222rem
+
+  // @include assert-equal();
+  }
+
+  @include test('returns em with typeface multipler') {
+    $target-list: map-get($typi, null);
+    $target-font-size: nth($target-list, 1);
+    $target-font-size-in-rem: _ty-to-rem($target-font-size);
+    $primary-multiplier: _ty-get-typeface-multiplier($typefaces, primary);
+    $secondary-multiplier: _ty-get-typeface-multiplier($typefaces, secondary);
+
+    $test: vr(3, 1em, secondary);
+    $result: vr(3, 1em);
+
+    // @debug $test;
+    // @debug $result;
+  }
+}

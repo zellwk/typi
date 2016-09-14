@@ -1,5 +1,7 @@
 @mixin typi-base(
   $typi: $typi,
+  $typeface: null,
+  $typeface-map: $typefaces,
   $breakpoints: $breakpoints,
   $typi-ms: $typi-ms,
   $base: true,
@@ -7,7 +9,9 @@
 ) {
   @include typi(
     $typi,
-    $breakpoints,
+    $typeface: $typeface,
+    $typeface-map: $typeface-map,
+    $breakpoints: $breakpoints,
     $typi: $typi,
     $typi-ms: $typi-ms,
     $base: $base,
@@ -17,6 +21,8 @@
 
 @mixin typi(
   $target-map,
+  $typeface: null,
+  $typeface-map: $typefaces,
   $breakpoints: $breakpoints,
   $typi: $typi,
   $typi-ms: $typi-ms,
@@ -24,6 +30,8 @@
   $rem: true
 ) {
   $typi-map: (
+    typeface: $typeface,
+    typeface-map: $typeface-map,
     target: $target-map,
     breakpoints: $breakpoints,
     typi: $typi,
@@ -33,6 +41,7 @@
   );
 
   $breakpoints-to-output: _ty-get-breakpoints($breakpoints, $typi-ms, $target-map);
+
   @each $breakpoint in $breakpoints-to-output {
     $target: $target-map;
     $typi-map: map-merge($typi-map, (breakpoint: $breakpoint));

@@ -8,18 +8,30 @@
 // ========
 @function _ty-to-em($font-size, $ref-size: false) {
   @if $ref-size {
-    @return $font-size / $ref-size * 1em;
+    @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+  }
+
+  @else if unit($font-size) == 'rem' {
+    @return _ty-strip-unit($font-size) * 1em;
+  }
+
+  @else {
+    @debug 'test';
   }
 }
 
 // _ty-to-rem
 // =========
-// @function _ty-to-rem($font-size) {
-//   @if unit($font-size) == "px" {
-//     @return strip-unit($font-size) / 16 * 1rem;
-//   }
+@function _ty-to-rem($font-size, $ref-size: 16px) {
+  @if unit($font-size) == "px" {
+    @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1rem;
+  }
 
-//   @else if unit($font-size) == "em" {
-//     @return strip-unit($font-size) * 1rem;
-//   }
-// }
+  @else if unit($font-size) == "em" {
+    @return _ty-strip-unit($font-size) * 1rem;
+  }
+
+  @else {
+    @return $font-size;
+  }
+}

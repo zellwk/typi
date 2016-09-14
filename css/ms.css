@@ -1,26 +1,47 @@
-/* Iterates through both $typi-ms */
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * med should produce 1.2 * 1.5 * 1.5 * 1.5 = 4.05
+ * large should produce 1.5
+ * huge should produce 1.5
+ * ===================
+ */
 h1 {
-  font-size: 1.44rem;
-  line-height: 1.2; }
-  @media all and (min-width: 600px) {
+  font-size: 1.44rem; }
+  @media all and (min-width: small) {
     h1 {
-      font-size: 4.2358rem;
-      line-height: 1.3; } }
-  @media all and (min-width: 800px) {
+      font-size: 4.2358rem; } }
+  @media all and (min-width: med) {
     h1 {
-      font-size: 1.5rem;
-      line-height: 1.3; } }
-  @media all and (min-width: 1000px) {
+      font-size: 1.5rem; } }
+  @media all and (min-width: large) {
     h1 {
-      font-size: 1.33333rem;
-      line-height: 1.3; } }
+      font-size: 1.38889rem; } }
+  @media all and (min-width: huge) {
+    h1 {
+      font-size: 1.5rem; } }
 
-/* Iterates through both $typi-ms and $font-map */
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 = 2.617924
+ * med should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * ===================
+ */
 h3 {
   font-size: 1.44rem; }
-  @media all and (min-width: 600px) {
+  @media all and (min-width: small) {
     h3 {
       font-size: 2.61792rem; } }
-  @media all and (min-width: 800px) {
+  @media all and (min-width: med) {
+    h3 {
+      font-size: 4.2358rem; } }
+  @media all and (min-width: large) {
+    h3 {
+      font-size: 4.2358rem; } }
+  @media all and (min-width: huge) {
     h3 {
       font-size: 4.2358rem; } }

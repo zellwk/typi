@@ -18,8 +18,7 @@
 
 // _ty-calc-font-size
 // =======
-// returns correct rem value depending on
-// breakpoint
+// returns correct rem value depending on breakpoint
 @function _ty-calc-font-size(
   $font-size,
   $breakpoint,
@@ -27,11 +26,13 @@
   $rem,
   $typi-map: false
 ) {
+  // Use typi-ms if font-size is unitless
+  // Normal conversion otherwise
   @if unitless($font-size) {
     @if function-exists(ms) {
       $typi-ms: map-get($typi-map, ms);
       @if $rem {
-        @return _ty-strip-unit(_ty-ms($font-size, $breakpoint, $typi-ms, $typi-map)) * 1rem;
+        @return _ty-to-rem(_ty-ms($font-size, $breakpoint, $typi-ms, $typi-map));
       } @else {
         @return _ty-ms($font-size, $breakpoint, $typi-ms, $typi-map);
       }
@@ -43,7 +44,7 @@
   // Convert px and em into rem
   @else if $rem {
     @if unit($font-size) == 'em' {
-      @return _ty-strip-unit($font-size) * 1rem;
+      @return _ty-to-rem($font-size);
     }
 
     @else if unit($font-size) == 'px' {
@@ -54,7 +55,7 @@
         $basefont: nth(map-get($typi, null), 1);
       }
 
-      @return $font-size / $basefont * 1rem;
+      @return _ty-to-rem($font-size, $basefont);
     }
 
     @else {
@@ -65,7 +66,7 @@
   // Converts rem and px into em
   @else {
     @if unit($font-size) == 'rem' {
-      @return _ty-strip-unit($font-size) * 1em;
+      @return _ty-to-em($font-size);
     }
 
     @else if unit($font-size) == 'px' {
@@ -109,9 +110,12 @@
   $typi-map: false
 ) {
   $ms-setting: null;
+
   @if map-has-key($typi-ms, $breakpoint) {
     $ms-setting: map-get($typi-ms, $breakpoint);
-  } @else {
+  }
+
+  @else {
     $last-valid-ms: map-get($typi-map, last-valid-ms);
     $ms-setting: map-get($typi-ms, $last-valid-ms);
   }
@@ -158,4 +162,9 @@
   }
 
   @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
+}
+
+@function typi-ms-size($multipler, $ms-key, $typi-ms: $typi-ms) {
+  $ms-list: map-get($typi-ms, $ms-key);
+  // @return ms()
 }

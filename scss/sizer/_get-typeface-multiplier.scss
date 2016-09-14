@@ -1,0 +1,57 @@
+// get typeface multiplier
+// ==========
+@function _ty-get-typeface-multiplier($typeface-map, $typeface) {
+  // not checks for false and null
+  $_typeface: has-typeface($typeface);
+  $_typeface-map: has-typeface-map($typeface-map);
+
+  @if $_typeface {
+    @if not($_typeface-map) { @error "$typeface-map not found"; }
+    @else {
+      @return _ty-return-typeface-multiplier($typeface-map, $typeface);
+    }
+  } @else {
+    @return 1;
+  }
+}
+
+// return typeface multipler
+// ==========
+@function _ty-return-typeface-multiplier($typeface-map, $typeface) {
+  $_typeface: map-get($typeface-map, $typeface);
+  $_font-size-ratio: null;
+
+  @if map-has-key($_typeface, font-size-ratio) {
+    $_font-size-ratio: map-get($_typeface, font-size-ratio);
+  }
+
+  @if $typeface == 'primary' {
+    @if $_font-size-ratio and $_font-size-ratio != 1 {
+      @error "font-size-ratio of primary typeface must be 1";
+    } @else {
+      @return 1;
+    }
+  }
+
+  @return 1 / $_font-size-ratio;
+}
+
+// Has typeface
+// ==========
+@function has-typeface($typeface) {
+  @if not ($typeface) or $typeface == '' {
+    @return false;
+  } @else {
+    @return true;
+  }
+}
+
+// Has typeface map
+// ==========
+@function has-typeface-map($typeface-map) {
+  @if not ($typeface-map) or $typeface-map == '' or length($typeface-map) == 0 {
+    @return false;
+  } @else {
+    @return true;
+  }
+}

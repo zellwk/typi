@@ -2,24 +2,40 @@
 @import '../../scss/typi';
 
 $breakpoints: (
-  small: 600px,
-  med: 800px,
-  large: 1000px
+  small: 'small',
+  med: 'med',
+  large: 'large',
+  huge: 'huge',
 );
 
+// Please add a ratio for every breakpoint used!
 $typi-ms: (
   null: 1.2,
   small: 1.618,
-  med: (1.2 1.5),
-  large: (1em 2em, 1.2 1.5)
+  med: (1.2, 1.5),
+  large: (1em 2em, 1.2),
+  huge: (1em, 1.2 1.5)
 );
 
 $output-all-ms-ratios: (
-  null: (2, 1.2),
-  small: (3, 1.3),
+  null: (2),
+  small: (3),
+  med: 3,
+  large: 3,
+  huge: 3
 );
 
-/* Iterates through both $typi-ms */
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * med should produce 1.2 * 1.5 * 1.5 * 1.5 = 4.05
+ * large should produce 1.5
+ * huge should produce 1.5
+ * ===================
+ */
+
 h1 {
   @include typi($output-all-ms-ratios);
 }
@@ -27,14 +43,27 @@ h1 {
 $typi-ms: (
   null: 1.2,
   small: 1.618,
+  med: 1.618,
+  large: 1.618,
+  huge: 1.618
 );
 
 $output-both-ms-and-font-map-values: (
   null: 2,
+  small: 2,
   med: 3,
+  large: 3,
+  huge: 3
 );
 
-/* Iterates through both $typi-ms and $font-map */
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 = 2.617924
+ * med should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * ===================
+ */
 h3 {
   @include typi($output-both-ms-and-font-map-values);
 }
