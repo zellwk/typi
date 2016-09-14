@@ -1,0 +1,77 @@
+// Test writing of properties
+// ==========
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+    med: 2em,
+    large: (3em)
+  )
+);
+
+@include test-module('Write properties') {
+  @include test('font-size only') {
+    @include assert('h1 null breakpoint') {
+      @include input {
+        @include _ty-write-props-2 (
+          $target-map: map-get($typi, 'h1'),
+          $breakpoint: null,
+          $basemap: $basemap,
+          $rem: true
+        )
+      }
+
+      @include expect {
+        $base: map-fetch($typi, base null);
+        $base-font-size: nth($base, 1);
+        $h1: map-fetch($typi, h1 null);
+        $font-size: nth($h1, 1);
+        $line-height: nth($h1, 2);
+        font-size: _ty-to-rem($font-size, $base-font-size);
+        line-height: $line-height;
+      }
+    }
+  }
+
+  @include test('font-size and line-height') {
+    @include assert('h1 med breakpoint') {
+      @include input {
+        @include _ty-write-props-2 (
+          $target-map: map-get($typi, 'h1'),
+          $breakpoint: med,
+          $basemap: $basemap,
+          $rem: true
+        )
+      }
+
+      @include expect {
+        $base-size: map-fetch($typi, h1 med);
+        font-size: _ty-to-rem($base-size);
+      }
+    }
+  }
+
+
+  @include test('list type for font-size in map') {
+    @include assert('h1 large breakpoint') {
+      @include input {
+        @include _ty-write-props-2 (
+          $target-map: map-get($typi, 'h1'),
+          $breakpoint: large,
+          $basemap: $basemap,
+          $rem: true
+        )
+      }
+
+      @include expect {
+        $base-size: map-fetch($typi, h1 large);
+        font-size: _ty-to-rem($base-size);
+      }
+    }
+  }
+}

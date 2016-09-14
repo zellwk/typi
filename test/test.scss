@@ -2,13 +2,16 @@
 @import '../bower_components/modular-scale/stylesheets/_modular-scale';
 @import '../scss/typi';
 
-@import 'conversions';
-@import 'typi';
-@import 'typi-ms';
-@import 'vr';
-@import 'rvr';
-@import 'typefaces';
+// @import 'extender';
+@import 'calc-font-sizes';
+@import 'write-props';
+@import 'breakpoints';
 
+// @import 'typi';
+// @import 'typi-ms';
+// @import 'vr';
+// @import 'rvr';
+// @import 'typefaces';
 // @include report;
 
 

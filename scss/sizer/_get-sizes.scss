@@ -10,9 +10,47 @@
   $typi-map: false
 ) {
   @if $base == true {
-    @return _ty-base-size($font-size);
+    @return _ty-to-percentage($font-size);
   } @else {
     @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem, $typi-map);
+  }
+}
+
+// Calculates font size to return to typi
+// ----------
+// - return font-size in rem or em
+// ==========
+@function _ty-calc-font-size2 (
+  $font-size: $font-size,
+  $basemap: $basemap,
+  $rem: $rem
+) {
+  @if not(map-has-key($basemap, null)) {
+    @error 'Base map must have null key'
+  }
+
+  // Uses null map, because everything is relative to the base font-size.
+  // At different brekapoints, pixel value written in maps
+  // is still relative to base font size
+  $base-null: map-get($basemap, null);
+  $base-font-size: nth($base-null, 1);
+
+  // Converts to rem
+  @if $rem {
+    @if unit($font-size) == 'px' {
+      @return _ty-to-rem($font-size, $base-font-size);
+    } @else {
+      @return _ty-to-rem($font-size);
+    }
+  }
+
+  // Converts to em
+  @else {
+    @if unit($font-size) == 'px' {
+      @return _ty-to-em($font-size, $base-font-size);
+    } @else {
+      @return _ty-to-em($font-size);
+    }
   }
 }
 
@@ -24,6 +62,7 @@
   $breakpoint,
   $typi,
   $rem,
+  $basemap: $basemap,
   $typi-map: false
 ) {
   // Use typi-ms if font-size is unitless
@@ -48,13 +87,15 @@
     }
 
     @else if unit($font-size) == 'px' {
-      $basemap: map-get($typi, $breakpoint);
+      $basemap: map-get($typi, null);
       $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
+      @debug $basefont;
 
       @if $basefont == null {
         $basefont: nth(map-get($typi, null), 1);
       }
 
+      // @return 1;
       @return _ty-to-rem($font-size, $basefont);
     }
 
@@ -83,21 +124,6 @@
     @else {
       @return $font-size;
     }
-  }
-}
-
-// _ty-base-size
-// =============
-// Converts Typi sizes into percentages
-@function _ty-base-size(
-  $font-size
-) {
-  @if unit($font-size) == 'px' {
-    @return $font-size / 16px * 100%;
-  }
-
-  @else {
-    @error 'Typi font sizes must be written in pixels';
   }
 }
 

@@ -18,8 +18,6 @@ $h1: (
 );
 
 // Rem function should always get REM unit from the current font size.
-
-
 @include test-module('Write Properites for one breakpoint:') {
   @include test('Writes font-size only') {
     @include assert('') {
@@ -59,14 +57,6 @@ $h1: (
         line-height: 1.2;
       }
     }
-  }
-}
-
-@include test-module('Typi Base Font Conversion') {
-  @include test('px to %') {
-    $test: _ty-base-size(20px);
-    $result: 125%;
-    @include assert-equal($test, $result, 'Pixels are converted into percentages with 16px as base');
   }
 }
 
