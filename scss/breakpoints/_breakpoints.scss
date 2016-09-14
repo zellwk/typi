@@ -1,22 +1,4 @@
-// _ty-has-breakpoint
-// ----------
-// - Ensures $breakpoints and $typi has breakpoint
-// ==========
-@function _ty-has-breakpoint (
-  $breakpoint: $breakpoint,
-  $breakpoints: $breakpoints,
-  $basemap: $basemap
-  ) {
-  @if not map-has-key($breakpoints, $breakpoint) {
-    @error "$breakpoints map is missing #{$breakpoint} key";
-  }
-
-  @if not map-has-key($basemap, $breakpoint) {
-    @error "$typi base key is missing #{$breakpoint} key";
-  }
-
-  @return true;
-}
+@import 'utils';
 
 // _ty-write-breakpoints-2
 // ----------
@@ -103,22 +85,6 @@
   }
 }
 
-// _has-breakpoint-library
-// - Checks if breakpoint library is installed
-// ==========
-@function _has-breakpoint-library($lib) {
-  // Activates if $typi-breakpoint = mentioned breakpoint
-  @if $typi-breakpoint == $lib {
-    @if mixin-exists($lib) { @return true; }
-    @else { @error "#{$lib} not found"; }
-  }
-  // Else use default breakpoint built in typi
-  @else {
-    @return false;
-  }
-}
-
-
 // _ty-get-breakpoints
 // ===================
 @function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
@@ -138,43 +104,4 @@
     }
   }
   @return $_return;
-}
-
-// _ty-write-breakpoints
-// ==============
-// Allows use of breakpoint-sass and mappy-bp.
-// Falls back to default method otherwise.
-@mixin _ty-write-breakpoints(
-  $typi-map
-  ) {
-  $breakpoint: map-get($typi-map, breakpoint);
-  $breakpoints: map-get($typi-map, breakpoints);
-  $bp-val: map-get($breakpoints, $breakpoint);
-
-  @if $typi-breakpoint == breakpoint {
-    @if mixin-exists(breakpoint) {
-      @include breakpoint-set('to ems', true);
-      @include breakpoint(map-get($breakpoints, $breakpoint)) {
-        @include _ty-write-props($typi-map);
-      }
-    } @else {
-      @error 'Breakpoint-sass Library not found'
-    }
-  }
-
-  @else if $typi-breakpoint == mappy-breakpoint or $typi-breakpoint == mappy-breakpoints {
-    @if mixin-exists(mappy-bp) {
-      @include mappy-bp(map-get($breakpoints, $breakpoint)) {
-        @include _ty-write-props($typi-map);
-      }
-    } @else {
-      @error 'Mappy Breakpoints Library not found'
-    }
-  }
-
-  @else {
-    @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
-      @include _ty-write-props($typi-map);
-    }
-  }
 }
