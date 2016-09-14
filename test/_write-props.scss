@@ -19,6 +19,7 @@ $typi: (
     @include assert('h1 null breakpoint') {
       @include input {
         @include _ty-write-props-2 (
+          $target: 'h1',
           $target-map: map-get($typi, 'h1'),
           $breakpoint: null,
           $basemap: $basemap,
@@ -42,6 +43,7 @@ $typi: (
     @include assert('h1 med breakpoint') {
       @include input {
         @include _ty-write-props-2 (
+          $target: 'h1',
           $target-map: map-get($typi, 'h1'),
           $breakpoint: med,
           $basemap: $basemap,
@@ -61,6 +63,7 @@ $typi: (
     @include assert('h1 large breakpoint') {
       @include input {
         @include _ty-write-props-2 (
+          $target: 'h1',
           $target-map: map-get($typi, 'h1'),
           $breakpoint: large,
           $basemap: $basemap,

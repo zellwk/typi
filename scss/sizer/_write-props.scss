@@ -3,6 +3,7 @@
 // - writes font-size and line-height
 // ==========
 @mixin _ty-write-props-2 (
+  $target: $target,
   $target-map: $target-map,
   $breakpoint: $breakpoint,
   $basemap: $basemap,

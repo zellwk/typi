@@ -48,6 +48,7 @@
   @each $breakpoint, $target-value in $target-map {
     @if $breakpoint == null {
       @include _ty-write-props-2(
+        $target: $target,
         $target-map: $target-map,
         $breakpoint: $breakpoint,
         $basemap: $basemap,
@@ -69,6 +70,7 @@
         @include breakpoint(map-get($breakpoints, $breakpoint)) {
 
           @include _ty-write-props-2(
+            $target: $target,
             $target-map: $target-map,
             $breakpoint: $breakpoint,
             $basemap: $basemap,
@@ -80,6 +82,7 @@
       @else if _has-breakpoint-library('mappy-bp') {
         @include mappy-bp(map-get($breakpoints, $breakpoint)) {
           @include _ty-write-props-2(
+            $target: $target,
             $target-map: $target-map,
             $breakpoint: $breakpoint,
             $basemap: $basemap,
@@ -91,6 +94,7 @@
       @else {
         @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
           @include _ty-write-props-2(
+            $target: $target,
             $target-map: $target-map,
             $breakpoint: $breakpoint,
             $basemap: $basemap,

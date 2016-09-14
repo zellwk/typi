@@ -1,3 +1,17 @@
+@mixin typi-2 (
+  $target: $target,
+  $breakpoints: $breakpoints,
+  $typi: $typi,
+  $rem: $rem
+) {
+  @include _ty-write-breakpoints-2(
+    $target: $target,
+    $breakpoints: $breakpoints,
+    $typi: $typi,
+    $rem: $rem
+  )
+}
+
 @mixin typi-base(
   $typi: $typi,
   $typeface: null,
