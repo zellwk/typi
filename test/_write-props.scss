@@ -62,7 +62,7 @@ $typi: (
   @include test('list type for font-size in map') {
     @include assert('h1 large breakpoint') {
       @include input {
-        @include _ty-write-props-2 (
+        @include _ty-write-props-2(
           $target: 'h1',
           $target-map: map-get($typi, 'h1'),
           $breakpoint: large,
@@ -74,6 +74,25 @@ $typi: (
       @include expect {
         $base-size: map-fetch($typi, h1 large);
         font-size: _ty-to-rem($base-size);
+      }
+    }
+  }
+
+  @include test('write base font-size') {
+    @include assert('base') {
+      @include input() {
+        @include _ty-write-props-2(
+          $target: 'base',
+          $target-map: map-get($typi, 'base'),
+          $breakpoint: null,
+          $basemap: $basemap,
+          $rem: false
+        )
+      }
+
+      @include expect() {
+        font-size: 112.5%;
+        line-height: 1.5;
       }
     }
   }

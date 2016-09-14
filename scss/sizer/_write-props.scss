@@ -22,11 +22,17 @@
 
   // Only one value in the target => only font-size
   @if type-of($target-value) == 'number' {
-    font-size: _ty-calc-font-size2(
-      $font-size: $target-value,
-      $basemap: $basemap,
-      $rem: $rem
-    );
+
+    @if $target == 'base' {
+      font-size: _ty-to-percentage($target-value);
+    } @else {
+      font-size: _ty-calc-font-size2(
+        $font-size: $target-value,
+        $basemap: $basemap,
+        $rem: $rem
+      );
+    }
+
   }
 
   // Two numbers in value => font-size and line-height
@@ -34,12 +40,15 @@
     $font-size: nth($target-value, 1);
     $line-height: nth($target-value, 2);
 
-    font-size: _ty-calc-font-size2(
-      $font-size: $font-size,
-      $basemap: $basemap,
-      $rem: $rem
-    );
-
+    @if $target == 'base' {
+      font-size: _ty-to-percentage($font-size);
+    } @else {
+      font-size: _ty-calc-font-size2(
+        $font-size: $font-size,
+        $basemap: $basemap,
+        $rem: $rem
+      );
+    }
     line-height: $line-height;
   } @else {
     @error "I also don't know what error!";
