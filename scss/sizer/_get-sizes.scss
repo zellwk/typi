@@ -7,15 +7,26 @@
   $basemap: $basemap,
   $rem: $rem
 ) {
-  @if not(map-has-key($basemap, null)) {
-    @error 'Base map must have null key'
+
+  @if unitless($font-size) {
+    @debug $font-size;
+    @return 1;
   }
+
+
+
+  $base-null: null;
+  $base-font-size: null;
 
   // Uses null map, because everything is relative to the base font-size.
   // At different brekapoints, pixel value written in maps
   // is still relative to base font size
-  $base-null: map-get($basemap, null);
-  $base-font-size: nth($base-null, 1);
+  @if (map-has-key($basemap, null)) {
+    $base-null: map-get($basemap, null);
+    $base-font-size: nth($base-null, 1);
+  } @else {
+    @error 'Base map must have null key'
+  }
 
   // Converts to rem
   @if $rem {

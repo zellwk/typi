@@ -5,7 +5,15 @@
 // - px  -> em
 // - rem -> em
 // - px  -> %
+// - unitless -> em (For typi-ms)
+// - unitless -> rem (For typi-ms)
 // ==========
+
+$breakpoints: (
+  small: 800px,
+  med: 1000px,
+  large: 1200px,
+);
 
 $typi: (
   base: (
@@ -14,6 +22,12 @@ $typi: (
     med: 22px,
     large: (24px, 1.6)
   )
+);
+
+$typi-ms: (
+  small: 1.2,
+  med: 1.5,
+  large: 1.8
 );
 
 $basemap: map-get($typi, base);
@@ -69,5 +83,21 @@ $basemap: map-get($typi, base);
     $test: _ty-to-percentage(20px);
     $result: 125%;
     @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
+  }
+}
+
+// TODO: Calculate unitless
+
+@include test-module('Calculate unitless Typi font-size') {
+  @include test('unitless -> rem') {
+    // $test: _ty-to-percentage(20px);
+    // $result: 125%;
+    // @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
+  }
+
+  @include test('unitless -> em') {
+    // $test: _ty-to-percentage(20px);
+    // $result: 125%;
+    // @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
   }
 }

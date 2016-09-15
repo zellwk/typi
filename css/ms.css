@@ -1,0 +1,18 @@
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * med should produce 1.2 * 1.5 * 1.5 * 1.5 = 4.05
+ * large should produce 1.5
+ * huge should produce 1.5
+ * ===================
+ */
+/**
+ * Iterates through both $typi-ms and $font-map
+ * -------------------
+ * null should produce: 1.2 * 1.2 = 1.44
+ * small should produce 1.618 * 1.618 = 2.617924
+ * med should produce 1.618 * 1.618 * 1.618 = 4.2358
+ * ===================
+ */

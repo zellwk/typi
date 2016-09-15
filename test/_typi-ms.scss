@@ -12,7 +12,7 @@ $typi: (
     large: (24px, 1.6)
   ),
   h1: (
-    null: (24px, 1.3),
+    null: (2, 1.3),
   )
 );
 
@@ -24,8 +24,8 @@ $typi-ms: (
   double-both: (2em 3em 1.2 1.5)
 );
 
-@include test-module('Typi MS') {
-  @include test('should query for 1 ratio') {
+@include test-module('Typi MS Calculations') {
+  @include test('for 1 ratio') {
     $test: _ty-calc-ms(2, single-ratio);
     $base: 1em;
     $ratio: map-get($typi-ms, single-ratio);
@@ -33,7 +33,7 @@ $typi-ms: (
     @include assert-equal($test, $result);
   }
 
-  @include test('should query for 2 ratios') {
+  @include test('for 2 ratios') {
     $test: _ty-calc-ms(2, double-ratio);
     $base: 1em;
     $ratio: map-get($typi-ms, double-ratio);
@@ -42,23 +42,37 @@ $typi-ms: (
   }
 
   // Hardcoded test
-  @include test('should query for 2 bases') {
+  @include test('for 2 bases') {
     $test: _ty-calc-ms(2, double-base);
     $result: ms(2, 2em 3em, 1.2);
     @include assert-equal($test, $result);
   }
 
   // Hardcoded test
-  @include test('should query for 1 ratio 1 base') {
+  @include test('for 1 ratio 1 base') {
     $test: _ty-calc-ms(2, single-both);
     $result: ms(2, 2em, 1.2);
     @include assert-equal($test, $result);
   }
 
   // Hardcoded test
-  @include test('should query for 2 base 2 ratio') {
+  @include test('for 2 base 2 ratio') {
     $test: _ty-calc-ms(2, double-both);
     $result: ms(2, 2em 3em, 1.2 1.5);
     @include assert-equal($test, $result);
+  }
+}
+
+@include test-module('Writing Typi MS props') {
+  @include test('should output font-size and line-height') {
+    @include assert('') {
+      @include input {
+
+      }
+
+      @include expect() {
+        // font-size: 20px;
+      }
+    }
   }
 }

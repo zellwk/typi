@@ -11,8 +11,8 @@ $typi: (
 );
 
 @include test-module('Typi-Base') {
-  @include test('should font-sizes and line-height') {
-    @include assert('font-size in %') {
+  @include test('should output font-size and line-height') {
+    @include assert('font-size must be in %') {
       @include input {
         @include typi-base-2();
       }
