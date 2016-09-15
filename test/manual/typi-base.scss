@@ -32,3 +32,10 @@ $typi: (
  *                      line-height: 1.6;
  */
 @include typi-init();
+
+/**
+ * Tests selector of typi-base
+ * ---------------------------
+ * Selector should match $selector
+ */
+@include typi-base-2($selector: 'body');

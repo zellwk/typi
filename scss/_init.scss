@@ -14,11 +14,16 @@
   )
 }
 
+// Typi-base mixin
+// ----------
+// - Creates styles for html selector
+// ==========
 @mixin typi-base-2(
   $typi: $typi,
-  $breakpoints: $breakpoints
+  $breakpoints: $breakpoints,
+  $selector: 'html'
 ) {
-  html {
+  #{$selector} {
     @include typi-2(
       $target: base,
       $breakpoints: $breakpoints,
