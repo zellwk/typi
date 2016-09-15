@@ -16,10 +16,7 @@
     $_overwrite: null; // only used to call function. Never used
 
     @each $key, $value in $typi-ms {
-      $_overwrite: _ty-map-extender(
-        $extend: 'typi-ms',
-        $typi-ms: $typi-ms
-      );
+      $_overwrite: _ty-map-extender($typi-ms: $typi-ms);
     }
 
     @each $key, $value in $typi {

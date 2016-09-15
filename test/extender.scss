@@ -27,15 +27,15 @@ $typi-ms: (
 
 @include test-module('Extend $typi-ms map') {
   @include test('') {
-    $_overwrite: _ty-map-extender($extend: 'typi-ms');
+    $_overwrite: _ty-map-extender();
     $test: $typi-ms;
     $result: (
       null: 1.2,
       small: 1.2,
       med: 1.2,
-      large: 1.2
+      large: 1.3
     );
-    // @debug 'global typi-ms' $typi-ms;
+    @debug 'global typi-ms' $typi-ms;
     @include assert-equal($test, $result);
   }
 }
@@ -74,12 +74,5 @@ $typi-ms: (
       )
     );
     @include assert-equal($test2, $result2, 'for h1')
-  }
-
-  // Placed last, or will screw up rest of tests royally
-  @include test('should overwrite Typi global map') {
-    $test: _ty-map-extender($test: true);
-    $result: $typi;
-    @include assert-equal($test, $result);
   }
 }

@@ -8,75 +8,104 @@
   $target: null,
   $typi: $typi,
   $typi-ms: $typi-ms,
-  $breakpoints: $breakpoints,
-  $test: false,
-  $extend: 'typi'
+  $breakpoints: $breakpoints
 ) {
-  $_return: null;
-
-  // Tests if it overwrites $typi global map
-  @if $test {
-    $_return: map-merge((), ());
-    $typi:  map-merge((), ())!global;
-  }
-
+  // If it contains a target, means iterating over $typi map
   @if $target {
-    $_return: null;
-    $_target-map: null;
-    $_prev-breakpoint: 'null';
-    $_prev-target-value: null;
-
-    // Sets $_return starting value to be $typi
-    @if $extend == 'typi' {
-      $_return: $typi;
-
-      // Ensures map has target key before continuing
-      @if map-has-key($typi, $target) {
-        $_target-map: map-get($typi, $target);
-      } @else {
-        @error "$typi should contain '#{$target}' key";
-      }
-
-    }
-
-    // Sets $_return starting value to be $typi-ms
-    @else if $extend == 'typi-ms'{
-      $_return: $typi-ms;
-      $_target-map: $_return;
-    }
-
-    // Throws error if not $typi-ms or $typi
-    @else {
-      @error "Can only extend $typi or $typi-ms";
-    }
-
-    // Runs through each breakpoint
-    // Checks if target has breakpoint
-    @each $breakpoint, $value in $breakpoints {
-      $_prev-target-value: map-get($_target-map, $_prev-breakpoint);
-      @if not $_prev-target-value {
-        $_prev-target-value: map-get($_target-map, null);
-      }
-
-      // Overwrites $typi or $typi-ms with extended values
-      // $_return used to hold current value for the loop
-      @if not map-has-key($_target-map, $breakpoint) {
-        $_return: map-deep-set(
-          $_return,
-          $target $breakpoint,
-          $_prev-target-value
-        );
-
-        @if $extend == 'typi-ms' {
-          $typi-ms: map-merge($typi, $_return) !global;
-        } @else {
-          $typi: map-merge($typi, $_return) !global;
-        }
-      }
-
-      $_prev-breakpoint: $breakpoint;
-    }
+    // $_o only used to called function. Never used otherwise.
+    $_o: _ty-extend-typi($target);
   }
 
-  @return $_return;
+  // Extends $typi-ms
+  @else {
+    $_o: _ty-extend-typi-ms()
+  }
+
+  @return true;
+}
+
+// _ty-extend-typi
+// ----------
+// - Formulates Ensures $typi has target font-map before continuing.
+// ==========
+@function _ty-extend-typi($target) {
+  $_return: $typi;
+  $_target-map: null;
+  $_prev-breakpoint: null;
+  $_overwrite-value: null;
+
+  @if map-has-key($typi, $target) {
+    $_target-map: map-get($typi, $target);
+  } @else {
+    @error '$typi should contain #{$target}';
+  }
+
+  // Initializes $_overwrite-value
+  @if map-has-key($_target-map, null) {
+    $_overwrite-value: map-get($_target-map, null);
+  } @else {
+    @error "#{$_target-map} must contain a null key";
+  }
+
+  @each $breakpoint, $value in $breakpoints {
+    // Updates overwrite value if has target map
+    @if map-has-key($_target-map, $breakpoint) {
+      $_overwrite-value: map-get($_target-map, $breakpoint);
+    }
+
+    // Overwrites relevant map otherwise
+    @else {
+      $_return: map-deep-set(
+        $_return,
+        $target $breakpoint,
+        $_overwrite-value
+      );
+      $typi: map-merge($typi, $_return) !global;
+    }
+
+    // Sets values for next loop
+    $_prev-breakpoint: $breakpoint;
+  }
+
+  @return true;
+}
+
+// _ty-set-map
+// ----------
+// - Overwrites $global map
+// ==========
+@function _ty-extend-typi-ms() {
+  $_return: $typi-ms;
+  $_prev-breakpoint: 'null';
+  $_overwrite-value: null;
+
+  // Target map must always have a null key
+  @if not map-has-key($_return, null) {
+    @error "$typi-ms must contain a null key";
+  }
+
+  // Initializes $_overwrite-value
+  $_overwrite-value: map-get($_return, null);
+
+  @each $breakpoint, $value in $breakpoints {
+    // Updates overwrite value if already in $typi-ms
+    @if map-has-key($_return, $breakpoint) {
+      $_overwrite-value: map-get($_return, $breakpoint);
+    }
+
+    // Overwrites relevant map otherwise
+    @else {
+      $_return: map-deep-set(
+        $_return,
+        $breakpoint,
+        $_overwrite-value
+      );
+      $typi-ms: map-merge($typi-ms, $_return) !global;
+    }
+
+    // Sets values for next loop
+    $_prev-breakpoint: $breakpoint
+  }
+
+  @return true;
 }
