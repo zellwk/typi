@@ -86,8 +86,7 @@ $basemap: map-get($typi, base);
   }
 }
 
-// TODO: Calculate unitless
-
+// TODO: typi-ms. Calculate unitless conversion
 @include test-module('Calculate unitless Typi font-size') {
   @include test('unitless -> rem') {
     // $test: _ty-to-percentage(20px);

@@ -8,25 +8,30 @@
   $rem: $rem
 ) {
 
+  // TODO: Implement typi-ms calculation
+  // Using typi-ms if font-size is unitless
   @if unitless($font-size) {
-    @debug $font-size;
-    @return 1;
+    $step: $font-size;
+    // $_right-font-size: _ty-calc-ms();
+    @if $rem {
+
+    } @else {
+
+    }
   }
-
-
 
   $base-null: null;
   $base-font-size: null;
 
-  // Uses null map, because everything is relative to the base font-size.
-  // At different brekapoints, pixel value written in maps
-  // is still relative to base font size
-  @if (map-has-key($basemap, null)) {
+  // Calculation uses base-null becase everything
+  // is relative to the base font-size.
+  @if map-has-key($basemap, null) {
     $base-null: map-get($basemap, null);
     $base-font-size: nth($base-null, 1);
   } @else {
     @error 'Base map must have null key'
   }
+
 
   // Converts to rem
   @if $rem {

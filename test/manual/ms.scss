@@ -37,7 +37,7 @@ $output-all-ms-ratios: (
  */
 
 h1 {
-  @include typi($output-all-ms-ratios);
+  // @include typi($output-all-ms-ratios);
 }
 
 $typi-ms: (
@@ -65,5 +65,5 @@ $output-both-ms-and-font-map-values: (
  * ===================
  */
 h3 {
-  @include typi($output-both-ms-and-font-map-values);
+  // @include typi($output-both-ms-and-font-map-values);
 }
