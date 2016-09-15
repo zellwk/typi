@@ -6,8 +6,27 @@
 
 @mixin typi-init(
   $typi: $typi,
-  $breakpoints: $breakpoints
+  $breakpoints: $breakpoints,
+  $typi-ms: $typi-ms
 ) {
+
+  // Only invokve extender if $typi-ms is present
+  // $typi-ms and $typi map must be their original names
+  @if type-of($typi-ms) == 'map' {
+    $_overwrite: null; // only used to call function. Never used
+
+    @each $key, $value in $typi-ms {
+      $_overwrite: _ty-map-extender(
+        $extend: 'typi-ms',
+        $typi-ms: $typi-ms
+      );
+    }
+
+    @each $key, $value in $typi {
+      $_overwrite: _ty-map-extender($key);
+    }
+  }
+
   @include typi-base-2(
     $typi: $typi,
     $breakpoints: $breakpoints

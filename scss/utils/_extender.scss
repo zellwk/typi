@@ -1,0 +1,82 @@
+// _Ty-map-extender
+// ----------
+// - Extends $typi-ms and all target maps
+//   to include breakpoints from breakpoints map
+// ==========
+
+@function _ty-map-extender(
+  $target: null,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints,
+  $test: false,
+  $extend: 'typi'
+) {
+  $_return: null;
+
+  // Tests if it overwrites $typi global map
+  @if $test {
+    $_return: map-merge((), ());
+    $typi:  map-merge((), ())!global;
+  }
+
+  @if $target {
+    $_return: null;
+    $_target-map: null;
+    $_prev-breakpoint: 'null';
+    $_prev-target-value: null;
+
+    // Sets $_return starting value to be $typi
+    @if $extend == 'typi' {
+      $_return: $typi;
+
+      // Ensures map has target key before continuing
+      @if map-has-key($typi, $target) {
+        $_target-map: map-get($typi, $target);
+      } @else {
+        @error "$typi should contain '#{$target}' key";
+      }
+
+    }
+
+    // Sets $_return starting value to be $typi-ms
+    @else if $extend == 'typi-ms'{
+      $_return: $typi-ms;
+      $_target-map: $_return;
+    }
+
+    // Throws error if not $typi-ms or $typi
+    @else {
+      @error "Can only extend $typi or $typi-ms";
+    }
+
+    // Runs through each breakpoint
+    // Checks if target has breakpoint
+    @each $breakpoint, $value in $breakpoints {
+      $_prev-target-value: map-get($_target-map, $_prev-breakpoint);
+      @if not $_prev-target-value {
+        $_prev-target-value: map-get($_target-map, null);
+      }
+
+      // Overwrites $typi or $typi-ms with extended values
+      // $_return used to hold current value for the loop
+      @if not map-has-key($_target-map, $breakpoint) {
+        $_return: map-deep-set(
+          $_return,
+          $target $breakpoint,
+          $_prev-target-value
+        );
+
+        @if $extend == 'typi-ms' {
+          $typi-ms: map-merge($typi, $_return) !global;
+        } @else {
+          $typi: map-merge($typi, $_return) !global;
+        }
+      }
+
+      $_prev-breakpoint: $breakpoint;
+    }
+  }
+
+  @return $_return;
+}
