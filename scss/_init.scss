@@ -1,0 +1,29 @@
+// Typi Initializer
+// ----------
+// - Creates base map
+// - Calls extender (if typi-ms is used)
+// ==========
+
+@mixin typi-init(
+  $typi: $typi,
+  $breakpoints: $breakpoints
+) {
+  @include typi-base-2(
+    $typi: $typi,
+    $breakpoints: $breakpoints
+  )
+}
+
+@mixin typi-base-2(
+  $typi: $typi,
+  $breakpoints: $breakpoints
+) {
+  html {
+    @include typi-2(
+      $target: base,
+      $breakpoints: $breakpoints,
+      $typi: $typi,
+      $rem: false
+    )
+  }
+}

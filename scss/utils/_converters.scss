@@ -26,12 +26,20 @@
     }
   }
 
+  @else if unit($font-size) == 'em' {
+    @if $ref-size {
+      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+    } @else {
+      @return _ty-strip-unit($font-size) * 1em;
+    }
+  }
+
   @else if unit($font-size) == "rem" {
     @return _ty-strip-unit($font-size) * 1em;
   }
 
   @else {
-    @error "_ty-to-em() only supports px -> em and rem -> em conversion";
+    @error "_ty-to-em() only supports px -> em, em -> em and rem -> em conversion";
   }
 }
 

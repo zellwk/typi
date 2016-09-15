@@ -6,6 +6,7 @@ $typi: (
 $typi-ms: false !default;
 $typi-breakpoint: null !default;
 
+@import 'init';
 @import 'utils/utils';
 @import 'breakpoints/breakpoints';
 @import 'sizer/sizer';

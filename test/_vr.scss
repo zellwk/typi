@@ -1,6 +1,7 @@
 // Vertical Rhythms
 // ----------------
-// -
+// Test Vertical Rhythm calculations
+// - Normal VR
 // ================
 $typi: (
   base: (
@@ -27,7 +28,7 @@ $base-line-height: nth(map-fetch($typi, base null), 2);
     @include assert-equal($test, $result);
   }
 
-  @include test('-> em') {
+  @include test('px -> em') {
     $test: vr-2(3, 18px);
     $result: 3 * $base-font-size * $base-line-height / 18px * 1em;
     @include assert-equal($test, $result);
@@ -35,5 +36,13 @@ $base-line-height: nth(map-fetch($typi, base null), 2);
     $test2: vr-2(2, 30px);
     $result2: 2 * $base-font-size * $base-line-height / 30px * 1em;
     @include assert-equal($test2, $result2)
+  }
+
+  @include test('em -> em') {
+    // Target = 2 * 1.5 * 1em = 3em
+    // Context = 1.25em
+    $test: vr-2(2, 1.25em);
+    $result: 3em / 1.25em * 1em;
+    @include assert-equal($test, $result);
   }
 }

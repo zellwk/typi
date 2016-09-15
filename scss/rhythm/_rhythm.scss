@@ -10,21 +10,21 @@
   // Returns rem values
   @if not $current-font-size {
     @return _ty-to-rem($rhythm * 1em);
+    @return 1;
   }
 
+  // return em values
   @if unit($current-font-size) == 'px' {
-    $rhythm: $rhythm * $base-font-size;
-    @return _ty-to-em($rhythm, $current-font-size);
+    $rhythm-px: $rhythm * $base-font-size;
+    @return _ty-to-em($rhythm-px, $current-font-size);
   }
   @else if unit($current-font-size) == 'em' {
-    @return 1;
+    @return _ty-to-em($rhythm * 1em, $current-font-size);
   }
   @else {
     @error "vr() only accepts px or em units";
   }
 }
-
-
 
 // Vertical rhythm function.
 // Possible to output both EM and REM.

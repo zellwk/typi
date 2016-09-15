@@ -2,7 +2,7 @@
   $target: $target,
   $breakpoints: $breakpoints,
   $typi: $typi,
-  $rem: $rem
+  $rem: true
 ) {
   @include _ty-write-breakpoints-2((
     target: $target,

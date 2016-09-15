@@ -42,8 +42,8 @@
 
   $base-line-height: nth($base-null, 2);
 
-  @if not unit($base-line-height) == '' {
-    @error "Line-height should be unitless"
+  @if not unitless($base-line-height) {
+    @error "Line-height in $typi base map should be unitless"
   }
 
   @return $base-line-height;
