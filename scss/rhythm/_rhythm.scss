@@ -26,63 +26,18 @@
   }
 }
 
-// Vertical rhythm function.
-// Possible to output both EM and REM.
-@function vr(
-  $vr,
-  $current-font: null,
-  $typeface: null,
-  $typeface-map: $typefaces,
-  $typi: $typi
-) {
-  $base-font: _ty-get-base-font($typi);
-  $base-line-height: _ty-get-base-line-height($typi);
-  $rhythm-context: $vr * $base-line-height;
-  $typeface-multiplier: _ty-get-typeface-multiplier($typeface-map, $typeface);
-
-  // Converts into EM if $current-font is provided
-  // Otherwise, convert into REM
-  @if $current-font {
-    @if unit($current-font) == "px" {
-      $rhythm-context: $rhythm-context * $base-font;
-      @return _ty-to-em($rhythm-context, $current-font * $typeface-multiplier);
-    }
-
-    @if unit($current-font) == "em" {
-      @return _ty-to-em($rhythm-context, $current-font * $typeface-multiplier);
-    }
-
-    @else {
-      @error "Font sizes should either be px or em if $current-font is provided";
-    }
-  }
-
-  @else {
-    @if unit($base-line-height) == 'px' {
-      // TODO: NEED TO WRITE TEST CASE FOR THIS ONE
-      @return $vr * $base-line-height / ($base-font-size * $typeface-multiplier) * 1rem;
-    } @else {
-      @return $vr * $base-line-height * 1rem * $typeface-multiplier;
-    }
-  }
-}
-
-@function _convert-vr-to-em() {
-
-}
-
 // Responsive Vertical Rhythm
-@mixin rvr($props, $vr, $typi: $typi) {
-  $base-font: _ty-get-base-font($typi);
-  $base-line-height: _ty-get-base-line-height($typi);
-  $unit: unit($base-line-height);
+// @mixin rvr($props, $vr, $typi: $typi) {
+//   $base-font: _ty-get-base-font($typi);
+//   $base-line-height: _ty-get-base-line-height($typi);
+//   $unit: unit($base-line-height);
 
-  @each $prop in $props {
-    @if $unit == 'px' {
-      #{$prop}: $base-line-height / $base-font * 1rem * $vr;
-    } @else {
-      #{$prop}: $base-line-height * 1rem * $vr;
-    }
-    #{$prop}: calc(var(--baseline) * #{1rem * $vr});
-  }
-}
+//   @each $prop in $props {
+//     @if $unit == 'px' {
+//       #{$prop}: $base-line-height / $base-font * 1rem * $vr;
+//     } @else {
+//       #{$prop}: $base-line-height * 1rem * $vr;
+//     }
+//     #{$prop}: calc(var(--baseline) * #{1rem * $vr});
+//   }
+// }

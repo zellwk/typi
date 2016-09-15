@@ -35,7 +35,6 @@ $typi-ms: (
       med: 1.2,
       large: 1.3
     );
-    @debug 'global typi-ms' $typi-ms;
     @include assert-equal($test, $result);
   }
 }

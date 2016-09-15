@@ -83,23 +83,23 @@
   }
 }
 
-// _ty-get-breakpoints
-// ===================
-@function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
-  $_return: null;
+// // _ty-get-breakpoints
+// // ===================
+// @function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
+//   $_return: null;
 
-  @each $breakpoint, $val in $breakpoints {
-    @if type-of($typi-ms) == 'map' and map-has-key($typi-ms, $breakpoint) {
-      @if not index($_return, $breakpoint) {
-        $_return: append($_return, $breakpoint);
-      }
-    }
+//   @each $breakpoint, $val in $breakpoints {
+//     @if type-of($typi-ms) == 'map' and map-has-key($typi-ms, $breakpoint) {
+//       @if not index($_return, $breakpoint) {
+//         $_return: append($_return, $breakpoint);
+//       }
+//     }
 
-    @if map-has-key($target, $breakpoint) {
-      @if not index($_return, $breakpoint) {
-        $_return: append($_return, $breakpoint);
-      }
-    }
-  }
-  @return $_return;
-}
+//     @if map-has-key($target, $breakpoint) {
+//       @if not index($_return, $breakpoint) {
+//         $_return: append($_return, $breakpoint);
+//       }
+//     }
+//   }
+//   @return $_return;
+// }

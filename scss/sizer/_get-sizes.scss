@@ -1,21 +1,3 @@
-// _ty-font-size
-// =============
-// Calls _ty-calc-font-size or _ty-base-size
-@function _ty-font-size(
-  $font-size,
-  $breakpoint,
-  $typi,
-  $rem,
-  $base: false,
-  $typi-map: false
-) {
-  @if $base == true {
-    @return _ty-to-percentage($font-size);
-  } @else {
-    @return _ty-calc-font-size($font-size, $breakpoint, $typi, $rem, $typi-map);
-  }
-}
-
 // Calculates font size to return to typi
 // ----------
 // - return font-size in rem or em
@@ -54,143 +36,87 @@
   }
 }
 
-// _ty-calc-font-size
-// =======
-// returns correct rem value depending on breakpoint
-@function _ty-calc-font-size(
-  $font-size,
-  $breakpoint,
-  $typi,
-  $rem,
-  $basemap: $basemap,
-  $typi-map: false
-) {
-  // Use typi-ms if font-size is unitless
-  // Normal conversion otherwise
-  @if unitless($font-size) {
-    @if function-exists(ms) {
-      $typi-ms: map-get($typi-map, ms);
-      @if $rem {
-        @return _ty-to-rem(_ty-ms($font-size, $breakpoint, $typi-ms, $typi-map));
-      } @else {
-        @return _ty-ms($font-size, $breakpoint, $typi-ms, $typi-map);
-      }
-    } @else {
-      @error "Modular Scale Library required";
-    }
-  }
-
-  // Convert px and em into rem
-  @else if $rem {
-    @if unit($font-size) == 'em' {
-      @return _ty-to-rem($font-size);
-    }
-
-    @else if unit($font-size) == 'px' {
-      $basemap: map-get($typi, null);
-      $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
-      @debug $basefont;
-
-      @if $basefont == null {
-        $basefont: nth(map-get($typi, null), 1);
-      }
-
-      // @return 1;
-      @return _ty-to-rem($font-size, $basefont);
-    }
-
-    @else {
-      @return $font-size;
-    }
-  }
-
-  // Converts rem and px into em
-  @else {
-    @if unit($font-size) == 'rem' {
-      @return _ty-to-em($font-size);
-    }
-
-    @else if unit($font-size) == 'px' {
-      $basemap: map-get($typi, $breakpoint);
-      $basefont: if(type-of($basemap) == 'list', nth($basemap, 1), $basemap);
-
-      @if $basefont == null {
-        $basefont: nth(map-get($typi, null), 1);
-      }
-
-      @return _ty-to-em($font-size, $basefont);
-    }
-
-    @else {
-      @return $font-size;
-    }
-  }
-}
-
-// _ty-ms
-// ======
-@function _ty-ms(
-  $multiplier,
+// _ty-calc-ms
+// ==========
+@function _ty-calc-ms(
+  $step,
   $breakpoint: null,
-  $typi-ms: $typi-ms,
-  $typi-map: false
+  $typi-ms: $typi-ms
 ) {
   $ms-setting: null;
+  $ty-ms-base: ();
+  $ty-ms-ratio: ();
 
   @if map-has-key($typi-ms, $breakpoint) {
     $ms-setting: map-get($typi-ms, $breakpoint);
+  } @else {
+    @error "$typi-ms does not contain #{$breakpoint}";
   }
 
+  @if length($ms-setting) == 0 {
+    @error "$typi-ms at #{$breakpoint} must not be empty";
+  }
+
+  // Only ratio if length == 1
+  @if length($ms-setting) == 1 {
+    $_is-ratio: _ty-is-ratio($ms-setting);
+
+    @if $_is-ratio {
+      @return ms($step, 1em, $ms-setting);
+    } @else {
+      @error "$typi-ms ratio at #{$breakpoint} must be unitless";
+    }
+  }
+
+  // Two or more values.
+  // All values with em units are font-sizes.
+  // All unitless values are ratios.
   @else {
-    $last-valid-ms: map-get($typi-map, last-valid-ms);
-    $ms-setting: map-get($typi-ms, $last-valid-ms);
-  }
+    @for $i from 1 through length($ms-setting) {
+      $_current: nth($ms-setting, $i);
+      $_is-base: _ty-is-base($_current);
+      $_is-ratio: _ty-is-ratio($_current);
 
-  $ty-ms-base: null;
-  $ty-ms-ratio: null;
+      @if $_is-base {
+        $ty-ms-base: _ty-append($ty-ms-base, $_current)
+      }
 
-  @for $i from 1 to length($ms-setting) + 1 {
-    $val: nth($ms-setting, $i);
-    // For combinations of multiple bases + multiple ratios
-    @if type-of($val) == 'list' {
-      @if not unitless(nth($val, 1)) {
-        $ty-ms-base: $val;
-      } @else {
-        $ty-ms-ratio: $val;
+      @if $_is-ratio {
+        $ty-ms-ratio: _ty-append($ty-ms-ratio, $_current)
       }
     }
-    // For combinations of 1 base + multiple ratios
-    @else {
-      @if unitless($val) {
-        @if $ty-ms-ratio == null {
-          $ty-ms-ratio: $val;
-        } @else if type-of($ty-ms-ratio) == "number" {
-          $ty-ms-ratio: $ty-ms-ratio $val;
-        } @else if type-of($ty-ms-ratio) == "list" {
-          $ty-ms-ratio: append($ty-ms-ratio, $val);
-        }
-      }
 
-      @else {
-        @if $ty-ms-base == null {
-          $ty-ms-base: $val;
-        } @else if type-of($ty-ms-base) == 'number' {
-          $ty-ms-base: ($ty-ms-base $val)
-        } @else if type-of($ty-ms-base) == 'list' {
-          $ty-ms-base: append($ty-ms-base, $val);
-        }
-      }
+    // Sets base to 1em if there's no base
+    @if length($ty-ms-base) == 0 {
+      $ty-ms-base: 1em;
     }
-  }
 
-  @if $ty-ms-base == null {
-    $ty-ms-base: 1em;
-  }
+    @if length($ty-ms-ratio) == 0 {
+      @error "$typi-ms at #{$breakpoint} must contain at least one ratio";
+    }
 
-  @return ms($multiplier, $ty-ms-base, $ty-ms-ratio);
+    @return ms($step, $ty-ms-base, $ty-ms-ratio);
+  }
 }
 
-@function typi-ms-size($multipler, $ms-key, $typi-ms: $typi-ms) {
-  $ms-list: map-get($typi-ms, $ms-key);
-  // @return ms()
+// Checks if $num is base for ms calc
+// ==========
+@function _ty-is-base($num) {
+  @if unit($num) == 'em' {
+    @return true;
+  } @else if unitless($num) {
+    @return false;
+  } @else {
+    @error '$typi-ms only accepts em base values';
+  }
+}
+
+// Checks if $num is ratio for ms calc
+// ==========
+@function _ty-is-ratio($num) {
+  @if unitless($num) {
+    @return true;
+  } @else {
+    @return false;
+  }
 }

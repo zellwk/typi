@@ -1,0 +1,12 @@
+// _ty-append
+// ----------
+// Appending to empty list is wonky. This function fixes
+// append by setting first item to be appended as a list item
+// ==========
+@function _ty-append($list, $value) {
+  @if length($list) == 0 {
+    @return ($value);
+  } @else {
+    @return append($list, $value);
+  }
+}

@@ -1,62 +1,64 @@
+$breakpoints: (
+  single-ratio: 400px,
+  double-ratio: 600px,
+  double-base: 800px,
+  single-both: 1000px,
+  double-both: 1200px,
+);
+
 $typi: (
-  null: (16px, 1.5),
-  small: 18px,
-  med: 18px,
-  large: (20px, 1.6)
+  base: (
+    null: (18px, 1.5),
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+  )
 );
 
 $typi-ms: (
-  singleRatio: 1.2,
-  doubleRatio: 1.2 1.5,
-  tripleRatio: 1.2 1.5 1.8,
-  singleBaseSingleRatio: (2em, 1.2),
-  doubleBase: (2em, 3em, 1.2),
-  doubleBaseDoubleRatio: (1em 2em, 1.2 1.5)
+  single-ratio: (1.2),
+  double-ratio: (1.2 1.5),
+  double-base: (2em 3em 1.2),
+  single-both: (2em 1.2),
+  double-both: (2em 3em 1.2 1.5)
 );
 
-@include test-module("Modular Scale Function") {
-  @include test("should ms query for 1 ratio") {
-    $test: _ty-ms(2, $breakpoint: singleRatio);
-    $result: ms(2, 1em, 1.2);
-
+@include test-module('Typi MS') {
+  @include test('should query for 1 ratio') {
+    $test: _ty-calc-ms(2, single-ratio);
+    $base: 1em;
+    $ratio: map-get($typi-ms, single-ratio);
+    $result: ms(2, $base, $ratio);
     @include assert-equal($test, $result);
   }
 
-
-  @include test("should ms query for 2 ratio") {
-    $test: _ty-ms(2, $breakpoint: doubleRatio);
-    $result: ms(2, 1em, 1.2 1.5);
-
+  @include test('should query for 2 ratios') {
+    $test: _ty-calc-ms(2, double-ratio);
+    $base: 1em;
+    $ratio: map-get($typi-ms, double-ratio);
+    $result: ms(2, $base, $ratio);
     @include assert-equal($test, $result);
   }
 
-
-  @include test("should ms query for 3 ratio") {
-    $test: _ty-ms(2, $breakpoint: tripleRatio);
-    $result: ms(2, 1em, 1.2 1.5 1.8);
-
-    @include assert-equal($test, $result);
-  }
-
-
-  @include test("should ms query for 1 base & 1 ratio") {
-    $test: _ty-ms(2, $breakpoint: singleBaseSingleRatio);
-    $result: ms(2, 2em, 1.2);
-
-    @include assert-equal($test, $result);
-  }
-
-  @include test("should ms query for 2 bases & 1 ratio") {
-    $test: _ty-ms(2, $breakpoint: doubleBase);
+  // Hardcoded test
+  @include test('should query for 2 bases') {
+    $test: _ty-calc-ms(2, double-base);
     $result: ms(2, 2em 3em, 1.2);
-
     @include assert-equal($test, $result);
   }
 
-  @include test("should ms query for 2 bases & 2 ratio") {
-    $test: _ty-ms(2, $breakpoint: doubleBaseDoubleRatio);
-    $result: ms(2, 1em 2em, 1.2 1.5);
+  // Hardcoded test
+  @include test('should query for 1 ratio 1 base') {
+    $test: _ty-calc-ms(2, single-both);
+    $result: ms(2, 2em, 1.2);
+    @include assert-equal($test, $result);
+  }
 
+  // Hardcoded test
+  @include test('should query for 2 base 2 ratio') {
+    $test: _ty-calc-ms(2, double-both);
+    $result: ms(2, 2em 3em, 1.2 1.5);
     @include assert-equal($test, $result);
   }
 }
