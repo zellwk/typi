@@ -7,13 +7,13 @@ $typi: (
   base: (
     null: (18px, 1.5),
     small: 20px,
-    med: 22px,
-    large: (24px, 1.6)
   ),
   h1: (
-    null: (24px, 1.3),
-    med: 2em,
-    large: (3em)
+    null: (0, 1.3),
+    small: 1,
+    med: 2,
+    large: 3,
+    huge: 4
   )
 );
 
@@ -39,8 +39,6 @@ $base-line-height: nth(map-fetch($typi, base null), 2);
   }
 
   @include test('em -> em') {
-    // Target = 2 * 1.5 * 1em = 3em
-    // Context = 1.25em
     $test: vr-2(2, 1.25em);
     $result: 3em / 1.25em * 1em;
     @include assert-equal($test, $result);

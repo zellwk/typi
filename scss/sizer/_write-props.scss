@@ -13,14 +13,14 @@
   // Ensures breakpoint is present in target
   @if not map-has-key($target-map, $breakpoint) {
     @error "#{$target} does not have #{$breakpoint} breakpoint"
-  }
+}
 
   @if $target == 'base' {
     @include _ty-write-base($_map, $breakpoint);
   } @else if $output == 'props' {
     @include _ty-write-props($_map, $breakpoint);
   } @else if $output == 'vr' {
-    // write VR here
+    @include _ty-write-vr($_map, $breakpoint);
   }
 }
 
@@ -61,5 +61,31 @@
   );
   @if $line-height {
     line-height: $line-height;
+  }
+}
+
+// _ty-write-vr
+// ----------
+// Creates values for ms-vr mixin.
+// ==========
+@mixin _ty-write-vr($_map, $breakpoint) {
+  $vr: map-get($_map, vr);
+  $properties: map-get($_map, properties);
+  $target-map: map-get($_map, target-map);
+  $basemap: map-get($_map, basemap);
+
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $step: _ty-get-font-size($font-map-breakpoint);
+
+  @if not unitless($step) {
+    $target: map-get($_map, target);
+    @error 'Step #{$step} in #{$target}, #{$breakpoint} must be unitless';
+  }
+
+  $font-size: _ty-ms-to-em($step, $breakpoint);
+  $rhythm: vr-2($vr, $font-size, $basemap);
+
+  @each $property in $properties {
+    #{$property}: $rhythm;
   }
 }

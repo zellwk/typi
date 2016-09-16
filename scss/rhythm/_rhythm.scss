@@ -49,12 +49,13 @@
 // Font-size changes at different breakpoints when ratio changes.
 // When font-size changes, em values of vr must change.
 // Must recalculate current font-size first, since font-size calculated with typi multiplier
-@mixin ms-vr-2($vr, $properties,
-  $target: $target,
+@mixin ms-vr-2(
+  $properties,
+  $vr,
+  $target,
   $typi: $typi,
   $typi-ms: $typi-ms,
-  $breakpoints: $breakpoints,
-  $rem: true
+  $breakpoints: $breakpoints
 ) {
   @include _ty-write-breakpoints-2((
     target: $target,
@@ -66,22 +67,4 @@
     properties: $properties,
     vr: $vr
   ))
-}
-
-@mixin _ty-write-vr-2(
-  $_map: $_map,
-  $breakpoint: $breakpoint
-) {
-  $target: map-get($_map, target);
-  $target-map: map-get($_map, target-map);
-  $basemap: map-get($_map, basemap);
-  $rem: map-get($_map, rem);
-  $properties: map-get($_map, properties);
-  $vr: map-get($_map, vr);
-
-  $font-size: _ty-ms-to-em($step, $breakpoint);
-
-  @each $property in $property {
-
-  }
 }
