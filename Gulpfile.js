@@ -22,8 +22,9 @@ gulp.task('sass', function() {
     .pipe(customPlumber())
     .pipe(sass({
       includePaths: [
-        './bower_components',
-        './node_modules'
+        './bower_components/',
+        './node_modules/',
+        './'
       ],
     }))
     .pipe(gulp.dest('css'));
@@ -36,7 +37,7 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('watch', ['mocha'], function() {
-  gulp.watch('test/*.scss', ['mocha']);
+  gulp.watch('test/automated/**/*.scss', ['mocha']);
   gulp.watch('scss/**/*.scss', ['sass', 'mocha']);
   gulp.watch('test/manual/**/*.scss', ['sass', 'mocha']);
 });

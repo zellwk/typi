@@ -1,6 +1,6 @@
-var mocha = require('mocha');
-var path = require('path');
-var sassTrue = require('sass-true');
+var mocha = require('mocha')
+var path = require('path')
+var sassTrue = require('sass-true')
 
 const testFiles = [
   'test',
@@ -8,6 +8,12 @@ const testFiles = [
 ]
 
 testFiles.forEach(basename => {
-  var testFile = path.join(__dirname, `${basename}.scss`);
-  sassTrue.runSass({file: testFile}, describe, it);
+  var testFile = path.join(__dirname, 'automated', `${basename}.scss`)
+  sassTrue.runSass({
+    file: testFile,
+    includePaths: [
+      './bower_components',
+      './node_modules'
+    ]
+  }, describe, it)
 })
