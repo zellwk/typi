@@ -1,58 +1,65 @@
-// _ty-write-props-2
+// _ty-output-props
 // ----------
-// - writes font-size and line-height
+// Decides mixins used to write properties
 // ==========
-@mixin _ty-write-props-2 (
+@mixin _ty-output-props (
   $_map: $_map,
   $breakpoint: $breakpoint
 ) {
   $target: map-get($_map, target);
   $target-map: map-get($_map, target-map);
-  $basemap: map-get($_map, basemap);
-  $rem: map-get($_map, rem);
-
-  $font-size: null;
-  $line-height: null;
-  $target-value: null;
+  $output: map-get($_map, output);
 
   // Ensures breakpoint is present in target
   @if not map-has-key($target-map, $breakpoint) {
     @error "#{$target} does not have #{$breakpoint} breakpoint"
   }
 
-  $target-value: map-get($target-map, $breakpoint);
-
-  // Only one value in the target => only font-size
-  @if type-of($target-value) == 'number' {
-    @if $target == 'base' {
-      font-size: _ty-to-percentage($target-value);
-    } @else {
-      font-size: _ty-calc-font-size2(
-        $font-size: $target-value,
-        $basemap: $basemap,
-        $rem: $rem,
-        $breakpoint: $breakpoint
-      );
-    }
+  @if $target == 'base' {
+    @include _ty-write-base($_map, $breakpoint);
+  } @else if $output == 'props' {
+    @include _ty-write-props($_map, $breakpoint);
+  } @else if $output == 'vr' {
+    // write VR here
   }
+}
 
-  // Two numbers in value => font-size and line-height
-  @else if type-of($target-value) == 'list' {
-    $font-size: nth($target-value, 1);
-    $line-height: nth($target-value, 2);
+// _ty-write-base
+// ----------
+// Creates font-size and line-height for base map
+// ==========
+@mixin _ty-write-base ($_map, $breakpoint) {
+  $target-map: map-get($_map, target-map);
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $font-size: _ty-get-font-size($font-map-breakpoint);
+  $line-height: _ty-get-line-height($font-map-breakpoint);
 
-    @if $target == 'base' {
-      font-size: _ty-to-percentage($font-size);
-    } @else {
-      font-size: _ty-calc-font-size2(
-        $font-size: $font-size,
-        $basemap: $basemap,
-        $rem: $rem,
-        $breakpoint: $breakpoint
-      );
-    }
+  font-size: _ty-to-percentage($font-size);
+  @if $line-height {
     line-height: $line-height;
-  } @else {
-    @error "I also don't know what error!";
+  }
+}
+
+// _ty-write-props
+// ----------
+// Creates font-size and line-height properties
+// ==========
+@mixin _ty-write-props($_map, $breakpoint) {
+  $target-map: map-get($_map, target-map);
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $basemap: map-get($_map, basemap);
+  $rem: map-get($_map, rem);
+
+  $font-size: _ty-get-font-size($font-map-breakpoint);
+  $line-height: _ty-get-line-height($font-map-breakpoint);
+
+  font-size: _ty-calc-font-size2(
+    $font-size: $font-size,
+    $basemap: $basemap,
+    $breakpoint: $breakpoint,
+    $rem: $rem
+  );
+  @if $line-height {
+    line-height: $line-height;
   }
 }

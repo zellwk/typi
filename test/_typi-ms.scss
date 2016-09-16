@@ -76,11 +76,12 @@ $typi-ms: (
   @include test('should output font-size and line-height') {
     @include assert('') {
       @include input {
-        @include _ty-write-props-2((
+        @include _ty-output-props((
           target: 'h1',
           target-map: map-get($typi, 'h1'),
           basemap: map-get($typi, 'base'),
-          rem: false
+          rem: false,
+          output: props
         ), $breakpoint: large);
       }
 

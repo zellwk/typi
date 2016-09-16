@@ -11,7 +11,6 @@
 
   // Using typi-ms if font-size is unitless
   @if unitless($font-size) {
-    @debug $breakpoint;
     $step: $font-size;
     @if $rem {
       @return _ty-ms-to-rem($step, $breakpoint);
