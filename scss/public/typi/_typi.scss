@@ -1,19 +1,23 @@
 @import 'init';
 
 @mixin typi (
-  $target: $target,
-  $breakpoints: $breakpoints,
+  $target,
+  $typeface: null,
   $typi: $typi,
   $typi-ms: $typi-ms,
+  $typefaces: $typefaces,
+  $breakpoints: $breakpoints,
   $rem: true
 ) {
   @include _ty-write-breakpoints((
-    target: $target,
     breakpoints: $breakpoints,
-    typi: $typi,
-    typi-ms: $typi-ms,
+    output: 'props',
     rem: $rem,
-    output: 'props'
+    target: $target,
+    typeface: $typeface,
+    typefaces: $typefaces,
+    typi-ms: $typi-ms,
+    typi: $typi
   ))
 }
 

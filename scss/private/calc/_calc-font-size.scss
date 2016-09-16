@@ -6,16 +6,16 @@
   $font-size: $font-size,
   $basemap: $basemap,
   $rem: $rem,
-  $breakpoint: null
+  $breakpoint: null,
+  $typeface-multiplier: 1
 ) {
-
   // Using typi-ms if font-size is unitless
   @if unitless($font-size) {
     $step: $font-size;
     @if $rem {
-      @return _ty-ms-to-rem($step, $breakpoint);
+      @return _ty-ms-to-rem($step, $breakpoint) * $typeface-multiplier;
     } @else {
-      @return _ty-ms-to-em($step, $breakpoint);
+      @return _ty-ms-to-em($step, $breakpoint) * $typeface-multiplier;
     }
   }
 
@@ -34,18 +34,18 @@
   // Converts to rem
   @if $rem {
     @if unit($font-size) == 'px' {
-      @return _ty-to-rem($font-size, $base-font-size);
+      @return _ty-to-rem($font-size, $base-font-size) * $typeface-multiplier;
     } @else {
-      @return _ty-to-rem($font-size);
+      @return _ty-to-rem($font-size) * $typeface-multiplier;
     }
   }
 
   // Converts to em
   @else {
     @if unit($font-size) == 'px' {
-      @return _ty-to-em($font-size, $base-font-size);
+      @return _ty-to-em($font-size, $base-font-size) * $typeface-multiplier;
     } @else {
-      @return _ty-to-em($font-size);
+      @return _ty-to-em($font-size) * $typeface-multiplier;
     }
   }
 }

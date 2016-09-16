@@ -1,149 +1,216 @@
-// Typeface functionality tests summary
-// ==========
-// 1. Should return nothing if no typeface is set. Then, proceed as normal
-// 2. If typeface is set
-//    - font-size-ratio should return 1 if primary typeface (or if not set)
-//    - font-size-ratio should return n if anything but primary typeface
-//    - font-size should be as a multiple of normal font-size * typeface ratio
-
 // Setting defaults
 // ==========
 $typefaces: (
   primary: (
+    cap-height: 0.85,
     stack: (Helvetica, Arial, sans-serif),
     weights: (
       light: 300,
       normal: 400,
       bold: 700
     ),
-    cap-height-ratio: 0.85
   ),
 
   secondary: (
+    cap-height: 0.85,
+    font-size-ratio: 1.3,
     stack: (Georgia, Times, serif),
     weights: (
       light: 300,
       normal: 400,
       bold: 700
     ),
-    font-size-ratio: 1.3,
-    cap-height-ratio: 0.85
   ),
+
+  code: (
+    cap-height: 0.85,
+    font-size-ratio: 0.8,
+    stack: ('Menlo', monospace),
+    weights: (
+      normal: 400,
+      bold: 600
+    )
+  )
 );
 
 $typi: (
-  null: (16px, 1.5),
-  small: 20px,
+  base: (
+    null: (16px 1.5),
+    small: 20px,
+  ),
+  secondary: (
+    null: (20px 1.5)
+  ),
+  code: (
+    null: (16px, 1.5)
+  ),
+  vr-ms-test: (
+    null: (3)
+  )
 );
 
-// Test for typeface module
-// ==========
-@include test-module('No typeface') {
-  @include test('- no typeface map, no typeface') {
+$basemap: map-get($typi, base);
+$base-null: map-get($basemap, null);
+$base-font-size: nth($base-null, 1);
+$base-line-height: nth($base-null, 2);
 
-    $test: _ty-get-typeface-multiplier(false, false);
-    $test: _ty-get-typeface-multiplier('', '');
-    $test: _ty-get-typeface-multiplier(null, null);
-    $result: 1;
+$breakpoints: (
+  small: 600px,
+);
 
-    @include assert-equal($test, $result, 'font-size-ratio should return 1');
-    @include assert-equal($test, $result, 'font-size-ratio should return 1');
-  }
+$typi-ms: (
+  null: 1.2,
+  small: 1.5
+);
 
-  // These should throw errors
-  @include test('- no typeface map, has typeface') {
-    // $test: _ty-get-typeface-multiplier(false, primary);
-    // $test: _ty-get-typeface-multiplier(null, primary);
-    // $test: _ty-get-typeface-multiplier('', primary);
-  }
-}
-
-
-// Test for typeface multiplier calculations
-// ==========
-@include test-module('Has-typeface') {
-  @include test('- typeface == primary') {
-    // If you switch font-size-ratio of primary to != 1, it will fail
-    $test: _ty-get-typeface-multiplier($typefaces, primary);
+// Tests
+@include test-module('Typeface multiplier') {
+  @include test('should return 1 if not set') {
+    $test: _ty-get-typeface-multiplier('primary', $typefaces);
+    $restult: 1;
     @include assert-equal($test, 1);
   }
 
-  @include test('- typeface == secondary') {
-    // If font-size ratio is 1.3, font-size of secondary font should be 1.3x smaller
-    $test: _ty-get-typeface-multiplier($typefaces, secondary);
-    $result: 1 / map-get(map-get($typefaces, secondary), font-size-ratio);
-    @include assert-equal($test, $result, 'should be equal to font-size ratio of secondary typeface');
+  @include test('should return inverse of font-size-ratio if found') {
+    $test: _ty-get-typeface-multiplier('secondary', $typefaces);
+    $result: 1 / map-fetch($typefaces, secondary font-size-ratio);
+    @include assert-equal($test, $result);
+  }
+
+  @include test('should calc the right font-size value') {
+    $font-size: nth(map-fetch($typi, secondary null), 1);
+    $test: _ty-calc-font-size(
+      $font-size: $font-size,
+      $basemap: $basemap,
+      $rem: true,
+      $breakpoint: null,
+      $typeface-multiplier: _ty-get-typeface-multiplier('secondary', $typefaces)
+    );
+    $font-size-multiplier: 1 / map-fetch($typefaces, secondary font-size-ratio);
+    $result: _ty-to-rem($font-size, $base-font-size) * $font-size-multiplier;
+    @include assert-equal($test, $result, 'in rem');
+
+    $test2: _ty-calc-font-size(
+      $font-size: $font-size,
+      $basemap: $basemap,
+      $rem: false,
+      $breakpoint: null,
+      $typeface-multiplier: _ty-get-typeface-multiplier('secondary', $typefaces)
+    );
+    $result2: _ty-to-em($font-size, $base-font-size) * $font-size-multiplier;
+    @include assert-equal($test2, $result2, 'in em');
+  }
+
+  @include test('should reduce font-size if font-size ratio > 1') {
+    $orig: nth(map-fetch($typi, secondary null), 1);
+    $test: _ty-calc-font-size(
+      $font-size: $orig,
+      $basemap: $basemap,
+      $rem: true,
+      $breakpoint: null,
+      $typeface-multiplier: _ty-get-typeface-multiplier('secondary', $typefaces)
+    );
+    $result: false;
+    $orig-in-rem: _ty-to-rem($orig, $base-font-size);
+    @if $test < $orig-in-rem {
+      $result: true;
+    }
+    @include assert-true($result);
+  }
+
+  @include test('should increase font-size if font-size ratio < 1') {
+   $orig: nth(map-fetch($typi, code null), 1);
+    $test: _ty-calc-font-size(
+      $font-size: $orig,
+      $basemap: $basemap,
+      $rem: true,
+      $breakpoint: null,
+      $typeface-multiplier: _ty-get-typeface-multiplier('code', $typefaces)
+    );
+    $result: false;
+    $orig-in-rem: _ty-to-rem($orig, $base-font-size);
+    @if $test > $orig-in-rem {
+      $result: true;
+    }
+    @include assert-true($result);
   }
 }
 
-// Test for typi output
-// ==========
-@include test-module('Typi output with typeface module') {
-  $target-list: map-get($typi, null);
-  $target-font-size: nth($target-list, 1);
-  $target-font-size-in-rem: _ty-to-rem($target-font-size);
-  $primary-multiplier: _ty-get-typeface-multiplier($typefaces, primary);
-  $secondary-multiplier: _ty-get-typeface-multiplier($typefaces, secondary);
-  @include test('- should output correct values for primary typeface') {
+// rhythm with typefaces
+@include test-module('Rhythms with typefaces:') {
+  @include test('should calc right rhythm value') {
+    $test: vr(2);
+    $result: $base-line-height * 2 * 1rem;
+    @include assert-equal($test, $result, 'in rem');
+
+    $font-size: nth(map-fetch($typi, secondary null), 1);
+    $test2: vr(2, $font-size, 'secondary');
+    $typeface-rhythm-multiplier: 1 / _ty-get-typeface-multiplier('secondary', $typefaces);
+    $result2: $base-font-size * $base-line-height / $font-size * 2 * 1em * $typeface-rhythm-multiplier;
+    @include assert-equal($test2, $result2, 'in em');
+  }
+
+  @include test('should increase rhythm value if font-size ratio > 1') {
+    $font-size: nth(map-fetch($typi, secondary null), 1);
+    $test: vr(2, $font-size, 'secondary');
+    $control: $base-font-size * $base-line-height / $font-size * 2 * 1em;
+    @include assert-true($test > $control);
+  }
+
+  @include test('should reduce rhythm value if font-size ratio < 1') {
+    $font-size: nth(map-fetch($typi, code null), 1);
+    $test: vr(2, $font-size, 'code');
+    $control: $base-font-size * $base-line-height / $font-size * 2 * 1em;
+    @include assert-true($test < $control);
+  }
+}
+
+@include test-module('vr-ms with typefaces') {
+  @include test('write one property') {
     @include assert('') {
       @include input {
-        @include typi($typi, primary);
+        @include vr-ms(margin-top, 2, 'vr-ms-test', 'secondary');
+      }
+      @include expect {
+        $step: nth(map-fetch($typi, 'vr-ms-test' null), 1);
+        $ratio: map-get($typi-ms, null);
+        $font-size: ms($step, 1em, $ratio);
+        $rhythm-multiplier: map-fetch($typefaces, secondary font-size-ratio);
+        $result: _ty-to-em(2 * $base-line-height * 1em, $font-size) * $rhythm-multiplier;
+        margin-top: $result;
+      }
+    }
+  }
+}
+
+// Tests for actual output
+@include test-module('Typeface output:') {
+  @include test('should produce right font-size values') {
+    @include assert('') {
+      @include input {
+        @include typi('secondary', $typeface: 'secondary');
       }
 
       @include expect {
-        font-size: $target-font-size-in-rem * $primary-multiplier;
+        $font-size: nth(map-fetch($typi, secondary null), 1);
+        $font-size-multiplier: 1 / map-fetch($typefaces, secondary font-size-ratio);
+        $result: _ty-to-rem($font-size, $base-font-size) * $font-size-multiplier;
+        font-size: $result;
         line-height: 1.5;
       }
     }
   }
-
-   @include test('- should output correct values for primary typeface') {
+  @include test('should produce right rhythm values') {
     @include assert('') {
-
+      $font-size: nth(map-fetch($typi, secondary null), 1);
       @include input {
-        @include typi($typi, secondary);
+        margin-top: vr(3, $font-size, 'secondary');
       }
-
       @include expect {
-        font-size: $target-font-size-in-rem * $secondary-multiplier;
-        line-height: 1.5;
+        $typeface-rhythm-multiplier: 1 / _ty-get-typeface-multiplier('secondary', $typefaces);
+        $result: 3 * $base-font-size * $base-line-height / $font-size * $typeface-rhythm-multiplier * 1em;
+        margin-top: $result;
       }
     }
-  }
-}
-
-// Tests if typeface module works with vr function
-// ----------
-// - Make sure VR is reflected with correct font-size multiple for both rem and em cases
-// ==========
-@include test-module('Typefaces with VR') {
-  @include test('returns rem with typeface multipler') {
-
-  // Test with usage
-  // Test with typi-ms usage
-
-  // Typeface B = 14px vs 16 vs 18
-  // Line height = 22px vs 22px
-  // Rhythm context = 3 vs 3
-  // px value = 66px vs 66px vs 66px
-  // em value = 66 / 14 vs 66 / 16 vs 66 / 18
-  // em value = 4.71 em vs 4.125em vs 3.666666667
-  // rem value = 1.57rem vs 1.375rem  vs 1.222rem
-
-  // @include assert-equal();
-  }
-
-  @include test('returns em with typeface multipler') {
-    $target-list: map-get($typi, null);
-    $target-font-size: nth($target-list, 1);
-    $target-font-size-in-rem: _ty-to-rem($target-font-size);
-    $primary-multiplier: _ty-get-typeface-multiplier($typefaces, primary);
-    $secondary-multiplier: _ty-get-typeface-multiplier($typefaces, secondary);
-
-    $test: vr(3, 1em, secondary);
-    $result: vr(3, 1em);
-
-    // @debug $test;
-    // @debug $result;
   }
 }

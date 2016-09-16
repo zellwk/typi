@@ -1,0 +1,33 @@
+// -ty_get-typeface-multiplier
+// ----------
+// Gets typeface multiplier
+// ==========
+@function _ty-get-typeface-multiplier(
+  $typeface,
+  $typefaces
+) {
+  // Returns 1 if user isn't using $typefaces functionality
+  @if type-of($typefaces) != 'map' {
+    @return 1;
+  }
+
+  $_typeface-map: _ty-parse-typeface($typeface, $typefaces);
+  $_font-size-ratio: map-get($_typeface-map, font-size-ratio);
+
+  @if $_font-size-ratio {
+    @return 1 / $_font-size-ratio;
+  } @else {
+    @return 1;
+  }
+}
+
+@function _ty-parse-typeface(
+  $typeface,
+  $typefaces
+) {
+  @if map-has-key($typefaces, $typeface) {
+    @return map-get($typefaces, $typeface);
+  } @else {
+    @error "$typefaces does not have #{$typeface} typeface";
+  }
+}

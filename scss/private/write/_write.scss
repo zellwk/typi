@@ -13,7 +13,7 @@
   // Ensures breakpoint is present in target
   @if not map-has-key($target-map, $breakpoint) {
     @error "#{$target} does not have #{$breakpoint} breakpoint"
-}
+  }
 
   @if $target == 'base' {
     @include _ty-write-base($_map, $breakpoint);
@@ -49,7 +49,10 @@
   $font-map-breakpoint: map-get($target-map, $breakpoint);
   $basemap: map-get($_map, basemap);
   $rem: map-get($_map, rem);
+  $typefaces: map-get($_map, typefaces);
+  $typeface: map-get($_map, typeface);
 
+  $typeface-multiplier: _ty-get-typeface-multiplier($typeface, $typefaces);
   $font-size: _ty-get-font-size($font-map-breakpoint);
   $line-height: _ty-get-line-height($font-map-breakpoint);
 
@@ -57,7 +60,8 @@
     $font-size: $font-size,
     $basemap: $basemap,
     $breakpoint: $breakpoint,
-    $rem: $rem
+    $rem: $rem,
+    $typeface-multiplier: $typeface-multiplier
   );
   @if $line-height {
     line-height: $line-height;
@@ -73,6 +77,8 @@
   $properties: map-get($_map, properties);
   $target-map: map-get($_map, target-map);
   $basemap: map-get($_map, basemap);
+  $typeface: map-get($_map, typeface);
+  $typefaces: map-get($_map, typefaces);
 
   $font-map-breakpoint: map-get($target-map, $breakpoint);
   $step: _ty-get-font-size($font-map-breakpoint);
@@ -83,7 +89,7 @@
   }
 
   $font-size: _ty-ms-to-em($step, $breakpoint);
-  $rhythm: vr($vr, $font-size, $basemap);
+  $rhythm: vr($vr, $font-size, $typeface, $basemap, $typefaces: $typefaces);
 
   @each $property in $properties {
     #{$property}: $rhythm;

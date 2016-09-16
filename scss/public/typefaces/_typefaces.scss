@@ -1,0 +1,22 @@
+@mixin fw(
+  $typeface,
+  $weight,
+  $typefaces: $typefaces
+) {
+  @if type-of($typefaces) != 'map' {
+    @error "Cannot find #{$typefaces} map found";
+  }
+
+  @return map-fetch($typefaces, $typeface weights $weight);
+}
+
+@mixin ff(
+  $typeface,
+  $typefaces
+) {
+  @if type-of($typefaces) != 'map' {
+    @error "Cannot find #{$typefaces} map found";
+  }
+
+  @return map-fetch($typefaces, $typeface stack);
+}

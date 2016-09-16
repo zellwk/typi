@@ -7,7 +7,8 @@
 @mixin typi-init(
   $typi: $typi,
   $breakpoints: $breakpoints,
-  $typi-ms: $typi-ms
+  $typi-ms: $typi-ms,
+  $typefaces: $typefaces
 ) {
   $_updated-typi: $typi;
   $_updated-typi-ms: $typi-ms;
@@ -27,6 +28,11 @@
   @if type-of($typi-ms) == 'map' {
     @include _ty-check-extended-map;
   }
+
+  // Is there a need for primary typeface? Commented until there really is.
+  // @if type-of($typefaces) == 'map' {
+  //   $_has-primary-typeface: _ty-has-typeface('primary', $typefaces);
+  // }
 
   @include typi-base(
     $typi: $_updated-typi,

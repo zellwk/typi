@@ -1,7 +1,9 @@
 @function vr(
   $vr,
   $current-font-size: null,
-  $basemap: map-get($typi, base)
+  $typeface: null,
+  $basemap: map-get($typi, base),
+  $typefaces: $typefaces
 ) {
   $base-font-size: _ty-get-base-font-size($basemap);
   $base-line-height: _ty-get-base-line-height($basemap);
@@ -10,19 +12,26 @@
   // Returns rem values
   @if not $current-font-size {
     @return _ty-to-rem($rhythm * 1em);
-    @return 1;
   }
 
   // return em values
-  @if unit($current-font-size) == 'px' {
-    $rhythm-px: $rhythm * $base-font-size;
-    @return _ty-to-em($rhythm-px, $current-font-size);
-  }
-  @else if unit($current-font-size) == 'em' {
-    @return _ty-to-em($rhythm * 1em, $current-font-size);
-  }
   @else {
-    @error "vr() only accepts px or em units";
+    $_rhythm-multiplier: 1;
+    $_return: 1;
+    @if $typeface {
+      $_rhythm-multiplier: 1 / _ty-get-typeface-multiplier($typeface, $typefaces);
+    }
+
+    @if unit($current-font-size) == 'px' {
+      $rhythm-px: $rhythm * $base-font-size;
+      $_return: _ty-to-em($rhythm-px, $current-font-size);
+    }
+    @else if unit($current-font-size) == 'em' {
+      $_return: _ty-to-em($rhythm * 1em, $current-font-size);
+    }
+
+
+    @return $_return * $_rhythm-multiplier;
   }
 }
 
@@ -35,18 +44,22 @@
   $properties,
   $vr,
   $target,
+  $typeface: false,
   $typi: $typi,
   $typi-ms: $typi-ms,
+  $typefaces: $typefaces,
   $breakpoints: $breakpoints
 ) {
   @include _ty-write-breakpoints((
-    target: $target,
-    typi: $typi,
-    typi-ms: $typi-ms,
     breakpoints: $breakpoints,
-    rem: true,
     output: 'vr',
     properties: $properties,
+    rem: true,
+    target: $target,
+    typeface: $typeface,
+    typefaces: $typefaces,
+    typi-ms: $typi-ms,
+    typi: $typi,
     vr: $vr
   ))
 }

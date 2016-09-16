@@ -9,6 +9,10 @@
   $ty-ms-base: ();
   $ty-ms-ratio: ();
 
+  @if type-of($typi-ms) != 'map' {
+    @error "$typi-ms map not found";
+  }
+
   @if map-has-key($typi-ms, $breakpoint) {
     $ms-setting: map-get($typi-ms, $breakpoint);
   } @else {

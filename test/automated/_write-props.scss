@@ -14,6 +14,8 @@ $typi: (
   )
 );
 
+$basemap: map-get($typi, base);
+
 @include test-module('Write properties') {
   @include test('font-size only') {
     @include assert('h1 null breakpoint') {
