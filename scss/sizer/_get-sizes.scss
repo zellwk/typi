@@ -5,18 +5,18 @@
 @function _ty-calc-font-size2 (
   $font-size: $font-size,
   $basemap: $basemap,
-  $rem: $rem
+  $rem: $rem,
+  $breakpoint: null
 ) {
 
-  // TODO: Implement typi-ms calculation
   // Using typi-ms if font-size is unitless
   @if unitless($font-size) {
+    @debug $breakpoint;
     $step: $font-size;
-    // $_right-font-size: _ty-calc-ms();
     @if $rem {
-
+      @return _ty-ms-to-rem($step, $breakpoint);
     } @else {
-
+      @return _ty-ms-to-em($step, $breakpoint);
     }
   }
 

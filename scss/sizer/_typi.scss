@@ -1,16 +1,47 @@
+
+
+
+
+
+
+
 @mixin typi-2 (
   $target: $target,
   $breakpoints: $breakpoints,
   $typi: $typi,
+  $typi-ms: $typi-ms,
   $rem: true
 ) {
   @include _ty-write-breakpoints-2((
     target: $target,
     breakpoints: $breakpoints,
     typi: $typi,
+    typi-ms: $typi-ms,
     rem: $rem
   ))
 }
+
+// Typi-base mixin
+// ----------
+// - Creates styles for html selector
+// ==========
+@mixin typi-base-2(
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints,
+  $selector: 'html'
+) {
+  #{$selector} {
+    @include typi-2(
+      $target: base,
+      $typi: $typi,
+      $typi-ms: $typi-ms,
+      $breakpoints: $breakpoints,
+      $rem: false
+    )
+  }
+}
+
 
 @mixin typi-base(
   $typi: $typi,

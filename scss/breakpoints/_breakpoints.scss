@@ -46,6 +46,7 @@
       // Ensures there's breakpoint
       // No need to use this value, because error would have already been thrown in the function
       $has-breakpoint: _ty-has-breakpoint(
+        $target: $target,
         $breakpoint: $breakpoint,
         $breakpoints: $breakpoints,
         $basemap: $basemap
@@ -54,7 +55,6 @@
       @if _has-breakpoint-library('breakpoint') {
         @include breakpoint-set('to ems', true);
         @include breakpoint(map-get($breakpoints, $breakpoint)) {
-
           @include _ty-write-props-2(
             $_map: $_map,
             $breakpoint: $breakpoint
@@ -82,24 +82,3 @@
     }
   }
 }
-
-// // _ty-get-breakpoints
-// // ===================
-// @function _ty-get-breakpoints($breakpoints, $typi-ms, $target) {
-//   $_return: null;
-
-//   @each $breakpoint, $val in $breakpoints {
-//     @if type-of($typi-ms) == 'map' and map-has-key($typi-ms, $breakpoint) {
-//       @if not index($_return, $breakpoint) {
-//         $_return: append($_return, $breakpoint);
-//       }
-//     }
-
-//     @if map-has-key($target, $breakpoint) {
-//       @if not index($_return, $breakpoint) {
-//         $_return: append($_return, $breakpoint);
-//       }
-//     }
-//   }
-//   @return $_return;
-// }

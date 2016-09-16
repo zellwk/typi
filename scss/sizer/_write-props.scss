@@ -30,10 +30,10 @@
       font-size: _ty-calc-font-size2(
         $font-size: $target-value,
         $basemap: $basemap,
-        $rem: $rem
+        $rem: $rem,
+        $breakpoint: $breakpoint
       );
     }
-
   }
 
   // Two numbers in value => font-size and line-height
@@ -47,7 +47,8 @@
       font-size: _ty-calc-font-size2(
         $font-size: $font-size,
         $basemap: $basemap,
-        $rem: $rem
+        $rem: $rem,
+        $breakpoint: $breakpoint
       );
     }
     line-height: $line-height;

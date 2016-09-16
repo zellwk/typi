@@ -1,7 +1,9 @@
-// _Ty-map-extender
+// _ty-map-extender
 // ----------
 // - Extends $typi-ms and all target maps
 //   to include breakpoints from breakpoints map
+// TODO: Update when libsass v3.4
+// https://github.com/zellwk/typi/issues/17
 // ==========
 
 @function _ty-map-extender(
@@ -10,9 +12,10 @@
   $typi-ms: $typi-ms,
   $breakpoints: $breakpoints
 ) {
-  // If it contains a target, means iterating over $typi map
+  $_o: null;
+
+  // Extends $typi map
   @if $target {
-    // $_o only used to called function. Never used otherwise.
     $_o: _ty-extend-typi($target);
   }
 
@@ -21,18 +24,21 @@
     $_o: _ty-extend-typi-ms()
   }
 
-  @return true;
+  @return $_o;
 }
 
 // _ty-extend-typi
-// ----------
-// - Formulates Ensures $typi has target font-map before continuing.
 // ==========
 @function _ty-extend-typi($target) {
   $_return: $typi;
   $_target-map: null;
   $_prev-breakpoint: null;
   $_overwrite-value: null;
+
+  // Does not extend typi base
+  @if $target == 'base' {
+    @return $_return;
+  }
 
   @if map-has-key($typi, $target) {
     $_target-map: map-get($typi, $target);
@@ -54,6 +60,8 @@
     }
 
     // Overwrites relevant map otherwise
+    // TODO: Needs to get map and override in the correct order. Needs Libsass v3.4
+    // See manual/typi-ms.scss for details
     @else {
       $_return: map-deep-set(
         $_return,
@@ -67,12 +75,10 @@
     $_prev-breakpoint: $breakpoint;
   }
 
-  @return true;
+  @return $_return;
 }
 
-// _ty-set-map
-// ----------
-// - Overwrites $global map
+// _ty-extend-typi-ms
 // ==========
 @function _ty-extend-typi-ms() {
   $_return: $typi-ms;
@@ -107,5 +113,36 @@
     $_prev-breakpoint: $breakpoint
   }
 
-  @return true;
+  @return $_return;
+}
+
+// _ty-check-extended-map
+// ==========
+@mixin _ty-check-extended-map(
+  $map: 'typi',
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints
+) {
+  $breakpoint-list: map-keys($breakpoints);
+  $font-map-list: map-keys($typi);
+  $font-map-list: _ty-remove($font-map-list, 'base');
+
+  // Loops through every font-map to ensure that
+  // each map contains all breakpoint keys
+  @each $map-key in $font-map-list {
+    $font-map: map-get($typi, $map-key);
+    @each $breakpoint in $breakpoint-list {
+      @if not map-has-key($font-map, $breakpoint) {
+        @warn "#{$breakpoint} breakpoint not found in $typi's #{$map-key} key. Make sure every breakpoint is present in every font-map when using $typi-ms!";
+      }
+    }
+  }
+
+  // checks $typi-ms
+  @each $breakpoint in $breakpoint-list {
+    @if not map-has-key($typi-ms, $breakpoint) {
+      @warn "#{$breakpoint} breakpoint not found in $typi-ms. Make sure every breakpoint is present in every font-map when using $typi-ms!";
+    }
+  }
 }

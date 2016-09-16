@@ -62,3 +62,22 @@
     @error "_ty-to-rem() only supports px -> rem and em -> rem conversion";
   }
 }
+
+// _ty-ms-to-rem
+// ==========
+@function _ty-ms-to-rem($step, $breakpoint) {
+  @if not unitless($step) {
+    @error "steps must be unitless when you're using Typi-ms";
+  }
+
+  $font-size: _ty-calc-ms($step, $breakpoint);
+  @return _ty-to-rem($font-size);
+}
+
+@function _ty-ms-to-em($step, $breakpoint) {
+  @if not unitless($step) {
+    @error "steps must be unitless when you're using Typi-ms";
+  }
+
+  @return _ty-calc-ms($step, $breakpoint);
+}

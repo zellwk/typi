@@ -9,42 +9,29 @@
   $breakpoints: $breakpoints,
   $typi-ms: $typi-ms
 ) {
+  $_updated-typi: $typi;
+  $_updated-typi-ms: $typi-ms;
 
+  // Uncomment when extender is completed (Requires libsass#3.4)
   // Only invokve extender if $typi-ms is present
   // $typi-ms and $typi map must be their original names
+  // @if type-of($typi-ms) == 'map' {
+  //   @each $key, $value in $typi-ms {
+  //     $_updated-typi-ms: _ty-map-extender($typi-ms: $typi-ms);
+  //   }
+  //   @each $key, $value in $typi {
+  //     $_updated-typi: _ty-map-extender($key);
+  //   }
+  // }
+
   @if type-of($typi-ms) == 'map' {
-    $_overwrite: null; // only used to call function. Never used
-
-    @each $key, $value in $typi-ms {
-      $_overwrite: _ty-map-extender($typi-ms: $typi-ms);
-    }
-
-    @each $key, $value in $typi {
-      $_overwrite: _ty-map-extender($key);
-    }
+    @include _ty-check-extended-map;
   }
 
   @include typi-base-2(
-    $typi: $typi,
+    $typi: $_updated-typi,
+    $typi-ms: $_updated-typi-ms,
     $breakpoints: $breakpoints
   )
 }
 
-// Typi-base mixin
-// ----------
-// - Creates styles for html selector
-// ==========
-@mixin typi-base-2(
-  $typi: $typi,
-  $breakpoints: $breakpoints,
-  $selector: 'html'
-) {
-  #{$selector} {
-    @include typi-2(
-      $target: base,
-      $breakpoints: $breakpoints,
-      $typi: $typi,
-      $rem: false
-    )
-  }
-}

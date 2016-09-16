@@ -74,7 +74,7 @@ $basemap: map-get($typi, base);
     );
     $base-size: nth(map-fetch($typi, base null), 1);
     $result: 20px / $base-size * 1em;
-    @include assert-equal($test, $result, 'px should be converted into em');
+    @include assert-equal($test, $result);
   }
 }
 
@@ -86,17 +86,18 @@ $basemap: map-get($typi, base);
   }
 }
 
-// TODO: typi-ms. Calculate unitless conversion
 @include test-module('Calculate unitless Typi font-size') {
   @include test('unitless -> rem') {
-    // $test: _ty-to-percentage(20px);
-    // $result: 125%;
-    // @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
+    $test: _ty-ms-to-rem(2, small);
+    $ratio: map-get($typi-ms, small);
+    $result: _ty-strip-unit(ms(2, 1em, $ratio)) * 1rem;
+    @include assert-equal($test, $result);
   }
 
   @include test('unitless -> em') {
-    // $test: _ty-to-percentage(20px);
-    // $result: 125%;
-    // @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
+    $test: _ty-ms-to-em(2, med);
+    $ratio: map-get($typi-ms, med);
+    $result: ms(2, 1em, $ratio);
+    @include assert-equal($test, $result);
   }
 }

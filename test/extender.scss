@@ -46,23 +46,19 @@ $typi-ms: (
     $result: (
       base: (
         null: (18px, 1.5),
-        small: (18px, 1.5),
-        med: (18px, 1.5),
         large: (24px, 1.6),
       ),
       h1: (
         null: (24px, 1.3)
       )
     );
-    @include assert-equal($test, $result, 'for base');
+    @include assert-equal($test, $result, 'base should not extend');
 
     $overwriting: _ty-map-extender('h1');
     $test2: $typi;
     $result2: (
       base: (
         null: (18px, 1.5),
-        small: (18px, 1.5),
-        med: (18px, 1.5),
         large: (24px, 1.6),
       ),
       h1: (
