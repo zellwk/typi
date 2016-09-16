@@ -73,7 +73,7 @@ $typi-ms: (
 
     @include assert('write one property') {
       @include input {
-        @include ms-vr-2(margin-top, 2, $target: 'h1');
+        @include vr-ms(margin-top, 2, $target: 'h1');
       }
 
       @include expect {
@@ -83,7 +83,7 @@ $typi-ms: (
 
     @include assert('write multiple properties') {
       @include input {
-        @include ms-vr-2(margin-top margin-bottom, 2, $target: 'h1');
+        @include vr-ms(margin-top margin-bottom, 2, $target: 'h1');
       }
 
       @include expect {

@@ -38,4 +38,4 @@ $typi: (
  * ---------------------------
  * Selector should match $selector
  */
-@include typi-base-2($selector: 'body');
+@include typi-base($selector: 'body');

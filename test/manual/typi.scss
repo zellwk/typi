@@ -30,7 +30,7 @@ $typi: (
  * - large breakpoint:  font-size: 3rem;
  */
 .rem{
-  @include typi-2('h1');
+  @include typi('h1');
 }
 
 /**
@@ -39,5 +39,5 @@ $typi: (
  * Should output same values as above, but in em instead
  */
 .em {
-  @include typi-2('h1', $rem: false);
+  @include typi('h1', $rem: false);
 }

@@ -1,10 +1,10 @@
 @import 'utils';
 
-// _ty-write-breakpoints-2
+// _ty-write-breakpoints
 // ----------
 // - writes props for every valid breakpoint
 // ==========
-@mixin _ty-write-breakpoints-2 (
+@mixin _ty-write-breakpoints (
   $_map
 ) {
   $target: map-get($_map, target);

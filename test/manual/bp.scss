@@ -24,7 +24,7 @@ $typi: (
 
 /* Test with normal breakpoints */
 .h1 {
-  @include _ty-write-breakpoints-2((
+  @include _ty-write-breakpoints((
     target: 'h1',
     breakpoints: $breakpoints,
     typi: $typi,
@@ -35,7 +35,7 @@ $typi: (
 /* Test with mappy bp */
 $typi-breakpoint: mappy-bp;
 .h1 {
-  @include _ty-write-breakpoints-2((
+  @include _ty-write-breakpoints((
     target: 'h1',
     breakpoints: $breakpoints,
     typi: $typi,
@@ -46,7 +46,7 @@ $typi-breakpoint: mappy-bp;
 /* Test with breakpoint-sass */
 $typi-breakpoint: breakpoint;
 .h1 {
-  @include _ty-write-breakpoints-2((
+  @include _ty-write-breakpoints((
     target: 'h1',
     breakpoints: $breakpoints,
     typi: $typi,

@@ -53,7 +53,7 @@
   $font-size: _ty-get-font-size($font-map-breakpoint);
   $line-height: _ty-get-line-height($font-map-breakpoint);
 
-  font-size: _ty-calc-font-size2(
+  font-size: _ty-calc-font-size(
     $font-size: $font-size,
     $basemap: $basemap,
     $breakpoint: $breakpoint,
@@ -83,7 +83,7 @@
   }
 
   $font-size: _ty-ms-to-em($step, $breakpoint);
-  $rhythm: vr-2($vr, $font-size, $basemap);
+  $rhythm: vr($vr, $font-size, $basemap);
 
   @each $property in $properties {
     #{$property}: $rhythm;

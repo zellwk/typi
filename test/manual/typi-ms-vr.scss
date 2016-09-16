@@ -25,5 +25,5 @@ $typi-ms: (
 );
 
 .testing {
-  @include ms-vr-2(margin-top, 2, $target: 'h1');
+  @include vr-ms(margin-top, 2, $target: 'h1');
 }

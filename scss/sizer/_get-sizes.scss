@@ -2,7 +2,7 @@
 // ----------
 // - return font-size in rem or em
 // ==========
-@function _ty-calc-font-size2 (
+@function _ty-calc-font-size (
   $font-size: $font-size,
   $basemap: $basemap,
   $rem: $rem,
@@ -30,7 +30,6 @@
   } @else {
     @error 'Base map must have null key'
   }
-
 
   // Converts to rem
   @if $rem {

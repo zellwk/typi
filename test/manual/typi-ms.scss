@@ -1,8 +1,6 @@
 @import '../../bower_components/modular-scale/stylesheets/_modular-scale';
 @import '../../scss/typi';
 
-// Actual usage of Typi ms
-
 $breakpoints: (
   small: 'small',
   med: 'med',
@@ -53,7 +51,7 @@ $typi: (
  */
 
 h2 {
-  @include typi-2('h2');
+  @include typi('h2');
 }
 
 /**
@@ -64,5 +62,5 @@ h2 {
  */
 
 h2 {
-  @include typi-2('h2', $rem: false);
+  @include typi('h2', $rem: false);
 }

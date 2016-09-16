@@ -34,7 +34,7 @@ $basemap: map-get($typi, base);
 
 @include test-module('Calculate Typi font-size in Rem') {
   @include test('em -> rem') {
-    $test: _ty-calc-font-size2(
+    $test: _ty-calc-font-size(
       $font-size: 2em,
       $basemap: $basemap,
       $rem: true
@@ -44,7 +44,7 @@ $basemap: map-get($typi, base);
   }
 
   @include test('px -> rem') {
-    $test: _ty-calc-font-size2(
+    $test: _ty-calc-font-size(
       $font-size: 20px,
       $basemap: $basemap,
       $rem: true
@@ -57,7 +57,7 @@ $basemap: map-get($typi, base);
 
 @include test-module('Calculate Typi font-size in em') {
   @include test('rem -> em') {
-    $test: _ty-calc-font-size2(
+    $test: _ty-calc-font-size(
       $font-size: 2rem,
       $basemap: $basemap,
       $rem: false
@@ -67,7 +67,7 @@ $basemap: map-get($typi, base);
   }
 
   @include test('px -> em') {
-    $test: _ty-calc-font-size2(
+    $test: _ty-calc-font-size(
       $font-size: 20px,
       $basemap: $basemap,
       $rem: false

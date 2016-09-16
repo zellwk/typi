@@ -1,27 +1,3 @@
-// _ty-get-base-font
-@function _ty-get-base-font($typi) {
-  $base-map: map-get($typi, null);
-  @return nth($base-map, 1);
-}
-
-// _ty-get-base-line-height
-@function _ty-get-base-line-height($typi) {
-  $base-map: map-get($typi, null);
-  $base-line-height: null;
-
-  @if length($base-map) > 1 {
-    $base-line-height: nth($base-map, 2);
-  } @else {
-    @error "$typi map should contain a second argument (line-height) in the `null` key";
-  }
-
-  @if not unit($base-line-height) == "" {
-    @error "line-height multiple on the `null` key should be unitless";
-  }
-
-  @return $base-line-height;
-}
-
 // _ty-get-font-size
 // ----------
 // Gets font-size from font-map-breakpoint
@@ -46,16 +22,16 @@
   }
 }
 
-// _ty-get-base-font-2
+// _ty-get-base-font-size
 // ==========
-@function _ty-get-base-font-size-2($basemap) {
+@function _ty-get-base-font-size($basemap) {
   $base-null: map-get($basemap, null);
   @return _ty-get-font-size($base-null);
 }
 
-// _ty-get-base-line-height-2
+// _ty-get-base-line-height
 // ==========
-@function _ty-get-base-line-height-2($basemap) {
+@function _ty-get-base-line-height($basemap) {
   $base-null: map-get($basemap, null);
   $base-line-height: _ty-get-line-height($base-null);
 

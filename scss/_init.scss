@@ -28,7 +28,7 @@
     @include _ty-check-extended-map;
   }
 
-  @include typi-base-2(
+  @include typi-base(
     $typi: $_updated-typi,
     $typi-ms: $_updated-typi-ms,
     $breakpoints: $breakpoints
