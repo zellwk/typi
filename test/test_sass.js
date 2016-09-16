@@ -8,6 +8,6 @@ const testFiles = [
 ]
 
 testFiles.forEach(basename => {
-  let testFile = path.join(__dirname, `${basename}.scss`);
+  var testFile = path.join(__dirname, `${basename}.scss`);
   sassTrue.runSass({file: testFile}, describe, it);
 })
