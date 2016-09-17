@@ -1,9 +1,114 @@
+////
+/// @author Zell Liew
+/// @access public
+/// @group config
+////
+
+// Breakpoints Map
+// ----------
+/// Contains all breakpoints Typi uses whenever writes media queries.
+/// Possible to output media queries in em (even when you write in pixels)
+/// @example
+///   $breakpoints: (
+///     small: 400px,
+///     med:   600px,
+///     large: 800px
+///   );
+/// @see typi-breakpoint
 $breakpoints: () !default;
+
+// Typefaces Map
+// ----------
+/// Contains typefaces that Typi uses.
+/// @prop {Number} font-size-ratio [1] - ratio of font-size to primary font-size
+/// @prop {Map} stack - font stack
+/// @prop {Map} weights - font weights
+/// @example
+///   $typefaces: (
+///     primary: (
+///       font-size-ratio: 1,
+///       stack: (Helvetica, Arial, sans-serif),
+///       weights: (
+///         light: 300,
+///         normal: 400,
+///         bold: 700
+///       ),
+///     )
+///   );
 $typefaces: false !default;
+
+// Typi
+// ----------
+/// Contains font-map, which in turn contains font-size and
+/// line-height properties used at all breakpoints.
+///
+/// - **First value** - font-size (see below)
+/// - **second value** - line-height (must be unitless)
+///
+/// **Font-size**
+///
+/// Font-size can either be either of these values. They will
+/// automatically be converted into `rem` or `em`
+///
+/// - `px` - base font-sizes must be written in pixels
+/// - `em`
+/// - unitless (requires typi-ms)
+///
+/// @prop {Map} $font-map - Font map that holds breakpoint key
+/// @prop {string} $breakpoint - holds font-size and line-height list
+///
+/// @example
+///   $typi: (
+///     base: (
+///       null: (18px, 1.5),
+///       small: 20px,
+///       med: 22px,
+///       large: (24px, 1.6)
+///     ),
+///     h1: (
+///       null: (24px, 1.3),
+///       med: 2em,
+///       large: 3em
+///     )
+///   );
+/// @see typi-ms
+/// @requires $breakpoints
 $typi: (
-  null: (16px, 1.5)
+  base: (
+    null: (16px, 1.5)
+  )
 ) !default;
+
+// Typi-ms
+// ----------
+/// Contains modular scale base and ratios for
+/// you to change ratios and bases at different
+/// breakpoints.
+///
+/// **Make sure** $typi-ms, $typi and $breakpoints **contain
+/// all breakpoints** (except null) if you use this functionality
+///
+/// @requires $typi
+/// @requires $breakpoints
+///
+/// @example
+///   $typi-ms: (
+///     null: 1.2, // one ratio: 1.2
+///     small: 1.2,
+///     med: (1.2 1.5), // two ratios: 1.2, 1.5
+///     large: (1em 2em 1.2), // two bases: 1em, 2em | one ratio: 1.2
+///     huge: (1.5em 1.2 1.5) // one base: 1.5em | two ratios: 1.2, 1.5
+///   );
 $typi-ms: false !default;
+
+// Typi-breakpoint
+// ----------
+/// Integrates Typi with Mappy Breakpoints or Breakpoint-sass
+/// @example
+///   $typi-breakpoint: 'mappy-bp'; // uses mappy-breakpoint to create media queries
+///   $typi-brekapoint: 'breakpoint'; // uses breakpoint-sass to create media queries
+/// @link https://github.com/zellwk/mappy-breakpoints Mappy-breakpoints
+/// @link https://github.com/at-import/breakpoint Breakpoint Sass
 $typi-breakpoint: null !default;
 
 @import 'private';

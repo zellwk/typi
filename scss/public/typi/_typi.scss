@@ -1,5 +1,23 @@
 @import 'init';
 
+////
+/// @author Zell Liew
+/// @access public
+/// @param {Map} $typi [$typi] - $typi map
+/// @param {Map} $typi-ms [$typi-ms] - $typi-ms map
+/// @param {Map} $breakpoints [$breakpoints] - $breakpoints map
+/// @group Core
+////
+
+// typi
+// ----------
+/// Creates font-size and line-height properties
+/// @author Zell Liew
+/// @access public
+/// @param {String} $key - font-map key
+/// @param {String} $typeface [null] - typeface key
+/// @param {Bool} $rem [true] - Outputs rem or em
+/// @param {Map} $typefaces [$typefaces] - $typefaces map
 @mixin typi (
   $target,
   $typeface: null,
@@ -21,15 +39,17 @@
   ))
 }
 
-// Typi-base mixin
+// Typi-base
 // ----------
-// - Creates styles for html selector
-// ==========
+/// Creates styles for root selector (defaults to HTML)
+/// @author Zell Liew
+/// @access public
+/// @param {String} $selector [html] - Default selector for root font-size and line-height
 @mixin typi-base(
+  $selector: 'html',
   $typi: $typi,
   $typi-ms: $typi-ms,
-  $breakpoints: $breakpoints,
-  $selector: 'html'
+  $breakpoints: $breakpoints
 ) {
   #{$selector} {
     @include typi(

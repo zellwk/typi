@@ -1,3 +1,22 @@
+////
+/// @param {Map} $typefaces [$typefaces]
+///
+////
+
+// vr
+// ----------
+/// Calculates Vertical Rhythm. Can output units either in rem or em
+/// @access public
+/// @param {Number} $vr - Vertical Rhythm multiple
+/// @param {Number} $current-font-size [null] - Current font-size value. Required to output em.
+/// @param {String} $typeface [null] - Typeface key in $typefaces. Required to adjust em output according to typeface size
+/// @see $typefaces
+/// @group core
+/// @example
+///   .selector {
+///     margin-top: vr(3);
+///   }
+/// @return {Number} - Value to output, either in `em` or `rem`
 @function vr(
   $vr,
   $current-font-size: null,
@@ -37,9 +56,32 @@
 
 // vr-ms
 // ----------
-// Font-size changes at different breakpoints when ratio changes.
-// When font-size changes, em values of vr must change.
-// Must recalculate current font-size first, since font-size calculated with typi multiplier
+/// This mixin comes in when you need to write **rhythms** in `em`
+/// and you're **changing Modular Scale ratio** at different breakpoints.
+///
+/// If you change Modular Scale ratio at different breakpoints,
+/// font-sizes will be recalculated, which means there's no way
+/// to tell what font-size is present at which breakpoint. This
+/// mixin helps to calculate the current font-size, and creates
+/// the corresponding rhythm value.
+///
+/// @access public
+///
+/// @param {List} $properties - Properties to output
+/// @param {Number} $vr - Vertical Rhythm multiple
+/// @param {String} $target - Font map used
+/// @param {String} $typeface [false] - Typeface used
+/// @see $typefaces
+/// @requires $typi-ms
+/// @group core
+/// @example
+///   .selector {
+///     @include ms-vr(margin-top, 2, 'h1');
+///   }
+/// @output
+///   .selector {
+///     margin-top: 3em;
+///   }
 @mixin vr-ms(
   $properties,
   $vr,

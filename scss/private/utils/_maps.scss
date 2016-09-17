@@ -1,14 +1,15 @@
-
 // Map-fetch
-// ---------
-// An easy way to fetch a deep value in a multi-level map.
-// Works much like map-get() except that you pass multiple
-// keys as the second parameter to go down multiple levels
-// in the nested map.
-//
-// https://gist.github.com/jlong/8760275
-// =========
-
+// ----------
+/// An easy way to fetch a deep value in a multi-level map.
+///   Works much like map-get() except that you pass multiple
+///   keys as the second parameter to go down multiple levels
+///   in the nested map.
+/// @access public
+/// @param {Map} $map - Map
+/// @param {List} $keys - Key chain.
+/// @return {*} - Desired value
+/// @link https://gist.github.com/jlong/8760275
+/// @group utils
 @function map-fetch($map, $keys) {
   $key: nth($keys, 1);
   $length: length($keys);
@@ -30,6 +31,7 @@
 /// @param {Map} $map - Map
 /// @param {Arglist} $keys - Key chain
 /// @return {*} - Desired value
+/// @group utils
 @function map-deep-get($map, $keys...) {
     @each $key in $keys {
         $map: map-get($map, $key);
@@ -45,6 +47,7 @@
 /// @param {List} $keys -  Key chaine
 /// @param {*} $value - Value to assign
 /// @return {Map}
+/// @group utils
 @function map-deep-set($map, $keys, $value) {
   $maps: ($map,);
   $result: null;
