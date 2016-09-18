@@ -58,7 +58,7 @@ $basemap: map-get($typi, base);
     $font-size: _ty-calc-font-size(
       $font-size: map-fetch($typi, h1 null),
       $basemap: $basemap,
-      $rem: true
+      $rem: false
     );
     $line-height: nth(map-fetch($typi, base null), 2);
     $cap-height: map-fetch($typefaces, primary cap-height);
@@ -123,7 +123,7 @@ $basemap: map-get($typi, base);
         font-size: 1.25rem;
         $lh: nth(map-fetch($typi, base null),2);
         $ch: map-fetch($typefaces, primary cap-height);
-        $val: 1.25rem * ($lh - $ch)  * 0.5;
+        $val: 1.25em * ($lh - $ch)  * 0.5;
         padding-top: $val;
         margin-bottom: -$val;
       }

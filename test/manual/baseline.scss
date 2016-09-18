@@ -39,9 +39,7 @@ h1 {
 p {
   margin: 0;
   margin-top: vr(1);
-  @debug "=====";
   @include baseline-push();
-  @debug "=====";
 }
 
 body {

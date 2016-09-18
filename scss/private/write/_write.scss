@@ -63,8 +63,8 @@
   $_font-size: _ty-calc-font-size(
     $font-size: $orig-font-size,
     $basemap: $basemap,
-    $breakpoint: $breakpoint,
     $rem: $rem,
+    $breakpoint: $breakpoint,
     $typeface-multiplier: $typeface-multiplier
   );
 
@@ -74,6 +74,13 @@
   }
 
   @if $baseline-push {
+    $_font-size: _ty-calc-font-size(
+      $font-size: $orig-font-size,
+      $basemap: $basemap,
+      $rem: false,
+      $breakpoint: $breakpoint,
+      $typeface-multiplier: $typeface-multiplier
+    );
     @include _ty-write-baseline-push(
       $font-size: $_font-size,
       $line-height: $_line-height,

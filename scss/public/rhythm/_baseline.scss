@@ -69,7 +69,7 @@
   $base-font-size: _ty-get-base-font-size($base-map);
 
   @each $breakpoint, $breakpoint-value in $base-map {
-    $font-size: _ty-to-rem(_ty-get-font-size($breakpoint-value), $base-font-size);
+    $font-size: _ty-to-em(_ty-get-font-size($breakpoint-value), $base-font-size);
     $line-height: _ty-get-line-height($breakpoint-value);
 
     // Output without breakpoints

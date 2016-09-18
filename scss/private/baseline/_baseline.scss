@@ -41,8 +41,8 @@
   $typefaces: $typefaces
 ) {
   $cap-height: 1;
-  @if unit($font-size) != 'em' and unit($font-size) != 'rem' {
-    @error '$font-size must be in em or rem';
+  @if unit($font-size) != 'em' {
+    @error '$font-size must be in em';
   }
   @if not unitless($line-height) {
     @error '$line-height must be unitless';
