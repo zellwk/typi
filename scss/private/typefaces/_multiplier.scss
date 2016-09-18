@@ -1,0 +1,21 @@
+// -ty_get-typeface-multiplier
+// ----------
+// Gets typeface multiplier
+// ==========
+@function _ty-get-typeface-multiplier(
+  $typeface,
+  $typefaces
+) {
+  $_font-size-ratio: null;
+  $_typeface-map: _ty-get-typeface-map($typefaces, $typeface);
+
+  @if $_typeface-map {
+    $_font-size-ratio: map-get($_typeface-map, font-size-ratio);
+  }
+
+  @if $_font-size-ratio {
+    @return 1 / $_font-size-ratio;
+  } @else {
+    @return 1;
+  }
+}

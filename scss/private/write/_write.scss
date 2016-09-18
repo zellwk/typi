@@ -9,6 +9,7 @@
   $target: map-get($_map, target);
   $target-map: map-get($_map, target-map);
   $output: map-get($_map, output);
+  $baseline-push: map-get($_map, baseline-push);
 
   // Ensures breakpoint is present in target
   @if not map-has-key($target-map, $breakpoint) {
@@ -17,6 +18,9 @@
 
   @if $target == 'base' {
     @include _ty-write-base($_map, $breakpoint);
+    @if $baseline-push {
+      @error "$baseline option not allowed on base map";
+    }
   } @else if $output == 'props' {
     @include _ty-write-props($_map, $breakpoint);
   } @else if $output == 'vr' {
@@ -51,20 +55,31 @@
   $rem: map-get($_map, rem);
   $typefaces: map-get($_map, typefaces);
   $typeface: map-get($_map, typeface);
+  $baseline-push: map-get($_map, baseline-push);
 
   $typeface-multiplier: _ty-get-typeface-multiplier($typeface, $typefaces);
-  $font-size: _ty-get-font-size($font-map-breakpoint);
-  $line-height: _ty-get-line-height($font-map-breakpoint);
-
-  font-size: _ty-calc-font-size(
-    $font-size: $font-size,
+  $orig-font-size: _ty-get-font-size($font-map-breakpoint);
+  $_line-height: _ty-get-line-height($font-map-breakpoint);
+  $_font-size: _ty-calc-font-size(
+    $font-size: $orig-font-size,
     $basemap: $basemap,
     $breakpoint: $breakpoint,
     $rem: $rem,
     $typeface-multiplier: $typeface-multiplier
   );
-  @if $line-height {
-    line-height: $line-height;
+
+  font-size: $_font-size;
+  @if $_line-height {
+    line-height: $_line-height;
+  }
+
+  @if $baseline-push {
+    @include _ty-write-baseline-push(
+      $font-size: $_font-size,
+      $line-height: $_line-height,
+      $breakpoint: $breakpoint,
+      $_map: $_map
+    );
   }
 }
 

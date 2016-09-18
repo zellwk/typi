@@ -45,3 +45,13 @@
 
   @return $base-line-height;
 }
+
+// _ty-get-base-map
+// ----------------
+@function _ty-get-base-map($typi: $typi) {
+  @if map-has-key($typi, base) {
+    @return map-get($typi, base);
+  } @else {
+    @error "Base key not found in $typi";
+  }
+}

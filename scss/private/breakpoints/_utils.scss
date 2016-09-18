@@ -27,7 +27,7 @@
 // _has-breakpoint-library
 // - Checks if breakpoint library is installed
 // ==========
-@function _has-breakpoint-library($lib) {
+@function _ty-has-breakpoint-library($lib) {
   // Activates if $typi-breakpoint = mentioned breakpoint
   @if $typi-breakpoint == $lib {
     @if mixin-exists($lib) { @return true; }
@@ -35,6 +35,18 @@
   }
   // Else use default breakpoint built in typi
   @else {
+    @return false;
+  }
+}
+
+// _ty-parse-breakpoint-lib
+// ----------
+// Checks if breakpoint library is supported
+// ==========
+@function _ty-parse-breakpoint-lib($lib) {
+  @if mixin-exists($lib) {
+    @return $lib;
+  } @else {
     @return false;
   }
 }

@@ -49,9 +49,9 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('watch', ['mocha'], function() {
-  gulp.watch('test/automated/**/*.scss', ['mocha', 'sassdoc']);
-  gulp.watch('scss/**/*.scss', ['sass', 'mocha', 'sassdoc']);
-  gulp.watch('test/manual/**/*.scss', ['sass', 'mocha', 'sassdoc']);
+  gulp.watch('test/automated/**/*.scss', ['mocha']);
+  gulp.watch('scss/**/*.scss', ['sass', 'mocha']);
+  gulp.watch('test/manual/**/*.scss', ['sass', 'mocha']);
 });
 
 gulp.task('default', ['watch', 'sassdoc', 'sass']);
