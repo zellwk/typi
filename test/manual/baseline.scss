@@ -29,7 +29,8 @@ $typefaces: (
 @include typi-init;
 
 // TODO: Baseline calculation error problem! Ugh.
-// Note: Baseline padding-top should be twice the current amount, but margin-bottom should remain the same
+// Note: Baseline padding-top should be twice the current amount, but margin-bottom should remain the same.
+// Probably need to use difference between font-size and line-height as margin-bottom? Not sure. Need to explore, but definitely after the workshop.
 h1 {
   margin: 0;
   margin-top: vr(2);
