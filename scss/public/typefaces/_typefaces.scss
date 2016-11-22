@@ -21,7 +21,7 @@
     @error "Cannot find #{$typefaces} map found";
   }
 
-  @return map-fetch($typefaces, $typeface weights $weight);
+  font-weight: map-fetch($typefaces, $typeface weights $weight);
 }
 
 // ff
@@ -31,11 +31,11 @@
 /// @output font-family: 'font-stack'
 @mixin ff(
   $typeface,
-  $typefaces
+  $typefaces: $typefaces
 ) {
   @if type-of($typefaces) != 'map' {
     @error "Cannot find #{$typefaces} map found";
   }
 
-  @return map-fetch($typefaces, $typeface stack);
+  font-family:map-fetch($typefaces, $typeface stack);
 }
