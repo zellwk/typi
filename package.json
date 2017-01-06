@@ -20,6 +20,15 @@
     "start": "gulp",
     "test": "mocha test/test_sass.js"
   },
+  "keywords": [
+    "eyeglass-module"
+  ],
+  "eyeglass": {
+    "sassDir": "scss",
+    "exports": false,
+    "name":    "typi",
+    "needs":   "*"
+  },
   "author": "Zell Liew <zellwk@gmail.com>",
   "license": "ISC"
 }
