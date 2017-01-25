@@ -25,6 +25,10 @@ $ bower install typi --save
 $ npm install typi --save
 ```
 
+**ruby gems** 
+
+- Look at [Pete's repo](https://github.com/Petecass/typi_rails) for installation instructions.
+
 Then, import Typi into your Sass project
 
 ```scss
