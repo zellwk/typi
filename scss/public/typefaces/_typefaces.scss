@@ -1,0 +1,41 @@
+////
+/// @author Zell Liew
+/// @access public
+/// @group helpers-typefaces
+/// @requires $typefaces
+/// @param {Map} $typefaces [$typefaces] - $typefaces map
+////
+
+// fw
+// ----------
+/// Creates font weight property from $typefaces map.
+/// @param {String} $typeface - typeface key
+/// @param {String} $weight - key of weight
+/// @output font-weight: 300;
+@mixin fw(
+  $typeface,
+  $weight,
+  $typefaces: $typefaces
+) {
+  @if type-of($typefaces) != 'map' {
+    @error "Cannot find #{$typefaces} map found";
+  }
+
+  font-weight: map-fetch($typefaces, $typeface weights $weight);
+}
+
+// ff
+// ----------
+/// Creates font family property from $typefaces map.
+/// @param {String} $typeface - typeface key
+/// @output font-family: 'font-stack'
+@mixin ff(
+  $typeface,
+  $typefaces: $typefaces
+) {
+  @if type-of($typefaces) != 'map' {
+    @error "Cannot find #{$typefaces} map found";
+  }
+
+  font-family:map-fetch($typefaces, $typeface stack);
+}

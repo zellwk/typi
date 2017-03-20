@@ -1,0 +1,108 @@
+@import 'baseline';
+////
+/// @param {Map} $typefaces [$typefaces]
+///
+////
+
+// vr
+// ----------
+/// Calculates Vertical Rhythm. Can output units either in rem or em
+/// @access public
+/// @param {Number} $vr - Vertical Rhythm multiple
+/// @param {Number} $current-font-size [null] - Current font-size value. Required to output em.
+/// @param {String} $typeface [null] - Typeface key in $typefaces. Required to adjust em output according to typeface size
+/// @see $typefaces
+/// @group core
+/// @example
+///   .selector {
+///     margin-top: vr(3);
+///   }
+/// @return {Number} - Value to output, either in `em` or `rem`
+@function vr(
+  $vr,
+  $current-font-size: null,
+  $typeface: null,
+  $basemap: map-get($typi, base),
+  $typefaces: $typefaces
+) {
+  $base-font-size: _ty-get-base-font-size($basemap);
+  $base-line-height: _ty-get-base-line-height($basemap);
+  $rhythm: $vr * $base-line-height;
+
+  // Returns rem values
+  @if not $current-font-size {
+    @return _ty-to-rem($rhythm * 1em);
+  }
+
+  // return em values
+  @else {
+    $_rhythm-multiplier: 1;
+    $_return: 1;
+    @if $typeface {
+      $_rhythm-multiplier: 1 / _ty-get-typeface-multiplier($typeface, $typefaces);
+    }
+
+    @if unit($current-font-size) == 'px' {
+      $rhythm-px: $rhythm * $base-font-size;
+      $_return: _ty-to-em($rhythm-px, $current-font-size);
+    }
+    @else if unit($current-font-size) == 'em' {
+      $_return: _ty-to-em($rhythm * 1em, $current-font-size);
+    }
+
+
+    @return $_return * $_rhythm-multiplier;
+  }
+}
+
+// vr-ms
+// ----------
+/// This mixin comes in when you need to write **rhythms** in `em`
+/// and you're **changing Modular Scale ratio** at different breakpoints.
+///
+/// If you change Modular Scale ratio at different breakpoints,
+/// font-sizes will be recalculated, which means there's no way
+/// to tell what font-size is present at which breakpoint. This
+/// mixin helps to calculate the current font-size, and creates
+/// the corresponding rhythm value.
+///
+/// @access public
+///
+/// @param {List} $properties - Properties to output
+/// @param {Number} $vr - Vertical Rhythm multiple
+/// @param {String} $target - Font map used
+/// @param {String} $typeface [false] - Typeface used
+/// @see $typefaces
+/// @requires $typi-ms
+/// @group core
+/// @example
+///   .selector {
+///     @include ms-vr(margin-top, 2, 'h1');
+///   }
+/// @output
+///   .selector {
+///     margin-top: 3em;
+///   }
+@mixin vr-ms(
+  $properties,
+  $vr,
+  $target,
+  $typeface: false,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $typefaces: $typefaces,
+  $breakpoints: $breakpoints
+) {
+  @include _ty-write-breakpoints((
+    breakpoints: $breakpoints,
+    output: 'vr',
+    properties: $properties,
+    rem: true,
+    target: $target,
+    typeface: $typeface,
+    typefaces: $typefaces,
+    typi-ms: $typi-ms,
+    typi: $typi,
+    vr: $vr
+  ))
+}

@@ -1,0 +1,51 @@
+// Calculates font size to return to typi
+// ----------
+// - return font-size in rem or em
+// ==========
+@function _ty-calc-font-size (
+  $font-size: $font-size,
+  $basemap: $basemap,
+  $rem: $rem,
+  $breakpoint: null,
+  $typeface-multiplier: 1
+) {
+  // Using typi-ms if font-size is unitless
+  @if unitless($font-size) {
+    $step: $font-size;
+    @if $rem {
+      @return _ty-ms-to-rem($step, $breakpoint) * $typeface-multiplier;
+    } @else {
+      @return _ty-ms-to-em($step, $breakpoint) * $typeface-multiplier;
+    }
+  }
+
+  $base-null: null;
+  $base-font-size: null;
+
+  // Calculation uses base-null becase everything
+  // is relative to the base font-size.
+  @if map-has-key($basemap, null) {
+    $base-null: map-get($basemap, null);
+    $base-font-size: nth($base-null, 1);
+  } @else {
+    @error 'Base map must have null key'
+  }
+
+  // Converts to rem
+  @if $rem {
+    @if unit($font-size) == 'px' {
+      @return _ty-to-rem($font-size, $base-font-size) * $typeface-multiplier;
+    } @else {
+      @return _ty-to-rem($font-size) * $typeface-multiplier;
+    }
+  }
+
+  // Converts to em
+  @else {
+    @if unit($font-size) == 'px' {
+      @return _ty-to-em($font-size, $base-font-size) * $typeface-multiplier;
+    } @else {
+      @return _ty-to-em($font-size) * $typeface-multiplier;
+    }
+  }
+}

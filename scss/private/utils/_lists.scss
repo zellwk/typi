@@ -1,0 +1,68 @@
+// _ty-append
+// ----------
+// Appending to empty list is wonky. This function fixes
+// append by setting first item to be appended as a list item
+// ==========
+@function _ty-append($list, $value) {
+  @if length($list) == 0 {
+    @return ($value);
+  } @else {
+    @return append($list, $value);
+  }
+}
+
+// _ty-insert-nth
+// ----------
+// Inserting value at index n
+// http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/#adding-values-to-a-list
+// ==========
+@function _ty-insert-nth($list, $index, $value) {
+  $result: null;
+
+  @if type-of($index) != number {
+    @warn "$index: #{quote($index)} is not a number for `insert-nth`.";
+  }
+
+  @else if $index < 1 {
+    @warn "List index 0 must be a non-zero integer for `insert-nth`";
+  }
+
+  @else if $index > length($list) {
+    @warn "List index is #{$index} but list is only #{length($list)} item long for `insert-nth'.";
+  }
+
+  @else {
+    $result: ();
+
+    @for $i from 1 through length($list) {
+      @if $i == $index {
+        $result: append($result, $value);
+      }
+
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}
+
+// _ty-remove
+// ----------
+// - Removes item from list
+// http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/#removing-values-from-list
+// ==========
+@function _ty-remove($list, $value, $recursive: false) {
+  $result: ();
+
+  @for $i from 1 through length($list) {
+    @if type-of(nth($list, $i)) == list and $recursive {
+      $result: append($result, remove(nth($list, $i), $value, $recursive));
+    }
+
+    @else if nth($list, $i) != $value {
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}

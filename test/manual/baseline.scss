@@ -1,0 +1,51 @@
+@import 'scss/typi';
+@import 'mappy-breakpoints/mappy-breakpoints';
+@import 'compass-breakpoint/stylesheets/breakpoint';
+
+$breakpoints: (
+  small: 400px,
+  med: 1000px
+);
+
+$typi: (
+  base: (
+    null: (16px, 1.5),
+    small: 18px,
+    med: (20px)
+  ),
+  h1: (
+    null: (24px, 1.3),
+    small: 26px,
+    med: 30px
+  )
+);
+
+$typefaces: (
+  primary: (
+    cap-height: 0.66
+  )
+);
+
+@include typi-init;
+
+// TODO: Baseline calculation error problem! Ugh.
+// Note: Baseline padding-top should be twice the current amount, but margin-bottom should remain the same.
+// Probably need to use difference between font-size and line-height as margin-bottom? Not sure. Need to explore, but definitely after the workshop.
+h1 {
+  margin: 0;
+  margin-top: vr(2);
+  @include typi('h1', $baseline: true);
+}
+
+p {
+  margin: 0;
+  margin-top: vr(1);
+  @include baseline-push();
+}
+
+body {
+  font-family: Helvetica;
+  max-width: 600px;
+  margin: 0 auto;
+  @include baseline-grid();
+}

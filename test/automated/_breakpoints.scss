@@ -1,0 +1,39 @@
+// Test breakpoints
+// ----------
+// - Ensure to loop through each map in target
+// - Ensure each breakpoint in target is present in $brekapoints
+// - Ensure each breakpoint in target is present in $typi
+// =========
+$breakpoints: (
+  small: 400px,
+  med: 600px,
+  large: 800px,
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+    med: 2em,
+    large: (3em),
+  )
+);
+
+$basemap: map-get($typi, base);
+
+@include test-module('Has breakpoint') {
+  @include test('ensures basemap has target breakpoint') {
+    // If you create a huge key, this will break
+    $test: _ty-has-breakpoint(
+      $breakpoint: large,
+      $breakpoints: $breakpoints,
+      $basemap: $basemap
+    );
+    @include assert-equal($test, true);
+  }
+}

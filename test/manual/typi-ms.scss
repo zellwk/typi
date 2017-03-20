@@ -1,0 +1,66 @@
+@import 'bower_components/modular-scale/stylesheets/_modular-scale';
+@import 'scss/typi';
+
+$breakpoints: (
+  small: 'small',
+  med: 'med',
+  large: 'large',
+  huge: 'huge',
+);
+
+$typi-ms: (
+  null: 1.2,
+  small: 1.2,
+  med: (1.2 1.5),
+  large: (1em 2em 1.2),
+  huge: (1.5em 1.2 1.5)
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+  ),
+  h2: (
+    null: (0, 1.3),
+    small: 1,
+    med: 2,
+    large: 3,
+    huge: 4
+  )
+);
+
+/**
+ * Inits.
+ * -------------------
+ * Should call typi-base
+ * Should only produce base and small breakpoints
+ * Should check $typi and $typi-ms maps for breakpoints. (comment any breakpoint to see warning)
+ */
+@include typi-init;
+
+/**
+ * Creates sizes in rem
+ * -------------------
+ * null should produce:   1rem
+ * small should produce:  1.2rem
+ * med should produce:    1.44rem http://www.modularscale.com/?1&em&1.2,1.5&web&text
+ * large should produce:  1.38889rem http://www.modularscale.com/?1,2&em&1.2&web&text
+ * huge should produce:   2.592rem http://www.modularscale.com/?1.5&em&1.2,1.5&web&text
+ * ===================
+ */
+
+h2 {
+  @include typi('h2');
+}
+
+/**
+ * Creates sizes in em
+ * -------------------
+ * same as above, but in em
+ * ===================
+ */
+
+h2 {
+  @include typi('h2', $rem: false);
+}

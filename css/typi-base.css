@@ -1,0 +1,43 @@
+/**
+ * Tests Output of Typi-init
+ * -------------------------
+ * Should output:
+ * - no breakpoint:     font-size: 112.5%;
+ *                      line-height: 1.5;
+ * - small breakpoint:  font-size: 125%;
+ * - med breakpoint:    font-size: 137.5%;
+ * - large breakpoint:  font-size: 150%;
+ *                      line-height: 1.6;
+ */
+html {
+  font-size: 112.5%;
+  line-height: 1.5; }
+  @media all and (min-width: small) {
+    html {
+      font-size: 125%; } }
+  @media all and (min-width: med) {
+    html {
+      font-size: 137.5%; } }
+  @media all and (min-width: large) {
+    html {
+      font-size: 150%;
+      line-height: 1.6; } }
+
+/**
+ * Tests selector of typi-base
+ * ---------------------------
+ * Selector should match $selector
+ */
+body {
+  font-size: 112.5%;
+  line-height: 1.5; }
+  @media all and (min-width: small) {
+    body {
+      font-size: 125%; } }
+  @media all and (min-width: med) {
+    body {
+      font-size: 137.5%; } }
+  @media all and (min-width: large) {
+    body {
+      font-size: 150%;
+      line-height: 1.6; } }

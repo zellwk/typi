@@ -1,0 +1,52 @@
+// _ty-has-breakpoint
+// ----------
+// - Ensures $breakpoints and $typi has breakpoint
+// ==========
+@function _ty-has-breakpoint (
+  $target: null,
+  $breakpoint: $breakpoint,
+  $breakpoints: $breakpoints,
+  $basemap: $basemap
+  ) {
+
+  @if $target == 'base' {
+    @return true;
+  }
+
+  @if not map-has-key($breakpoints, $breakpoint) {
+    @error "$breakpoints map is missing #{$breakpoint} key";
+  }
+
+  // @if not map-has-key($basemap, $breakpoint) {
+  //   @error "$typi base key is missing #{$breakpoint} key";
+  // }
+
+  @return true;
+}
+
+// _has-breakpoint-library
+// - Checks if breakpoint library is installed
+// ==========
+@function _ty-has-breakpoint-library($lib) {
+  // Activates if $typi-breakpoint = mentioned breakpoint
+  @if $typi-breakpoint == $lib {
+    @if mixin-exists($lib) { @return true; }
+    @else { @error "#{$lib} not found"; }
+  }
+  // Else use default breakpoint built in typi
+  @else {
+    @return false;
+  }
+}
+
+// _ty-parse-breakpoint-lib
+// ----------
+// Checks if breakpoint library is supported
+// ==========
+@function _ty-parse-breakpoint-lib($lib) {
+  @if mixin-exists($lib) {
+    @return $lib;
+  } @else {
+    @return false;
+  }
+}

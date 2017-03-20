@@ -1,0 +1,70 @@
+@import 'init';
+
+////
+/// @author Zell Liew
+/// @access public
+/// @param {Map} $typi [$typi] - $typi map
+/// @param {Map} $typi-ms [$typi-ms] - $typi-ms map
+/// @param {Map} $breakpoints [$breakpoints] - $breakpoints map
+/// @group Core
+////
+
+// typi
+// ----------
+/// Creates font-size and line-height properties
+/// @author Zell Liew
+/// @access public
+/// @param {String} $target - font-map key
+/// @param {String} $typeface ['primary'] - typeface key
+/// @param {Bool} $baseline [false] - Pushes to baseline with padding-top and margin-bottom props
+/// @param {Bool} $rem [true] - Outputs rem or em
+/// @param {Map} $typi-breakpoint [$typi-breakpoint] - Breakpoint library
+/// @param {Map} $typefaces [$typefaces] - $typefaces map
+@mixin typi (
+  $target,
+  $typeface: 'primary',
+  $baseline: false,
+  $rem: true,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $typi-breakpoint: $typi-breakpoint,
+  $typefaces: $typefaces,
+  $breakpoints: $breakpoints
+) {
+  @include _ty-write-breakpoints((
+    baseline-push: $baseline,
+    breakpoints: $breakpoints,
+    breakpoint-lib: $typi-breakpoint,
+    output: 'props',
+    rem: $rem,
+    target: $target,
+    typeface: $typeface,
+    typefaces: $typefaces,
+    typi-ms: $typi-ms,
+    typi: $typi
+  ))
+}
+
+// Typi-base
+// ----------
+/// Creates styles for root selector (defaults to HTML)
+/// @author Zell Liew
+/// @access public
+/// @param {String} $selector [html] - Default selector for root font-size and line-height
+@mixin typi-base(
+  $selector: 'html',
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints
+) {
+  #{$selector} {
+    @include typi(
+      $target: base,
+      $typi: $typi,
+      $typi-ms: $typi-ms,
+      $breakpoints: $breakpoints,
+      $rem: false
+    )
+  }
+}
+

@@ -1,0 +1,103 @@
+// Test Calculation of font-sizes
+// ----------
+// - px  -> rem
+// - em  -> rem
+// - px  -> em
+// - rem -> em
+// - px  -> %
+// - unitless -> em (For typi-ms)
+// - unitless -> rem (For typi-ms)
+// ==========
+
+$breakpoints: (
+  small: 800px,
+  med: 1000px,
+  large: 1200px,
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  )
+);
+
+$typi-ms: (
+  small: 1.2,
+  med: 1.5,
+  large: 1.8
+);
+
+$basemap: map-get($typi, base);
+
+@include test-module('Calculate Typi font-size in Rem') {
+  @include test('em -> rem') {
+    $test: _ty-calc-font-size(
+      $font-size: 2em,
+      $basemap: $basemap,
+      $rem: true
+    );
+
+    @include assert-equal($test, 2rem, 'em should be converted into rem');
+  }
+
+  @include test('px -> rem') {
+    $test: _ty-calc-font-size(
+      $font-size: 20px,
+      $basemap: $basemap,
+      $rem: true
+    );
+    $base-size: nth(map-fetch($typi, base null), 1);
+    $result: 20px / $base-size * 1rem;
+    @include assert-equal($test, $result, 'px should be converted into rem');
+  }
+}
+
+@include test-module('Calculate Typi font-size in em') {
+  @include test('rem -> em') {
+    $test: _ty-calc-font-size(
+      $font-size: 2rem,
+      $basemap: $basemap,
+      $rem: false
+    );
+    $result: 2em;
+    @include assert-equal($test, $result, 'rem should be converted into em');
+  }
+
+  @include test('px -> em') {
+    $test: _ty-calc-font-size(
+      $font-size: 20px,
+      $basemap: $basemap,
+      $rem: false
+    );
+    $base-size: nth(map-fetch($typi, base null), 1);
+    $result: 20px / $base-size * 1em;
+    @include assert-equal($test, $result);
+  }
+}
+
+@include test-module('Calculate font-size in %') {
+  @include test('px -> %') {
+    $test: _ty-to-percentage(20px);
+    $result: 125%;
+    @include assert-equal($test, $result, 'px should be converted into % with 16px as base');
+  }
+}
+
+@include test-module('Calculate unitless Typi font-size') {
+  @include test('unitless -> rem') {
+    $test: _ty-ms-to-rem(2, small);
+    $ratio: map-get($typi-ms, small);
+    $result: _ty-strip-unit(ms(2, 1em, $ratio)) * 1rem;
+    @include assert-equal($test, $result);
+  }
+
+  @include test('unitless -> em') {
+    $test: _ty-ms-to-em(2, med);
+    $ratio: map-get($typi-ms, med);
+    $result: ms(2, 1em, $ratio);
+    @include assert-equal($test, $result);
+  }
+}

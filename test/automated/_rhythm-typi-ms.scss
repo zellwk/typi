@@ -1,0 +1,96 @@
+$typi: (
+  base: (
+    null: (16px, 1.5),
+    small: 20px,
+  ),
+  h1: (
+    null: (1, 1.3),
+    small: 1,
+    med: 2,
+  )
+);
+
+$breakpoints: (
+  small: 'small',
+  med: 'med',
+);
+
+$typi-ms: (
+  null: 1.2,
+  small: 1.3,
+  med: 1.4,
+);
+
+
+@include test-module('VR with Typi-ms') {
+  @include test('With _ty-write-vr()') {
+    $step: nth(map-fetch($typi, h1 small), 1);
+    $base: 1em;
+    $ratio: map-get($typi-ms, small);
+    $current-font-size: ms($step, $base, $ratio);
+    $base-line-height: nth(map-fetch($typi, base null), 2);
+    $vr: 2 * $base-line-height / _ty-strip-unit($current-font-size) * 1em;
+
+    @include assert('write one property') {
+      @include input {
+        @include _ty-write-vr((
+          vr: 2,
+          properties: margin-top,
+          target-map: map-get($typi, 'h1'),
+          basemap: map-get($typi, 'base')
+        ), small);
+      }
+
+      @include expect {
+        margin-top: $vr;
+      }
+    }
+
+    @include assert('write multiple properties') {
+      @include input {
+        @include _ty-write-vr((
+          vr: 2,
+          properties: margin-top margin-bottom,
+          target-map: map-get($typi, 'h1'),
+          basemap: map-get($typi, 'base')
+        ), small);
+      }
+
+      @include expect {
+        margin-top: $vr;
+        margin-bottom: $vr;
+      }
+    }
+  }
+
+  @include test('With ms-vr()') {
+    $step: nth(map-fetch($typi, h1 null), 1);
+    $base: 1em;
+    $ratio: map-get($typi-ms, null);
+    $current-font-size: ms($step, $base, $ratio);
+    $base-line-height: nth(map-fetch($typi, base null), 2);
+    $vr: 2 * $base-line-height / _ty-strip-unit($current-font-size) * 1em;
+
+    @include assert('write one property') {
+      @include input {
+        @include vr-ms(margin-top, 2, $target: 'h1');
+      }
+
+      @include expect {
+        margin-top: $vr;
+      }
+    }
+
+    @include assert('write multiple properties') {
+      @include input {
+        @include vr-ms(margin-top margin-bottom, 2, $target: 'h1');
+      }
+
+      @include expect {
+        margin-top: $vr;
+        margin-bottom: $vr;
+      }
+    }
+  }
+  // manual test for all breakpoints
+}

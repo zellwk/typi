@@ -1,0 +1,97 @@
+$breakpoints: (
+  single-ratio: 400px,
+  double-ratio: 600px,
+  double-base: 800px,
+  double-base-2: 800px,
+  single-both: 1000px,
+  double-both: 1200px,
+  large: 400px
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (2, 1.3),
+    large: (3, 1.3)
+  )
+);
+
+$typi-ms: (
+  single-ratio: (1.2),
+  double-ratio: (1.2 1.5),
+  double-base: (2em 3em 1.2),
+  double-base-2: (1em 2em 1.2),
+  single-both: (2em 1.2),
+  double-both: (2em 3em 1.2 1.5),
+  large: 1.2
+);
+
+@include test-module('Typi MS Calculations') {
+  @include test('for 1 ratio') {
+    $test: _ty-calc-ms(2, single-ratio);
+    $base: 1em;
+    $ratio: map-get($typi-ms, single-ratio);
+    $result: ms(2, $base, $ratio);
+    @include assert-equal($test, $result);
+  }
+
+  @include test('for 2 ratios') {
+    $test: _ty-calc-ms(2, double-ratio);
+    $base: 1em;
+    $ratio: map-get($typi-ms, double-ratio);
+    $result: ms(2, $base, $ratio);
+    @include assert-equal($test, $result);
+  }
+
+  // Hardcoded test
+  @include test('for 2 bases') {
+    $test: _ty-calc-ms(2, double-base);
+    $result: ms(2, 2em 3em, 1.2);
+    @include assert-equal($test, $result);
+
+    $test2: _ty-calc-ms(1, double-base-2);
+    $result2: ms(1, 1em 2em, 1.2);
+    @include assert-equal($test2, $result2);
+  }
+
+  // Hardcoded test
+  @include test('for 1 ratio 1 base') {
+    $test: _ty-calc-ms(2, single-both);
+    $result: ms(2, 2em, 1.2);
+    @include assert-equal($test, $result);
+  }
+
+  // Hardcoded test
+  @include test('for 2 base 2 ratio') {
+    $test: _ty-calc-ms(2, double-both);
+    $result: ms(2, 2em 3em, 1.2 1.5);
+    @include assert-equal($test, $result);
+  }
+}
+
+@include test-module('Writing Typi MS props') {
+  @include test('should output font-size and line-height') {
+    @include assert('') {
+      @include input {
+        @include _ty-output-props((
+          target: 'h1',
+          target-map: map-get($typi, 'h1'),
+          basemap: map-get($typi, 'base'),
+          rem: false,
+          output: props
+        ), $breakpoint: large);
+      }
+
+      @include expect() {
+        $ratio: map-get($typi-ms, large);
+        $step: nth(map-fetch($typi, 'h1' 'large'), 1);
+        $line-height: nth(map-fetch($typi, 'h1' 'large'), 2);
+        font-size: ms($step, 1em, $ratio);
+        line-height: $line-height;
+      }
+    }
+  }
+}

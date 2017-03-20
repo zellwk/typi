@@ -3,7 +3,7 @@ var sass = require('gulp-sass');
 var mocha = require('gulp-mocha');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
-
+var sassdoc = require('sassdoc');
 function customPlumber(errTitle) {
   return plumber({
     errorHandler: notify.onError({
@@ -22,11 +22,24 @@ gulp.task('sass', function() {
     .pipe(customPlumber())
     .pipe(sass({
       includePaths: [
-        './bower_components',
-        './node_modules'
+        './bower_components/',
+        './node_modules/',
+        './'
       ],
     }))
     .pipe(gulp.dest('css'));
+});
+
+gulp.task('sassdoc', function () {
+  return gulp.src('./scss/**/*.scss')
+    .pipe(sassdoc({
+      groups: {
+        config: 'Config',
+        core: 'Core',
+        'helpers-typefaces': "Helpers - typefaces",
+        utils: 'Utilities'
+      }
+    }));
 });
 
 gulp.task('mocha', function() {
@@ -36,9 +49,9 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('watch', ['mocha'], function() {
-  gulp.watch('test/*.scss', ['mocha']);
+  gulp.watch('test/automated/**/*.scss', ['mocha']);
   gulp.watch('scss/**/*.scss', ['sass', 'mocha']);
   gulp.watch('test/manual/**/*.scss', ['sass', 'mocha']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'sassdoc', 'sass']);

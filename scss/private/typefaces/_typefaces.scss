@@ -1,0 +1,31 @@
+// _ty-parse-typeface
+// ----------
+// Ensures typeface key present in $typefaces.
+// ==========
+@function _ty-parse-typeface(
+  $typeface,
+  $typefaces
+) {
+  @if map-has-key($typefaces, $typeface) {
+    @return map-get($typefaces, $typeface);
+  } @else {
+    @error "$typefaces does not have #{$typeface} typeface";
+  }
+}
+
+@function _ty-get-typeface-map(
+  $typefaces,
+  $typeface
+) {
+  // Returns false if typeface map is not used,
+  // so caller can handle their own.
+  @if type-of($typefaces) != 'map' {
+    @return false;
+  }
+  @if not map-has-key($typefaces, $typeface) {
+    @error '#{$typeface}' not found in $typefaces
+  }
+  @return map-get($typefaces, $typeface);
+}
+
+@import 'multiplier';

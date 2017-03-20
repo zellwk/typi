@@ -1,0 +1,57 @@
+// _ty-get-font-size
+// ----------
+// Gets font-size from font-map-breakpoint
+// ==========
+@function _ty-get-font-size ($font-map-breakpoint) {
+  @if type-of($font-map-breakpoint) == 'number' {
+    @return $font-map-breakpoint;
+  } @else {
+    @return nth($font-map-breakpoint, 1);
+  }
+}
+
+// _ty-get-line-height
+// ----------
+// Gets line-height from font-map-breakpoint
+// ==========
+@function _ty-get-line-height ($font-map-breakpoint) {
+  @if type-of($font-map-breakpoint) == 'list' {
+    @return nth($font-map-breakpoint, 2);
+  } @else {
+    @return false;
+  }
+}
+
+// _ty-get-base-font-size
+// ==========
+@function _ty-get-base-font-size($basemap) {
+  $base-null: map-get($basemap, null);
+  @return _ty-get-font-size($base-null);
+}
+
+// _ty-get-base-line-height
+// ==========
+@function _ty-get-base-line-height($basemap) {
+  $base-null: map-get($basemap, null);
+  $base-line-height: _ty-get-line-height($base-null);
+
+  @if not $base-line-height {
+    @error "Typi base map requires line-height multiple in null key"
+  }
+
+  @if not unitless($base-line-height) {
+    @error "Line-height in $typi base map should be unitless"
+  }
+
+  @return $base-line-height;
+}
+
+// _ty-get-base-map
+// ----------------
+@function _ty-get-base-map($typi: $typi) {
+  @if map-has-key($typi, base) {
+    @return map-get($typi, base);
+  } @else {
+    @error "Base key not found in $typi";
+  }
+}

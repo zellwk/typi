@@ -1,0 +1,119 @@
+// _ty-output-props
+// ----------
+// Decides mixins used to write properties
+// ==========
+@mixin _ty-output-props (
+  $_map: $_map,
+  $breakpoint: $breakpoint
+) {
+  $target: map-get($_map, target);
+  $target-map: map-get($_map, target-map);
+  $output: map-get($_map, output);
+  $baseline-push: map-get($_map, baseline-push);
+
+  // Ensures breakpoint is present in target
+  @if not map-has-key($target-map, $breakpoint) {
+    @error "#{$target} does not have #{$breakpoint} breakpoint"
+  }
+
+  @if $target == 'base' {
+    @include _ty-write-base($_map, $breakpoint);
+    @if $baseline-push {
+      @error "$baseline option not allowed on base map";
+    }
+  } @else if $output == 'props' {
+    @include _ty-write-props($_map, $breakpoint);
+  } @else if $output == 'vr' {
+    @include _ty-write-vr($_map, $breakpoint);
+  }
+}
+
+// _ty-write-base
+// ----------
+// Creates font-size and line-height for base map
+// ==========
+@mixin _ty-write-base ($_map, $breakpoint) {
+  $target-map: map-get($_map, target-map);
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $font-size: _ty-get-font-size($font-map-breakpoint);
+  $line-height: _ty-get-line-height($font-map-breakpoint);
+
+  font-size: _ty-to-percentage($font-size);
+  @if $line-height {
+    line-height: $line-height;
+  }
+}
+
+// _ty-write-props
+// ----------
+// Creates font-size and line-height properties
+// ==========
+@mixin _ty-write-props($_map, $breakpoint) {
+  $target-map: map-get($_map, target-map);
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $basemap: map-get($_map, basemap);
+  $rem: map-get($_map, rem);
+  $typefaces: map-get($_map, typefaces);
+  $typeface: map-get($_map, typeface);
+  $baseline-push: map-get($_map, baseline-push);
+
+  $typeface-multiplier: _ty-get-typeface-multiplier($typeface, $typefaces);
+  $orig-font-size: _ty-get-font-size($font-map-breakpoint);
+  $_line-height: _ty-get-line-height($font-map-breakpoint);
+  $_font-size: _ty-calc-font-size(
+    $font-size: $orig-font-size,
+    $basemap: $basemap,
+    $rem: $rem,
+    $breakpoint: $breakpoint,
+    $typeface-multiplier: $typeface-multiplier
+  );
+
+  font-size: $_font-size;
+  @if $_line-height {
+    line-height: $_line-height;
+  }
+
+  @if $baseline-push {
+    $_font-size: _ty-calc-font-size(
+      $font-size: $orig-font-size,
+      $basemap: $basemap,
+      $rem: false,
+      $breakpoint: $breakpoint,
+      $typeface-multiplier: $typeface-multiplier
+    );
+    @include _ty-write-baseline-push(
+      $font-size: $_font-size,
+      $line-height: $_line-height,
+      $breakpoint: $breakpoint,
+      $_map: $_map
+    );
+  }
+}
+
+// _ty-write-vr
+// ----------
+// Creates values for ms-vr mixin.
+// ==========
+@mixin _ty-write-vr($_map, $breakpoint) {
+  $vr: map-get($_map, vr);
+  $properties: map-get($_map, properties);
+  $target-map: map-get($_map, target-map);
+  $basemap: map-get($_map, basemap);
+  $typeface: map-get($_map, typeface);
+  $typefaces: map-get($_map, typefaces);
+
+  $font-map-breakpoint: map-get($target-map, $breakpoint);
+  $step: _ty-get-font-size($font-map-breakpoint);
+
+  @if not unitless($step) {
+    $target: map-get($_map, target);
+    @error 'Step #{$step} in #{$target}, #{$breakpoint} must be unitless';
+  }
+
+  $font-size: _ty-ms-to-em($step, $breakpoint);
+  $rhythm: vr($vr, $font-size, $typeface, $basemap, $typefaces: $typefaces);
+
+  @each $property in $properties {
+    #{$property}: $rhythm;
+  }
+}

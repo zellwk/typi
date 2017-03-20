@@ -1,0 +1,129 @@
+// Baseline grid
+// ----------
+/// Creates baseline grid
+/// @access public
+/// @param {Number} $offset [0] - Offsets baseline grid.
+/// @param {Number} $baseline [null] - Generates a baseline of your choice.
+/// @param {Hex} $color [rgba(blue, 0.15)] - Color of baseline
+/// @param {Map} $typi [$typi] - $typi map.
+@mixin baseline-grid(
+  $offset: 0,
+  $baseline: null,
+  $color: rgba(blue, 0.25),
+  $typi: $typi
+) {
+  // Creates user requested baseline
+  @if $baseline {
+    background-image: linear-gradient(to bottom, $color 1px, transparent 0, transparent $baseline);
+    background-size: 100% $baseline;
+    background-position: 0 $offset;
+  }
+
+  // Automatically generate baseline from $typi base
+  @else {
+    $base-map: _ty-get-base-map($typi);
+    $_base-font-size: _ty-get-base-font-size($base-map);
+    $_base-line-height: _ty-get-base-line-height($base-map);
+    $_prev-bp-line-height: $_base-line-height;
+    $baseline: $_base_font-size * $_base-line-height;
+
+    background-image: linear-gradient(to bottom, $color 1px, transparent 0, transparent $baseline);
+    background-size: 100% $baseline;
+    background-position: 0 $offset;
+
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @if map-has-key($base-map, $breakpoint) {
+        $font-map-breakpoint: map-fetch($typi, base $breakpoint);
+        $_bp-base-font-size: _ty-get-font-size($font-map-breakpoint);
+        $_bp-line-height: _ty-get-line-height($font-map-breakpoint);
+
+        @if not $_bp-line-height {
+          $_bp-line-height: $_prev-bp-line-height;
+        }
+
+        $_bp-baseline: $_bp-base-font-size * $_bp-line-height;
+        @media all and (min-width: #{$breakpoint-value}) {
+          background-image: linear-gradient(to bottom, $color 1px, transparent 0, transparent $_bp-baseline);
+          background-size: 100% $_bp-baseline;
+        }
+
+        $_prev-bp-line-height: $_bp-line-height;
+      }
+    }
+  }
+}
+
+@mixin baseline-push (
+  $typeface: 'primary',
+  $breakpoints: $breakpoints,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $typi-breakpoint: $typi-breakpoint,
+  $typefaces: $typefaces
+) {
+  $base-map: map-get($typi, base);
+  @if not $base-map {
+    @error "$typi needs to have a base map";
+  }
+
+  $base-font-size: _ty-get-base-font-size($base-map);
+
+  @each $breakpoint, $breakpoint-value in $base-map {
+    $font-size: _ty-to-em(_ty-get-font-size($breakpoint-value), $base-font-size);
+    $line-height: _ty-get-line-height($breakpoint-value);
+
+    // Output without breakpoints
+    @if $breakpoint == null {
+       @include _ty-write-baseline-push(
+        $font-size: $font-size,
+        $line-height: $line-height,
+        $breakpoint: $breakpoint,
+        $_map: (
+          target-map: $base-map,
+          basemap: $base-map,
+          breakpoints: $breakpoints,
+          typeface: $typeface,
+          typefaces: $typefaces
+        )
+      )
+    }
+
+    // Output with breakpoints
+    @else {
+      @include _ty-output-with-breakpoint-library {
+        @include _ty-write-baseline-push(
+          $font-size: $font-size,
+          $line-height: $line-height,
+          $breakpoint: $breakpoint,
+          $_map: (
+            target-map: $base-map,
+            basemap: $base-map,
+            breakpoints: $breakpoints,
+            typeface: $typeface,
+            typefaces: $typefaces
+          )
+        )
+      }
+    }
+  }
+}
+
+
+
+  // @if $baseline-push {
+  //   $basline-push-prop: map-get($_map, baseline-push-prop);
+  //   $_line-height: _ty-get-line-height-for-baseline-push(
+  //     $_line-height,
+  //     $breakpoint,
+  //     $_map
+  //   );
+  //   $push-amt: _ty-get-baseline-push-amt(
+  //     $font-size: $_font-size,
+  //     $line-height: $_line-height,
+  //     $typeface: $typeface,
+  //     $typefaces: $typefaces
+  //   );
+
+  //   padding-top: $push-amt;
+  //   margin-bottom: $push-amt * -1;
+  // }

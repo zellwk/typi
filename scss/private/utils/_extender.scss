@@ -1,0 +1,148 @@
+// _ty-map-extender
+// ----------
+// - Extends $typi-ms and all target maps
+//   to include breakpoints from breakpoints map
+// TODO: Update when libsass v3.4
+// https://github.com/zellwk/typi/issues/17
+// ==========
+
+@function _ty-map-extender(
+  $target: null,
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints
+) {
+  $_o: null;
+
+  // Extends $typi map
+  @if $target {
+    $_o: _ty-extend-typi($target);
+  }
+
+  // Extends $typi-ms
+  @else {
+    $_o: _ty-extend-typi-ms()
+  }
+
+  @return $_o;
+}
+
+// _ty-extend-typi
+// ==========
+@function _ty-extend-typi($target) {
+  $_return: $typi;
+  $_target-map: null;
+  $_prev-breakpoint: null;
+  $_overwrite-value: null;
+
+  // Does not extend typi base
+  @if $target == 'base' {
+    @return $_return;
+  }
+
+  @if map-has-key($typi, $target) {
+    $_target-map: map-get($typi, $target);
+  } @else {
+    @error '$typi should contain #{$target}';
+  }
+
+  // Initializes $_overwrite-value
+  @if map-has-key($_target-map, null) {
+    $_overwrite-value: map-get($_target-map, null);
+  } @else {
+    @error "#{$_target-map} must contain a null key";
+  }
+
+  @each $breakpoint, $value in $breakpoints {
+    // Updates overwrite value if has target map
+    @if map-has-key($_target-map, $breakpoint) {
+      $_overwrite-value: map-get($_target-map, $breakpoint);
+    }
+
+    // Overwrites relevant map otherwise
+    // TODO: Needs to get map and override in the correct order. Needs Libsass v3.4
+    // See manual/typi-ms.scss for details
+    @else {
+      $_return: map-deep-set(
+        $_return,
+        $target $breakpoint,
+        $_overwrite-value
+      );
+      $typi: map-merge($typi, $_return) !global;
+    }
+
+    // Sets values for next loop
+    $_prev-breakpoint: $breakpoint;
+  }
+
+  @return $_return;
+}
+
+// _ty-extend-typi-ms
+// ==========
+@function _ty-extend-typi-ms() {
+  $_return: $typi-ms;
+  $_prev-breakpoint: 'null';
+  $_overwrite-value: null;
+
+  // Target map must always have a null key
+  @if not map-has-key($_return, null) {
+    @error "$typi-ms must contain a null key";
+  }
+
+  // Initializes $_overwrite-value
+  $_overwrite-value: map-get($_return, null);
+
+  @each $breakpoint, $value in $breakpoints {
+    // Updates overwrite value if already in $typi-ms
+    @if map-has-key($_return, $breakpoint) {
+      $_overwrite-value: map-get($_return, $breakpoint);
+    }
+
+    // Overwrites relevant map otherwise
+    @else {
+      $_return: map-deep-set(
+        $_return,
+        $breakpoint,
+        $_overwrite-value
+      );
+      $typi-ms: map-merge($typi-ms, $_return) !global;
+    }
+
+    // Sets values for next loop
+    $_prev-breakpoint: $breakpoint
+  }
+
+  @return $_return;
+}
+
+// _ty-check-extended-map
+// ==========
+@mixin _ty-check-extended-map(
+  $map: 'typi',
+  $typi: $typi,
+  $typi-ms: $typi-ms,
+  $breakpoints: $breakpoints
+) {
+  $breakpoint-list: map-keys($breakpoints);
+  $font-map-list: map-keys($typi);
+  $font-map-list: _ty-remove($font-map-list, 'base');
+
+  // Loops through every font-map to ensure that
+  // each map contains all breakpoint keys
+  @each $map-key in $font-map-list {
+    $font-map: map-get($typi, $map-key);
+    @each $breakpoint in $breakpoint-list {
+      @if not map-has-key($font-map, $breakpoint) {
+        @warn "#{$breakpoint} breakpoint not found in $typi's #{$map-key} key. Make sure every breakpoint is present in every font-map when using $typi-ms!";
+      }
+    }
+  }
+
+  // checks $typi-ms
+  @each $breakpoint in $breakpoint-list {
+    @if not map-has-key($typi-ms, $breakpoint) {
+      @warn "#{$breakpoint} breakpoint not found in $typi-ms. Make sure every breakpoint is present in every font-map when using $typi-ms!";
+    }
+  }
+}

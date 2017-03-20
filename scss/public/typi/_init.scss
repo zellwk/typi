@@ -1,0 +1,43 @@
+// Typi Initializer
+// ----------
+// - Creates base map
+// - Calls extender (if typi-ms is used)
+// ==========
+
+@mixin typi-init(
+  $typi: $typi,
+  $breakpoints: $breakpoints,
+  $typi-ms: $typi-ms,
+  $typefaces: $typefaces
+) {
+  $_updated-typi: $typi;
+  $_updated-typi-ms: $typi-ms;
+
+  // Uncomment when extender is completed (Requires libsass#3.4)
+  // Only invokve extender if $typi-ms is present
+  // $typi-ms and $typi map must be their original names
+  // @if type-of($typi-ms) == 'map' {
+  //   @each $key, $value in $typi-ms {
+  //     $_updated-typi-ms: _ty-map-extender($typi-ms: $typi-ms);
+  //   }
+  //   @each $key, $value in $typi {
+  //     $_updated-typi: _ty-map-extender($key);
+  //   }
+  // }
+
+  @if type-of($typi-ms) == 'map' {
+    @include _ty-check-extended-map;
+  }
+
+  // Is there a need for primary typeface? Commented until there really is.
+  // @if type-of($typefaces) == 'map' {
+  //   $_has-primary-typeface: _ty-has-typeface('primary', $typefaces);
+  // }
+
+  @include typi-base(
+    $typi: $_updated-typi,
+    $typi-ms: $_updated-typi-ms,
+    $breakpoints: $breakpoints
+  )
+}
+

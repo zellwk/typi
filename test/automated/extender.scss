@@ -1,0 +1,73 @@
+@import 'true';
+@import 'modular-scale/stylesheets/_modular-scale';
+@import 'scss/typi';
+
+// Test individual extension of maps
+// ==========
+$breakpoints: (
+  small: 400px,
+  med: 600px,
+  large: 800px
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+  )
+);
+
+$typi-ms: (
+  null: 1.2,
+  large: 1.3
+);
+
+@include test-module('Extend $typi-ms map') {
+  @include test('') {
+    $_overwrite: _ty-map-extender();
+    $test: $typi-ms;
+    $result: (
+      null: 1.2,
+      small: 1.2,
+      med: 1.2,
+      large: 1.3
+    );
+    @include assert-equal($test, $result);
+  }
+}
+
+@include test-module('Extend $typi map') {
+  @include test('overwrites $typi map with missing breakpoints') {
+    $overwriting: _ty-map-extender('base');
+    $test: $typi;
+    $result: (
+      base: (
+        null: (18px, 1.5),
+        large: (24px, 1.6),
+      ),
+      h1: (
+        null: (24px, 1.3)
+      )
+    );
+    @include assert-equal($test, $result, 'base should not extend');
+
+    $overwriting: _ty-map-extender('h1');
+    $test2: $typi;
+    $result2: (
+      base: (
+        null: (18px, 1.5),
+        large: (24px, 1.6),
+      ),
+      h1: (
+        null: (24px, 1.3),
+        small: (24px, 1.3),
+        med: (24px, 1.3),
+        large: (24px, 1.3)
+      )
+    );
+    @include assert-equal($test2, $result2, 'for h1')
+  }
+}

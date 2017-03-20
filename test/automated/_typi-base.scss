@@ -1,0 +1,30 @@
+// Tests output of typi-base for one media query
+// ==========
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  )
+);
+
+@include test-module('Typi-Base') {
+  @include test('should output font-size and line-height') {
+    @include assert('font-size must be in %') {
+      @include input {
+        @include typi-base();
+      }
+
+      @include expect {
+        $base-null: map-fetch($typi, base null);
+        $base-font-size: nth($base-null, 1);
+        $base-line-height: nth($base-null, 2);
+        font-size: $base-font-size / 16px * 100%;
+        line-height: $base-line-height;
+      }
+    }
+  }
+}
+

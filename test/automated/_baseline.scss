@@ -1,0 +1,133 @@
+// Ensures has $typefaces map
+// Ensures has cap-height property
+// $baseline-push option
+// - Needs to output posrelative, top x
+// - Needs to calculate how much top to push
+// - Top to push is determined by cap-height, font-size and line-height.
+// - Need to calculate amount to push
+//
+// $adjust-to mixin
+// - Used specifically if there's a need change baseline by an amount that
+//   you need to calculate weirdly. Every 5th line will hit sit on the baseline.
+//   Basically, every 5th line sits on the same line as target text.
+// - Needs to calculate amount to adjust
+// - Needs to incorp $baseline option
+
+$breakpoints: (
+  small: 'small',
+  med: 'med',
+  large: 'large',
+);
+
+$typi: (
+  base: (
+    null: (16px, 1.4),
+    small: 18px,
+    med: 20px, // TODO: remove this and will break. Must fix.
+    large: 24px 1.5
+  ),
+
+  h1: (
+    null: 20px,
+    med: 25px,
+    large: 30px
+  ),
+
+  test2: (
+    null: (30px, 1.2),
+    small: 40px,
+    med: (40px, 1.3),
+    large: (40px)
+  ),
+);
+
+$typefaces: (
+  primary: (
+    cap-height: 0.85
+  )
+);
+
+$basemap: map-get($typi, base);
+
+// Text needs to move down by half the difference between `line-height` and `cap-height`.
+// Line height will change if font-size change... Based on the font-size, I can find the line-height.
+// Based on font-size, I can also find the cap height.
+// So, I only need to change line-height when line-height changes
+@include test-module('Baseline Push') {
+  @include test('Push amount should be equal to (computed line-height - computed cap-height) / 2') {
+    $font-size: _ty-calc-font-size(
+      $font-size: map-fetch($typi, h1 null),
+      $basemap: $basemap,
+      $rem: false
+    );
+    $line-height: nth(map-fetch($typi, base null), 2);
+    $cap-height: map-fetch($typefaces, primary cap-height);
+    $test: _ty-get-baseline-push-amt($font-size, $line-height, 'primary');
+    $result: $font-size * ($line-height - $cap-height) * 0.5;
+    @include assert-equal($test, $result);
+  }
+
+  @include test('should obtain the right line-height for calculation') {
+    $line-height: nth(map-fetch($typi, test2 med), 2);
+    $test: _ty-get-line-height-for-baseline-push($line-height);
+    $result: $line-height;
+    @include assert-equal($line-height, $result, 'should use own line-height if present');
+
+    $test: _ty-get-line-height-for-baseline-push(
+      null,
+      $breakpoint: med,
+      $_map: (
+        target-map: map-get($typi, test2)
+      )
+    );
+    $line-height: nth(map-fetch($typi, test2 null), 2);
+    $result: $line-height;
+    @include assert-equal($test, $result, 'fallback to own line-height from previous breakpoint');
+
+     $test: _ty-get-line-height-for-baseline-push(
+      null,
+      $breakpoint: large,
+      $_map: (
+        target-map: map-get($typi, h1),
+        basemap: map-get($typi, base)
+      )
+    );
+    $line-height: nth(map-fetch($typi, base large), 2);
+    $result: $line-height;
+    @include assert-equal($test, $result, 'fallback to line-height from base map at same breakpoint');
+
+
+     $test: _ty-get-line-height-for-baseline-push(
+      null,
+      $breakpoint: med,
+      $_map: (
+        target-map: map-get($typi, h1),
+        basemap: map-get($typi, base)
+      )
+    );
+    $line-height: nth(map-fetch($typi, base null), 2);
+    $result: $line-height;
+    @include assert-equal($test, $result, 'fallback to line-height from base map at prev breakpoint');
+  }
+}
+
+// Test output
+@include test-module('Baseline Push') {
+  @include test('should output padding-top and margin-bottom properties') {
+    @include assert('for h1 map') {
+      @include input {
+        @include typi('h1', $baseline: true);
+      }
+      @include expect {
+        // Lazy to calc fz.
+        font-size: 1.25rem;
+        $lh: nth(map-fetch($typi, base null),2);
+        $ch: map-fetch($typefaces, primary cap-height);
+        $val: 1.25em * ($lh - $ch)  * 0.5;
+        padding-top: $val;
+        margin-bottom: -$val;
+      }
+    }
+  }
+}
+

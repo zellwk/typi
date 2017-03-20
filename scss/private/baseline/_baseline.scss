@@ -1,0 +1,154 @@
+// Requires
+// typeface
+// typefaces
+// target map
+// base map
+@mixin _ty-write-baseline-push (
+  $font-size: $font-size,
+  $line-height: $line-height,
+  $breakpoint: $breakpoint,
+  $_map: $_map
+) {
+  $typeface: map-get($_map, typeface);
+  $typefaces: map-get($_map, typefaces);
+
+  $line-height: _ty-get-line-height-for-baseline-push(
+    $line-height,
+    $breakpoint,
+    $_map
+  );
+
+  $push-amt: _ty-get-baseline-push-amt(
+    $font-size: $font-size,
+    $line-height: $line-height,
+    $typeface: $typeface,
+    $typefaces: $typefaces
+  );
+
+  // Write output
+  padding-top: $push-amt;
+  margin-bottom: $push-amt * -1;
+}
+
+// _ty-get-baseline-push-amt
+// ----------
+// Gets amount to push baseline by
+// ==========
+@function _ty-get-baseline-push-amt(
+  $font-size: $font-size,
+  $line-height: $line-height,
+  $typeface: null,
+  $typefaces: $typefaces
+) {
+  $cap-height: 1;
+  @if unit($font-size) != 'em' {
+    @error '$font-size must be in em';
+  }
+  @if not unitless($line-height) {
+    @error '$line-height must be unitless';
+  }
+  @if $typeface {
+    $cap-height: _ty-parse-cap-height($typeface, $typefaces);
+  }
+  @return $font-size * ($line-height - $cap-height) * 0.5;
+}
+
+// _ty-get-line-height-for-baseline-push
+// ----------
+// Gets line-height value used to calc baseline-push amt
+// ==========
+@function _ty-get-line-height-for-baseline-push(
+  $line-height,
+  $breakpoint: null,
+  $_map: null
+) {
+  // should use own line-height if present
+  @if $line-height {
+    @return $line-height;
+  }
+
+  @if not $_map { @error "$_map not found"; }
+
+  // Falls back to own line-height from previous breakpoint
+  $target-map: map-get($_map, target-map);
+  $_line-height: _ty-get-closest-line-height($target-map, $breakpoint);
+
+  @if $_line-height {
+    @return $_line-height;
+  }
+
+  // Falls back to line-height from base map, same breakpoint
+  $_base-map: map-get($_map, basemap);
+  $_target-breakpoint-map: map-get($_base-map, $breakpoint);
+  $_line-height: _ty-get-line-height($_target-breakpoint-map);
+
+  @if $_line-height {
+    @return $_line-height;
+  }
+
+  // Falls back to line-height from base map, previous breakpoint
+  $_line-height: _ty-get-closest-line-height($_base-map, $breakpoint);
+
+  @if $_line-height {
+    @return $_line-height;
+  }
+
+  @return 1;
+}
+
+// _ty-get-closest-line-height
+// ----------
+// Gets closest line-height value for baseline push calc
+// ==========
+@function _ty-get-closest-line-height(
+  $_target-map,
+  $breakpoint
+) {
+  $_map-keys: map-keys($_target-map);
+  $_current-bp-index: index($_map-keys, $breakpoint);
+  $_closest-lh: null;
+
+  @while $_current-bp-index > 1 {
+  // @while not $_closest-lh {
+    $_closest-index: $_current-bp-index - 1;
+    $_prev-breakpoint-key: nth($_map-keys, $_closest-index);
+    $_prev-font-map-bp: map-get($_target-map, $_prev-breakpoint-key);
+    $_line-height: _ty-get-line-height($_prev-font-map-bp);
+
+    // Breaks loop
+    @if $_line-height {
+      $_closest-lh: $_line-height;
+      $_current-bp-index: 1;
+      @return $_closest-lh;
+    }
+
+    @else {
+      $_current-bp-index: $_closest-index;
+
+      // Completed own map, but couldn't find index.
+      // Breaks loop. Fall back on next.
+      @if ($_closest-index == 1) {
+        $_closest-lh: true;
+        @return false;
+      }
+    }
+  }
+
+  @return false;
+}
+
+// _ty-parse-cap-height
+// ----------
+// Gets and ensures cap-height is present
+// ==========
+@function _ty-parse-cap-height(
+  $typeface,
+  $typefaces: $typefaces
+) {
+  $typeface-map: _ty-get-typeface-map($typefaces, $typeface);
+  @if map-has-key($typeface-map, cap-height) {
+    @return map-get($typeface-map, cap-height);
+  } @else {
+    @error 'cap-height not found in #{$typeface-map}';
+  }
+}

@@ -1,0 +1,95 @@
+@import 'utils';
+
+// _ty-write-breakpoints
+// ----------
+// - writes props for every valid breakpoint
+// ==========
+@mixin _ty-write-breakpoints (
+  $_map
+) {
+  $target: map-get($_map, target);
+  $breakpoints: map-get($_map, breakpoints);
+  $typi: map-get($_map, typi);
+  $rem: map-get($_map, rem);
+  $breakpoint-lib: map-get($_map, breakpoint-lib);
+
+  $basemap: null;
+  $target-map: null;
+
+  // Ensures target map is present
+  @if not map-has-key($typi, $target) {
+    @error "#{$target} not found in $typi map";
+  }
+
+  $target-map: map-get($typi, $target);
+
+  // Ensures base map is present
+  @if not map-has-key($typi, base) {
+    @error "base key is missing from $typi map";
+  }
+
+  $basemap: map-get($typi, base);
+
+  $_map: map-merge($_map, (
+    basemap: $basemap,
+    target-map: $target-map
+  ));
+
+  @each $breakpoint, $target-value in $target-map {
+    @if $breakpoint == null {
+      @include _ty-output-props(
+        $_map: $_map,
+        $breakpoint: $breakpoint
+      );
+    }
+
+    @else {
+      @include _ty-output-with-breakpoint-library(
+        $breakpoint-lib,
+        $breakpoint: $breakpoint,
+        $breakpoints: $breakpoints
+      ) {
+        @include _ty-output-props(
+          $_map: $_map,
+          $breakpoint: $breakpoint
+        );
+      }
+    }
+  }
+}
+
+// _ty-output-with-breakpoint-library
+// ----------
+// Outputs with breakpoint library
+// ==========
+@mixin _ty-output-with-breakpoint-library (
+  $library: false,
+  $breakpoint: null,
+  $breakpoints: $breakpoints
+) {
+  $lib: null;
+
+  // Parses library
+  @if $library {
+    $lib: _ty-parse-breakpoint-lib($library);
+    @if not $lib {
+      @error "#{$lib} mixin not found";
+    }
+  }
+
+
+  @if $lib == 'breakpoint' {
+    @include breakpoint-set('to ems', true);
+    @include breakpoint(map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else if $lib == 'mappy-bp' {
+    @include mappy-bp(map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+}

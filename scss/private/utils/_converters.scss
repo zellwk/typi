@@ -1,0 +1,83 @@
+// _ty-strip-unit
+// ==============
+@function _ty-strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+
+// _ty-to-percentage
+// ========
+@function _ty-to-percentage($font-size) {
+  @if unit($font-size) != 'px' {
+    @error "_ty-to-percentage() only accepts pixel sizes"
+  } @else {
+    @return $font-size / 16px * 100%;
+  }
+}
+
+// _ty-to-em
+// ========
+@function _ty-to-em($font-size, $ref-size: null) {
+  @if unit($font-size) == "px" {
+    @if not $ref-size {
+      @error "$ref-size must be present for px -> em conversion";
+    } @else {
+      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+    }
+  }
+
+  @else if unit($font-size) == 'em' {
+    @if $ref-size {
+      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+    } @else {
+      @return _ty-strip-unit($font-size) * 1em;
+    }
+  }
+
+  @else if unit($font-size) == "rem" {
+    @return _ty-strip-unit($font-size) * 1em;
+  }
+
+  @else {
+    @error "_ty-to-em() only supports px -> em, em -> em and rem -> em conversion";
+  }
+}
+
+// _ty-to-rem
+// =========
+@function _ty-to-rem($font-size, $ref-size: null) {
+  @if unit($font-size) == "px" {
+    @if not $ref-size {
+      @error "$ref-size must be present for px -> rem conversion";
+    } @else {
+      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1rem;
+    }
+  }
+
+  @else if unit($font-size) == "em" {
+    @return _ty-strip-unit($font-size) * 1rem;
+  }
+
+  @else {
+    @error "_ty-to-rem() only supports px -> rem and em -> rem conversion";
+  }
+}
+
+// _ty-ms-to-rem
+// ==========
+@function _ty-ms-to-rem($step, $breakpoint) {
+  @if not unitless($step) {
+    @error "steps must be unitless when you're using Typi-ms";
+  }
+
+  $font-size: _ty-calc-ms($step, $breakpoint);
+  @return _ty-to-rem($font-size);
+}
+
+@function _ty-ms-to-em($step, $breakpoint) {
+  @if not unitless($step) {
+    @error "steps must be unitless when you're using Typi-ms";
+  }
+
+  @return _ty-calc-ms($step, $breakpoint);
+}

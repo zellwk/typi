@@ -1,20 +1,21 @@
 {
   "name": "typi",
-  "version": "2.3.0",
+  "version": "3.0.0-alpha.1",
   "description": "",
   "main": "scss/_typi.scss",
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
   "devDependencies": {
+    "cap-height": "^1.1.2",
     "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^2.3.1",
     "mocha": "^2.3.4",
-    "sass-true": "^2.0.3"
+    "sass-true": "^2.0.3",
+    "sassdoc": "^2.1.20"
   },
   "scripts": {
     "start": "gulp",

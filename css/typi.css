@@ -1,0 +1,33 @@
+/**
+ * Tests Output of Typi mixin
+ * -------------------------
+ * Should output:
+ * - no breakpoint:     font-size: 1.33333rem; (24/18)
+ *                      line-height: 1.3;
+ * - med breakpoint:    font-size: 1.666666667rem; (30/18)
+ * - large breakpoint:  font-size: 3rem;
+ */
+.rem {
+  font-size: 1.33333rem;
+  line-height: 1.3; }
+  @media all and (min-width: med) {
+    .rem {
+      font-size: 1.66667rem; } }
+  @media all and (min-width: large) {
+    .rem {
+      font-size: 3rem; } }
+
+/**
+ * Tests Output of Typi mixin
+ * -------------------------
+ * Should output same values as above, but in em instead
+ */
+.em {
+  font-size: 1.33333em;
+  line-height: 1.3; }
+  @media all and (min-width: med) {
+    .em {
+      font-size: 1.66667em; } }
+  @media all and (min-width: large) {
+    .em {
+      font-size: 3em; } }

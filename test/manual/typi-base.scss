@@ -1,0 +1,41 @@
+@import 'scss/typi';
+
+$breakpoints: (
+  small: 'small',
+  med: 'med',
+  large: 'large',
+);
+
+$typi: (
+  base: (
+    null: (18px, 1.5),
+    small: 20px,
+    med: 22px,
+    large: (24px, 1.6)
+  ),
+  h1: (
+    null: (24px, 1.3),
+    med: 30px,
+    large: (3em)
+  )
+);
+
+/**
+ * Tests Output of Typi-init
+ * -------------------------
+ * Should output:
+ * - no breakpoint:     font-size: 112.5%;
+ *                      line-height: 1.5;
+ * - small breakpoint:  font-size: 125%;
+ * - med breakpoint:    font-size: 137.5%;
+ * - large breakpoint:  font-size: 150%;
+ *                      line-height: 1.6;
+ */
+@include typi-init;
+
+/**
+ * Tests selector of typi-base
+ * ---------------------------
+ * Selector should match $selector
+ */
+@include typi-base($selector: 'body');
