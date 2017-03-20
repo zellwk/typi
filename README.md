@@ -12,7 +12,6 @@
 ## Em-based media queries
 ## Vertical Rhythm
 
-
 ## Intro
 
 Typi does two things for you incredibly well.
@@ -61,12 +60,14 @@ h1 {
 ## Installation
 
 You can install Typi in three ways:
-**ruby gems** 
 
 1. Bower: `bower install typi --save`
 2. npm: `npm install typi --save-dev`
 3. manual install (https://github.com/zellwk/typi/archive/master.zip)
-- Look at [Pete's repo](https://github.com/Petecass/typi_rails) for installation instructions.
+
+
+**Typi with ruby gems**
+If you want to install Typi with Ruby, check out [Pete's repo](https://github.com/Petecass/typi_rails) for installation instructions. (I think you can use v2.3.0. Not sure about v3)
 
 Once you've downloaded Typi, include it in your project with:
 
