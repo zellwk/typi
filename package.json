@@ -1,6 +1,6 @@
 {
   "name": "typi",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0",
   "description": "",
   "main": "scss/_typi.scss",
   "directories": {
@@ -27,8 +27,8 @@
   "eyeglass": {
     "sassDir": "scss",
     "exports": false,
-    "name":    "typi",
-    "needs":   "*"
+    "name": "typi",
+    "needs": "*"
   },
   "author": "Zell Liew <zellwk@gmail.com>",
   "license": "ISC"
