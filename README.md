@@ -2,15 +2,19 @@
 
 [ ![Codeship Status for zellwk/typi](https://codeship.com/projects/4d0e1e40-9b6c-0133-8b7e-7a41677d4861/status?branch=master)](https://codeship.com/projects/126777)
 
-## TOC
+## Table of contents
+
 - [Intro](#intro)
 - [Installation](#installation)
 - [Configuration](#configuration)
-## Using Typi (`base` font-map)
-## Using Typi (other font-maps)
-## Sizing in `em`
-## Em-based media queries
-## Vertical Rhythm
+- [Using Typi (`base` font-map)](#using-typi-base-font-map)
+- [Using Typi (other font-maps)](#using-typi-other-font-maps)
+- [Sizing in `em`](#sizing-in-em)
+- [Em-based media queries](#em-based-media-queries)
+- [Vertical Rhythm](#vertical-rhythm)
+- [Vertical Rhythm with `em`](#vertical-rhythm-with-em-units)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
 
 ## Intro
 
