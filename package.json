@@ -31,5 +31,5 @@
     "needs": "*"
   },
   "author": "Zell Liew <zellwk@gmail.com>",
-  "license": "ISC"
+  "license": "MIT"
 }
