@@ -209,7 +209,7 @@ $typi: (
 );
 ```
 
-(Note: Make sure to include the [modular-scale sass library](https://github.com/modularscale/modularscale-sass) before doing this).
+(Note: Make sure to include the [modular-scale sass library](https://github.com/modularscale/modularscale-sass) before doing this. Typi works with Modular Scale Version 2++. DO NOT install version 3 or Typi will fail).
 
 ## Sizing in `em`
 
