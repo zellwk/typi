@@ -4,7 +4,7 @@ var sassTrue = require('sass-true')
 
 const testFiles = [
   'test',
-  'extender',
+  'extender'
 ]
 
 testFiles.forEach(basename => {

@@ -1,0 +1,10 @@
+/**
+ * Should create two classes, .base and .h1
+ */
+.base {
+  font-size: 100%;
+  line-height: 1.5; }
+
+.h1 {
+  font-size: 6.8541rem;
+  line-height: 1.3; }

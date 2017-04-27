@@ -1,0 +1,14 @@
+// typi-creates-classes
+// ----------
+/// Typi helps create classes according to font-map keys
+/// @author Zell Liew
+/// @access public
+/// @param {Map} $typi [$typi] - $typi map
+@mixin typi-create-classes($typi: $typi) {
+  @each $map, $values in $typi {
+    .#{$map} {
+      @include typi($map);
+    }
+  }
+}
+
