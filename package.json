@@ -3,8 +3,13 @@
   "version": "3.0.0",
   "description": "A sass mixin to make responsive typography easy",
   "main": "scss/_typi.scss",
+  "scripts": {
+    "start": "gulp",
+    "test": "mocha test/test_sass.js",
+    "release": "np"
+  },
   "directories": {
-    "test": "test"
+    "test": "test",
   },
   "devDependencies": {
     "cap-height": "^1.1.2",
@@ -14,12 +19,9 @@
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^2.3.1",
     "mocha": "^2.3.4",
+    "np": "^2.13.3",
     "sass-true": "^2.0.3",
     "sassdoc": "^2.1.20"
-  },
-  "scripts": {
-    "start": "gulp",
-    "test": "mocha test/test_sass.js"
   },
   "keywords": [
     "eyeglass-module"
