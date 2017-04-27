@@ -325,6 +325,10 @@ Steps:
 
 ## Changelog
 
+### v3.1
+
+- Added ability to write classes automatically with `typi-create-classes`.
+
 ### v3.0
 
 - Changed `$typi` map. NOTE: BREAKING CHANGE.
