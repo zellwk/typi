@@ -9,7 +9,7 @@
     "release": "np"
   },
   "directories": {
-    "test": "test",
+    "test": "test"
   },
   "devDependencies": {
     "cap-height": "^1.1.2",

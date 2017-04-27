@@ -9,6 +9,7 @@
 - [Configuration](#configuration)
 - [Using Typi (`base` font-map)](#using-typi-base-font-map)
 - [Using Typi (other font-maps)](#using-typi-other-font-maps)
+- [Automatically creating classes with Typi](#automatically-creating-classes-with-typi)
 - [Sizing in `em`](#sizing-in-em)
 - [Em-based media queries](#em-based-media-queries)
 - [Vertical Rhythm](#vertical-rhythm)
@@ -210,6 +211,35 @@ $typi: (
 ```
 
 (Note: Make sure to include the [modular-scale sass library](https://github.com/modularscale/modularscale-sass) before doing this. Typi works with Modular Scale Version 2++. DO NOT install version 3 or Typi will fail).
+
+## Automatically creating classes with Typi
+
+Typi can help you create classes automatically if you use the `typi-create-classes` mixin. It extracts the keys present in your `$typi` map and calls `@include typi` on each individual key.
+
+Read [this article](https://zellwk.com/blog/css-architecture-2/) to see why you might love this feature.
+
+```scss
+// Input
+$typi: (
+  base: (null: (16px, 1.4)),
+  h1: (null: (24px, 1.3))
+);
+
+@include typi-create-classes;
+```
+
+```css
+/* Output */
+.base {
+  font-size: 100%;
+  line-height: 1.4;
+}
+
+.h1 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+```
 
 ## Sizing in `em`
 
