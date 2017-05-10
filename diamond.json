@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "typi": "^3.1.0"
-  },
   "name": "typi",
   "version": "3.1.0",
   "description": "A sass mixin to make responsive typography easy",
