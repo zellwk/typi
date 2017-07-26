@@ -64,10 +64,11 @@ h1 {
 
 ## Installation
 
-You can install Typi in three ways:
+You can install Typi in four ways:
 
 1. Bower: `bower install typi --save`
 2. npm: `npm install typi --save-dev`
+3. diamond: `diamond install typi`
 3. manual install (https://github.com/zellwk/typi/archive/master.zip)
 
 
@@ -79,6 +80,11 @@ Once you've downloaded Typi, include it in your project with:
 ```scss
 // Change `path-to-typi` with the correct path!
 @import 'path-to-typi/scss/typi';
+```
+
+If you are using diamond, it can be imported with:
+```scss
+@import '~typi';
 ```
 
 ## Configuration
