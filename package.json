@@ -32,6 +32,11 @@
     "name": "typi",
     "needs": "*"
   },
+  "homepage": "https://github.com/zellwk/typi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zellwk/typi"
+  },
   "author": "Zell Liew <zellwk@gmail.com>",
   "license": "MIT"
 }
