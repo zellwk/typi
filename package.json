@@ -1,6 +1,6 @@
 {
   "name": "typi",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A sass mixin to make responsive typography easy",
   "main": "scss/_typi.scss",
   "scripts": {
