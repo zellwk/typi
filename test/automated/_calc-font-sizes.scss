@@ -90,14 +90,14 @@ $basemap: map-get($typi, base);
   @include test('unitless -> rem') {
     $test: _ty-ms-to-rem(2, small);
     $ratio: map-get($typi-ms, small);
-    $result: _ty-strip-unit(ms(2, 1em, $ratio)) * 1rem;
+    $result: _ty-strip-unit(ms(2, $base: 1em, $ratio: $ratio)) * 1rem;
     @include assert-equal($test, $result);
   }
 
   @include test('unitless -> em') {
     $test: _ty-ms-to-em(2, med);
     $ratio: map-get($typi-ms, med);
-    $result: ms(2, 1em, $ratio);
+    $result: ms(2, $base: 1em, $ratio: $ratio);
     @include assert-equal($test, $result);
   }
 }
