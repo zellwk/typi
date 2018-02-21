@@ -28,7 +28,7 @@
     $_is-ratio: _ty-is-ratio($ms-setting);
 
     @if $_is-ratio {
-      @return ms($step, 1em, $ms-setting);
+      @return ms($step, $base: 1em, $ratio: $ms-setting);
     } @else {
       @error "$typi-ms ratio at #{$breakpoint} must be unitless";
     }
@@ -61,7 +61,7 @@
       @error "$typi-ms at #{$breakpoint} must contain at least one ratio";
     }
 
-    @return ms($step, $ty-ms-base, $ty-ms-ratio);
+    @return ms($step, $base: $ty-ms-base, $ratio: $ty-ms-ratio);
   }
 }
 

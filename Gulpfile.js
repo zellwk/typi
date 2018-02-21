@@ -22,7 +22,6 @@ gulp.task('sass', function() {
     .pipe(customPlumber())
     .pipe(sass({
       includePaths: [
-        './bower_components/',
         './node_modules/',
         './'
       ],

@@ -168,7 +168,7 @@ $typi-ms: (
 @include test-module('vr-ms with typefaces') {
   @include test('write one property') {
     @include assert('') {
-      @include input {
+      @include output {
         @include vr-ms(margin-top, 2, 'vr-ms-test', 'secondary');
       }
       @include expect {
@@ -187,7 +187,7 @@ $typi-ms: (
 @include test-module('Typeface output:') {
   @include test('should produce right font-size values') {
     @include assert('') {
-      @include input {
+      @include output {
         @include typi('secondary', $typeface: 'secondary');
       }
 
@@ -203,7 +203,7 @@ $typi-ms: (
   @include test('should produce right rhythm values') {
     @include assert('') {
       $font-size: nth(map-fetch($typi, secondary null), 1);
-      @include input {
+      @include output {
         margin-top: vr(3, $font-size, 'secondary');
       }
       @include expect {

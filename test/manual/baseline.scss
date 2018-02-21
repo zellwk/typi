@@ -1,6 +1,6 @@
 @import 'scss/typi';
 @import 'mappy-breakpoints/mappy-breakpoints';
-@import 'compass-breakpoint/stylesheets/breakpoint';
+@import 'node_modules/breakpoint-sass/stylesheets/breakpoint';
 
 $breakpoints: (
   small: 400px,
