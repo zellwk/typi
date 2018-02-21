@@ -12,7 +12,6 @@ testFiles.forEach(basename => {
   sassTrue.runSass({
     file: testFile,
     includePaths: [
-      './bower_components',
       './node_modules'
     ]
   }, describe, it)

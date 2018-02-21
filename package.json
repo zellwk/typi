@@ -38,5 +38,10 @@
     "url": "https://github.com/zellwk/typi"
   },
   "author": "Zell Liew <zellwk@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "breakpoint-sass": "^2.7.1",
+    "mappy-breakpoints": "^0.2.3",
+    "modularscale-sass": "^2.1.1"
+  }
 }

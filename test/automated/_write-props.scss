@@ -19,7 +19,7 @@ $basemap: map-get($typi, base);
 @include test-module('Write properties') {
   @include test('font-size only') {
     @include assert('h1 null breakpoint') {
-      @include input {
+      @include output {
         @include _ty-output-props((
             target: 'h1',
             target-map: map-get($typi, 'h1'),
@@ -44,7 +44,7 @@ $basemap: map-get($typi, base);
 
   @include test('font-size and line-height') {
     @include assert('h1 med breakpoint') {
-      @include input {
+      @include output {
         @include _ty-output-props((
             target: 'h1',
             target-map: map-get($typi, 'h1'),
@@ -64,7 +64,7 @@ $basemap: map-get($typi, base);
 
   @include test('list type for font-size in map') {
     @include assert('h1 large breakpoint') {
-      @include input {
+      @include output {
         @include _ty-output-props((
             target: 'h1',
             target-map: map-get($typi, 'h1'),
@@ -84,7 +84,7 @@ $basemap: map-get($typi, base);
 
   @include test('write base font-size') {
     @include assert('base') {
-      @include input() {
+      @include output() {
         @include _ty-output-props((
             target: 'base',
             target-map: map-get($typi, 'base'),

@@ -75,7 +75,7 @@ $typi-ms: (
 @include test-module('Writing Typi MS props') {
   @include test('should output font-size and line-height') {
     @include assert('') {
-      @include input {
+      @include output {
         @include _ty-output-props((
           target: 'h1',
           target-map: map-get($typi, 'h1'),
