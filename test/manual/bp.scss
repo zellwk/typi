@@ -38,3 +38,9 @@ $typi-breakpoint: breakpoint;
 .h1 {
  @include typi(h1);
 }
+
+/* Test with sass-mq */
+$typi-breakpoint: mq;
+.h1 {
+ @include typi(h1);
+}
