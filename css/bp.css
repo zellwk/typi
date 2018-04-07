@@ -30,3 +30,14 @@
   @media (min-width: 50em) {
     .h1 {
       font-size: 3rem; } }
+
+/* Test with sass-mq */
+.h1 {
+  font-size: 1.33333rem;
+  line-height: 1.3; }
+  @media (min-width: 37.5em) {
+    .h1 {
+      font-size: 1.66667rem; } }
+  @media (min-width: 50em) {
+    .h1 {
+      font-size: 3rem; } }
