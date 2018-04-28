@@ -88,7 +88,7 @@
       @content;
     }
   } @else if $lib == 'mq' {
-    @include mq(map-get($breakpoints, $breakpoint)) {
+    @include mq(map-get($mq-breakpoints, $breakpoint)) {
       @content;
     }
   } @else {
