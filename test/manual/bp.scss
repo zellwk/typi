@@ -1,8 +1,15 @@
 @import 'scss/typi';
 @import 'mappy-breakpoints/mappy-breakpoints';
 @import 'compass-breakpoint/stylesheets/breakpoint';
+@import 'sass-mq/mq';
 
 $breakpoints: (
+  small: 400px,
+  med: 600px,
+  large: 800px,
+);
+
+$mq-breakpoints: (
   small: 400px,
   med: 600px,
   large: 800px,
