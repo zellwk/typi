@@ -87,6 +87,10 @@
     @include mappy-bp(map-get($breakpoints, $breakpoint)) {
       @content;
     }
+  } @else if $lib == 'mq' {
+    @include mq(map-get($mq-breakpoints, $breakpoint)) {
+      @content;
+    }
   } @else {
     @media all and (min-width: #{map-get($breakpoints, $breakpoint)}) {
       @content;

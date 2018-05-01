@@ -275,7 +275,7 @@ h1 {
 
 You should use [em values for media queries](https://zellwk.com/blog/media-query-units/), unless you decide to use a breakpoint library that's compatible with Typi. Typi will automatically convert all pixel values to em if you use such a library.
 
-At this moment, Typi supports the use of two breakpoint libraries—[Mappy breakpoints](https://github.com/zellwk/mappy-breakpoints) and [Breakpoint Sass](http://breakpoint-sass.com). You tell Typi about the existence of these libraries with:
+At this moment, Typi supports the use of three breakpoint libraries—[Mappy breakpoints](https://github.com/zellwk/mappy-breakpoints),[Breakpoint Sass](http://breakpoint-sass.com) and [Sass MQ](https://github.com/sass-mq/sass-mq) . You tell Typi about the existence of these libraries with:
 
 ```scss
 // using Mappy Breakpoint
@@ -283,6 +283,17 @@ $typi-breakpoint: mappy-bp;
 
 // using Breakpoint Sass
 $typi-breakpoint: breakpoint;
+
+// using Sass MQ
+$mq-breakpoints: (
+  small: 400px,
+  med: 600px,
+  large: 800px,
+);
+
+$typi-breakpoint: mq;
+
+
 ```
 
 Then, Typi will do it's job and convert pixels to em automatically:
