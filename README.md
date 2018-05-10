@@ -372,6 +372,10 @@ Steps:
 
 ## Changelog
 
+### v3.2
+
+- Added support for [Sass MQ](https://github.com/sass-mq/sass-mq)
+
 ### v3.1
 
 - Added ability to write classes automatically with `typi-create-classes`.
