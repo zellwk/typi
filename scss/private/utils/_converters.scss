@@ -1,7 +1,10 @@
 // _ty-strip-unit
 // ==============
+
+@use 'sass:math';
+
 @function _ty-strip-unit($num) {
-  @return $num / ($num * 0 + 1);
+  @return math.div($num, ($num * 0 + 1));
 }
 
 
@@ -11,7 +14,7 @@
   @if unit($font-size) != 'px' {
     @error "_ty-to-percentage() only accepts pixel sizes"
   } @else {
-    @return $font-size / 16px * 100%;
+    @return math.div($font-size, 16px) * 100%;
   }
 }
 
@@ -22,13 +25,13 @@
     @if not $ref-size {
       @error "$ref-size must be present for px -> em conversion";
     } @else {
-      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+      @return math.div(_ty-strip-unit($font-size), _ty-strip-unit($ref-size)) * 1em;
     }
   }
 
   @else if unit($font-size) == 'em' {
     @if $ref-size {
-      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1em;
+      @return math.div(_ty-strip-unit($font-size), _ty-strip-unit($ref-size)) * 1em;
     } @else {
       @return _ty-strip-unit($font-size) * 1em;
     }
@@ -50,7 +53,7 @@
     @if not $ref-size {
       @error "$ref-size must be present for px -> rem conversion";
     } @else {
-      @return _ty-strip-unit($font-size) / _ty-strip-unit($ref-size) * 1rem;
+      @return math.div(_ty-strip-unit($font-size), _ty-strip-unit($ref-size)) * 1rem;
     }
   }
 
