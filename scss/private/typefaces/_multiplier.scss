@@ -2,6 +2,9 @@
 // ----------
 // Gets typeface multiplier
 // ==========
+
+@use 'sass:math';
+
 @function _ty-get-typeface-multiplier(
   $typeface,
   $typefaces
@@ -14,7 +17,7 @@
   }
 
   @if $_font-size-ratio {
-    @return 1 / $_font-size-ratio;
+    @return math.div(1, $_font-size-ratio);
   } @else {
     @return 1;
   }
